@@ -44,7 +44,7 @@ Game::Game():
 {
     mWindow.setVerticalSyncEnabled(TRUE);
 
-    if (!mTexture.loadFromFile("/Users/xum/Documents/CS209/Bonus1/WalkingMan.png"))
+    if (!mTexture.loadFromFile("Media/WalkingMan.png"))
     {
         std::cout << "error" << std::endl;
     }
