@@ -2,8 +2,8 @@
 // Created by Mengmeng Xu on 11/8/17.
 //
 
-#ifndef PROJECT_GAME_H
-#define PROJECT_GAME_H
+#ifndef TANKCRAFT_GAME_H
+#define TANKCRAFT_GAME_H
 
 #include <SFML/Graphics.hpp>
 #include <curses.h>
@@ -48,4 +48,4 @@ private:
 };
 
 
-#endif //PROJECT_GAME_H
+#endif //TANKCRAFT_GAME_H
