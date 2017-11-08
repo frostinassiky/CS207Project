@@ -5,16 +5,17 @@
 #include "Game.h"
 
 Game::Game():
-        mWindow(sf::VideoMode(1600, 900), "SFML Application"),
+        mWindow(sf::VideoMode(1600, 900), "Tank Craft Application"),
         mPlayer()
 {
     mWindow.setVerticalSyncEnabled(TRUE);
-
+    mWindow.setFramerateLimit(20); // in case of use up resource
     if (!mTexture.loadFromFile("Media/WalkingMan.png"))
-    {
         std::cout << "error" << std::endl;
-    }
+    if (!mBackground.loadFromFile("Media/Background.png"))
+        std::cout << "error" << std::endl;
     mPlayer.setTexture(mTexture);
+    mLand.setTexture(mBackground);
     size_x = mTexture.getSize().x;
     size_y = mTexture.getSize().y;
     // rescale
@@ -64,7 +65,7 @@ void Game::update(sf::Time deltaTime)
         momentum = -rotateSpeed;
         mPlayer.rotate(momentum * deltaTime.asSeconds());
     }
-
+    /*
     if (mIsMovingAntiClock){
         momentum = rotateSpeed;
         mPlayer.rotate(momentum * deltaTime.asSeconds());
@@ -86,19 +87,21 @@ void Game::update(sf::Time deltaTime)
         }
 
     }
-    mPlayer.move(movement * deltaTime.asSeconds());
+
+
 
     mPlayer.setScale(dir,1);
     mPlayer.setTextureRect(sf::IntRect(seq*size_x/seqN,0,size_x/seqN, size_y));
+*/
 
-
-
+    mPlayer.move(movement * deltaTime.asSeconds());
 }
 
 void Game::render()
 {
     // mWindow.clear();
     mWindow.clear(sf::Color(128, 128, 128));
+    mWindow.draw(mLand);
     mWindow.draw(mPlayer);
     mWindow.display();
 }
@@ -126,7 +129,19 @@ void Game::processEvents()
 void Game::handlePlayerInput(sf::Keyboard::Key key,
                              bool isPressed)
 {
-    if (key == sf::Keyboard::W)
+    switch (key) {
+        case  sf::Keyboard::Up:
+            mIsMovingUp = isPressed; break;
+        case  sf::Keyboard::Down:
+            mIsMovingDown = isPressed; break;
+        case  sf::Keyboard::Left:
+            mIsMovingLeft = isPressed; break;
+        case  sf::Keyboard::Right:
+            mIsMovingRight = isPressed; break;
+
+    }
+    /*
+    if (key == sf::Keyboard::Up)
         mIsMovingUp = isPressed;
     else if (key == sf::Keyboard::S)
         mIsMovingDown = isPressed;
@@ -140,4 +155,5 @@ void Game::handlePlayerInput(sf::Keyboard::Key key,
         mIsMovingAntiClock = isPressed;
     else if (key == sf::Keyboard::X)
         mIsMovingBrake = isPressed;
+        */
 }

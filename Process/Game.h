@@ -33,7 +33,9 @@ private:
     double momentum = 0;
     sf::Time TimePerFrame = sf::seconds(1.f / 12.f);
     sf::Texture mTexture;
+    sf::Texture mBackground;
     sf::Sprite  mPlayer;
+    sf::Sprite  mLand;
     double size_x = 0;
     double size_y = 0;
     int seqN = 8;
