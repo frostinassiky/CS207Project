@@ -27,3 +27,15 @@ SceneNode* SceneNode::detach(SceneNode* child)
     }
     return child;
 }
+
+void SceneNode::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+    // find transform
+    states.transform *= getTransform();
+    // draw current scene
+    drawCurrent(target, states);
+    // draw children
+    for (auto itr = mChildren.begin(); itr != mChildren.end(); ++itr) {
+        (*itr)->draw(target, states);
+    }
+}

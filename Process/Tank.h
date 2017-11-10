@@ -5,6 +5,7 @@
 #ifndef TANKCRAFT_TANK_H
 #define TANKCRAFT_TANK_H
 
+#include <SFML/Graphics.hpp>
 #include "Entity.h"
 
 class Tank : public Entity{
@@ -14,10 +15,14 @@ public:
         Enemy,
     };
 
-private:
-    Type mType;
 public:
-    Tank(Type type): mType(type) {};
+    Type mType;
+    sf::Texture mTexture;
+    sf::Sprite mSprite;
+
+public:
+    Tank(Type type);
+    void drawCurrent( sf::RenderTarget& target, sf::RenderStates states) const;
 };
 
 

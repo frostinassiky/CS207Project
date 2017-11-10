@@ -5,9 +5,10 @@
 #ifndef TANKCRAFT_ENTITY_H
 #define TANKCRAFT_ENTITY_H
 #include <SFML/Graphics.hpp>
+#include "SceneNode.h"
 
 // the most base class
-class Entity {
+class Entity : SceneNode{
 private:
     sf::Vector2f mVelocity;
     float mDirection;

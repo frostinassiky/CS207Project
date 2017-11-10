@@ -8,10 +8,11 @@
 #include <SFML/Graphics.hpp>
 #include <curses.h>
 #include <iostream>
-#include <math.h>
+#include <cmath>
+#include "Tank.h"
 
 
-class Game {
+class Game{
 public:
     Game();
     void run();
@@ -22,6 +23,7 @@ private:
     void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
 private:
     sf::RenderWindow mWindow;
+    Tank oneTank;
     bool mIsMovingUp=FALSE;
     bool mIsMovingDown=FALSE;
     bool mIsMovingLeft=FALSE;
@@ -32,18 +34,8 @@ private:
     double moveSpeed = 150, rotateSpeed = 10;
     double momentum = 0;
     sf::Time TimePerFrame = sf::seconds(1.f / 12.f);
-    sf::Texture mTexture;
     sf::Texture mBackground;
-    sf::Sprite  mPlayer;
     sf::Sprite  mLand;
-    double size_x = 0;
-    double size_y = 0;
-    int seqN = 8;
-    int seq = 0;
-    int shift = 0;
-    int dir = 1;
-    double res_x = 1600;
-    double res_y = 900;
 
 };
 
