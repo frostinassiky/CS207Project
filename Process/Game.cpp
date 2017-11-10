@@ -6,7 +6,8 @@
 
 Game::Game():
         mWindow(sf::VideoMode(590*2, 983*2), "Tank Craft Application"),
-        oneTank(Tank::Ally)
+        oneTank(Tank::Ally),
+        mWorld(mWindow)
 {
     mWindow.setVerticalSyncEnabled(TRUE);
     mWindow.setFramerateLimit(20); // in case of use up resource
@@ -26,6 +27,7 @@ void Game::run()
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
     while (mWindow.isOpen())
     {
+
         timeSinceLastUpdate += clock.restart();
         while (timeSinceLastUpdate > TimePerFrame)
         {
@@ -87,6 +89,7 @@ void Game::update(sf::Time deltaTime)
 
     // TODO bug here
     // oneTank.move(movement * deltaTime.asSeconds());
+    mWorld.update(deltaTime);
 }
 
 void Game::render()
@@ -94,8 +97,10 @@ void Game::render()
     // mWindow.clear();
     mWindow.clear(sf::Color(128, 128, 128));
     mWindow.draw(mLand);
+    mWorld.draw();
     // TODO bug
     // mWindow.draw(oneTank);
+    mWindow.setView(mWindow.getDefaultView());
     mWindow.display();
 }
 

@@ -1,7 +1,14 @@
 #include "Game.h"
 
 int main() {
-    Game game;
-    game.run();
+    std::cout << "Welcome to TankCraft" << std::endl;
+    try {
+        Game game;
+        game.run();
+    }
+    catch (std::exception& e){
+        std::cout << "\nEXCEPTION: " << e.what() << std::endl;
+    }
+
 }
 

@@ -10,6 +10,7 @@
 #include <iostream>
 #include <cmath>
 #include "Tank.h"
+#include "World.h"
 
 
 class Game{
@@ -23,6 +24,7 @@ private:
     void handlePlayerInput(sf::Keyboard::Key key, bool isPressed);
 private:
     sf::RenderWindow mWindow;
+    World mWorld;
     Tank oneTank;
     bool mIsMovingUp=FALSE;
     bool mIsMovingDown=FALSE;

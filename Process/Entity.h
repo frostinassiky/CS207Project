@@ -8,7 +8,7 @@
 #include "SceneNode.h"
 
 // the most base class
-class Entity : SceneNode{
+class Entity : public SceneNode{
 private:
     sf::Vector2f mVelocity;
     float mDirection;
