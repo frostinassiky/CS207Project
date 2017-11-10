@@ -85,7 +85,7 @@ void Game::update(sf::Time deltaTime)
     mPlayer.setTextureRect(sf::IntRect(seq*size_x/seqN,0,size_x/seqN, size_y));
 */
 
-    // bug here
+    // TODO bug here
     // oneTank.move(movement * deltaTime.asSeconds());
 }
 
@@ -94,7 +94,7 @@ void Game::render()
     // mWindow.clear();
     mWindow.clear(sf::Color(128, 128, 128));
     mWindow.draw(mLand);
-    // bug
+    // TODO bug
     // mWindow.draw(oneTank);
     mWindow.display();
 }
