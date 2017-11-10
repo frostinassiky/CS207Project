@@ -31,3 +31,8 @@ float Entity::getDirection() const
 {
     return mDirection;
 }
+
+void Entity::updateCurrent(sf::Time dt) {
+    // move entity
+    move(mVelocity * dt.asSeconds());
+}

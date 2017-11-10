@@ -27,3 +27,29 @@ SceneNode* SceneNode::detach(SceneNode* child)
     }
     return child;
 }
+
+void SceneNode::draw(sf::RenderTarget& target, sf::RenderStates states) const
+{
+    // find transform
+    states.transform *= getTransform();
+    // draw current scene
+    drawCurrent(target, states);
+    // draw children
+    for (auto itr = mChildren.begin(); itr != mChildren.end(); ++itr)
+        (*itr)->draw(target, states);
+}
+
+void SceneNode::update(sf::Time dt) {
+    updateCurrent(dt);
+    for (auto itr = mChildren.begin(); itr != mChildren.end(); ++itr)
+        (*itr)->update(dt);
+}
+
+sf::Transform SceneNode::getWorldTransform() const {
+    // Identity matrix
+    sf::Transform transform = sf::Transform::Identity;
+    for (const SceneNode* node = this;
+         node != nullptr; node = node->mParent)
+        transform = node->getTransform() * transform;
+    return transform;
+}

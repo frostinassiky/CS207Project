@@ -6,24 +6,18 @@
 
 Game::Game():
         mWindow(sf::VideoMode(590*2, 983*2), "Tank Craft Application"),
-        mPlayer()
+        oneTank(Tank::Ally),
+        mWorld(mWindow)
 {
     mWindow.setVerticalSyncEnabled(TRUE);
     mWindow.setFramerateLimit(20); // in case of use up resource
-    if (!mTexture.loadFromFile("../Media/tanks.png"))
-        std::cout << "error" << std::endl;
+
     if (!mBackground.loadFromFile("../Media/Map.png"))
         std::cout << "error" << std::endl;
-    mPlayer.setTexture(mTexture);
     mLand.setTexture(mBackground);
     mLand.setScale(2,2);
-    size_x = mTexture.getSize().x;
-    size_y = mTexture.getSize().y;
     // rescale
     // mPlayer.setScale(0.5f,0.5f);
-    mPlayer.setPosition(128.f, 450.f);
-    mPlayer.setTextureRect(sf::IntRect(0,0,512/3, 605/3));
-    mPlayer.setScale(0.4,-0.4);
 
 }
 
@@ -33,6 +27,7 @@ void Game::run()
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
     while (mWindow.isOpen())
     {
+
         timeSinceLastUpdate += clock.restart();
         while (timeSinceLastUpdate > TimePerFrame)
         {
@@ -53,21 +48,17 @@ void Game::update(sf::Time deltaTime)
         movement.y -= moveSpeed;
     if (mIsMovingDown)
         movement.y += moveSpeed;
-    if (mIsMovingLeft){
-        mPlayer.move(dir*size_x/seqN/4,0);
-        dir = -1;
+    if (mIsMovingLeft)
+        movement.x -= moveSpeed;
 
-    }
-
-    if (mIsMovingRight){
-        mPlayer.move(dir*size_x/seqN/4,0);
-        dir = 1;
-    }
+    if (mIsMovingRight)
+        movement.x += moveSpeed;
+/*
     if (mIsMovingClock){
         momentum = -rotateSpeed;
-        mPlayer.rotate(momentum * deltaTime.asSeconds());
+        oneTank.rotate(momentum * deltaTime.asSeconds());
     }
-    /*
+
     if (mIsMovingAntiClock){
         momentum = rotateSpeed;
         mPlayer.rotate(momentum * deltaTime.asSeconds());
@@ -96,7 +87,9 @@ void Game::update(sf::Time deltaTime)
     mPlayer.setTextureRect(sf::IntRect(seq*size_x/seqN,0,size_x/seqN, size_y));
 */
 
-    mPlayer.move(movement * deltaTime.asSeconds());
+    // TODO bug here
+    // oneTank.move(movement * deltaTime.asSeconds());
+    mWorld.update(deltaTime);
 }
 
 void Game::render()
@@ -104,7 +97,10 @@ void Game::render()
     // mWindow.clear();
     mWindow.clear(sf::Color(128, 128, 128));
     mWindow.draw(mLand);
-    mWindow.draw(mPlayer);
+    mWorld.draw();
+    // TODO bug
+    // mWindow.draw(oneTank);
+    mWindow.setView(mWindow.getDefaultView());
     mWindow.display();
 }
 
@@ -140,6 +136,8 @@ void Game::handlePlayerInput(sf::Keyboard::Key key,
             mIsMovingLeft = isPressed; break;
         case  sf::Keyboard::Right:
             mIsMovingRight = isPressed; break;
+        default:
+            break;
 
     }
     /*
