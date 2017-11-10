@@ -42,13 +42,15 @@ World::World(sf::RenderWindow &window):
     Tank* leader = new Tank(Tank::Ally);
     mPlayerTank = leader;
     mPlayerTank->setPosition(mSpawnPosition);
-    mPlayerTank->setVelocity(40.f, mScrollSpeed);
+    mPlayerTank->setVelocity(0.f, -40.f);
     mSceneLayers[Air]->attach(leader);
 
-    // Tank enemy
-    Tank* leftEscort = new Tank(Tank::Enemy);
-    leftEscort->setPosition(-80.f, 50.f);
-    mPlayerTank->attach(std::move(leftEscort));
+    // Tank Bullet
+    Tank* Bullet = new Tank(Tank::Enemy);
+    Bullet->setPosition(0, 0);
+    Bullet->setVelocity(0, -80.f);
+    Bullet->setRotation(0);
+    mPlayerTank->attach(Bullet);
 
 
     mWorldView.setCenter(mSpawnPosition);
@@ -63,11 +65,12 @@ void World::update(sf::Time dt) {
     mWorldView.move(0.f, mScrollSpeed * dt.asSeconds());
     sf::Vector2f position = mPlayerTank->getPosition();
     sf::Vector2f velocity = mPlayerTank->getVelocity();
-    if (position.x <= mWorldBounds.left + 150
-        || position.x >= mWorldBounds.left + mWorldBounds.width - 150)
+    if (position.y <= mWorldBounds.top + 150
+        || position.y >= mWorldBounds.top + mWorldBounds.height - 150)
     {
-        velocity.x = -velocity.x;
+        velocity.y = -velocity.y;
         mPlayerTank->setVelocity(velocity);
+        mPlayerTank->setRotation(mPlayerTank->getRotation()+180);
     }
     mSceneGraph.update(dt);
 }
