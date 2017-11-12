@@ -7,6 +7,7 @@
 Game::Game():
         mWindow(sf::VideoMode(590*2, 983*2), "Tank Craft Application"),
         oneTank(Tank::Ally),
+        mPlayer(),
         mWorld(mWindow)
 {
     mWindow.setVerticalSyncEnabled(TRUE);
@@ -106,6 +107,7 @@ void Game::render()
 
 void Game::processEvents()
 {
+    /*
     sf::Event event;
     while (mWindow.pollEvent(event))
     {
@@ -123,6 +125,19 @@ void Game::processEvents()
                 break; }
     }
 
+    */
+    CommandQ& commands = mWorld.getCommandQ();
+
+    sf::Event event;
+    while (mWindow.pollEvent(event))
+    {
+        mPlayer.handleEvent(event, commands);
+
+        if (event.type == sf::Event::Closed)
+            mWindow.close();
+    }
+
+    mPlayer.handleRealtimeInput(commands);
 }
 void Game::handlePlayerInput(sf::Keyboard::Key key,
                              bool isPressed)

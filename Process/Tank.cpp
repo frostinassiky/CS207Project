@@ -16,6 +16,7 @@ Tank::Tank(Type type) : mType(type) {
     mSprite.setPosition(128.f, 450.f);
     // rescale
     mSprite.setScale(0.4,-0.4);
+    mCategory = CTank;
     // set cloth by type
     switch (type) {
         case Ally:

@@ -11,6 +11,7 @@
 #include <cmath>
 #include "Tank.h"
 #include "World.h"
+#include "Player.h"
 
 
 class Game{
@@ -38,6 +39,7 @@ private:
     sf::Time TimePerFrame = sf::seconds(1.f / 12.f);
     sf::Texture mBackground;
     sf::Sprite  mLand;
+    Player mPlayer;
 
 };
 

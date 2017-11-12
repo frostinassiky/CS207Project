@@ -44,6 +44,7 @@ World::World(sf::RenderWindow &window):
     mPlayerTank = leader;
     mPlayerTank->setPosition(mSpawnPosition);
     mPlayerTank->setVelocity(0.f, -40.f);
+    mPlayerTank->mCategory = CTank;
     mSceneLayers[Air]->attach(leader);
 
     // Tank Bullet
@@ -82,4 +83,8 @@ void World::update(sf::Time dt) {
 
 
     mSceneGraph.update(dt);
+}
+
+CommandQ &World::getCommandQ() {
+    return mCommandQ;
 }

@@ -12,7 +12,9 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include "CommandQ.h"
-struct Command; // TODO why??
+#include "Category.h"
+
+struct Command; // Declare class
 
 class SceneNode : public sf::Transformable, public sf::Drawable, private sf::NonCopyable {
     /*
@@ -47,6 +49,8 @@ public:
         return getWorldTransform() * sf::Vector2f();
     }
     void onCommand(const Command& command, sf::Time dt);
+
+    Category mCategory=Cdefault;
 
 };
 

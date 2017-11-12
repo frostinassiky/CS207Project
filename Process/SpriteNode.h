@@ -10,7 +10,7 @@
 
 class SpriteNode : public SceneNode{
 public:
-    SpriteNode(const sf::Texture& texture):  mSprite(texture) {};
+    SpriteNode(const sf::Texture& texture):  mSprite(texture){mCategory=CBackGround; };
     SpriteNode(const sf::Texture& texture, const sf::IntRect& rect) : mSprite(texture,rect) {};
 
 private:
