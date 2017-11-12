@@ -54,7 +54,7 @@ sf::Transform SceneNode::getWorldTransform() const {
     return transform;
 }
 
-void SceneNode::onCommand(const CommandQ::Command &command, sf::Time dt) {
+void SceneNode::onCommand(const Command &command, sf::Time dt) {
     if (command.category == 1)
         1;//TODO
         //command.action(*this, dt);

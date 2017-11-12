@@ -12,6 +12,7 @@
 #include <vector>
 #include <SFML/Graphics.hpp>
 #include "CommandQ.h"
+struct Command; // TODO why??
 
 class SceneNode : public sf::Transformable, public sf::Drawable, private sf::NonCopyable {
     /*
@@ -45,7 +46,7 @@ public:
     sf::Vector2f getWorldPosition() const {
         return getWorldTransform() * sf::Vector2f();
     }
-    void onCommand(const CommandQ::Command& command, sf::Time dt);
+    void onCommand(const Command& command, sf::Time dt);
 
 };
 

@@ -2,6 +2,7 @@
 // Created by Mengmeng Xu on 11/10/17.
 //
 
+#include <iostream>
 #include "World.h"
 #include "SpriteNode.h"
 
@@ -72,5 +73,13 @@ void World::update(sf::Time dt) {
         mPlayerTank->setVelocity(velocity);
         mPlayerTank->setRotation(mPlayerTank->getRotation()+180);
     }
+    // std::cout << "World::update(sf::Time dt).." << std::endl; -- debug
+    // Forward commands to the scene graph
+    while (!mCommandQ.isEmpty()){
+        mSceneGraph.onCommand(mCommandQ.pop(), dt);
+        std::cout << "mSceneGraph.onCommand(mCommandQ.pop(), dt);.." << std::endl;
+    }
+
+
     mSceneGraph.update(dt);
 }
