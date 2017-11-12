@@ -13,7 +13,7 @@
 class CommandQ {
 public:
     struct Command{
-        int category = 0;
+        int category =1;
         std::function<void(SceneNode&, sf::Time)> action;
     };
 public:

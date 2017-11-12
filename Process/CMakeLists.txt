@@ -3,7 +3,7 @@ project(TankCraft)
 
 set(CMAKE_CXX_STANDARD 11)
 
-set(SOURCE_FILES main.cpp Game.h Game.cpp Entity.cpp Entity.h Tank.cpp Tank.h SceneNode.cpp SceneNode.h SpriteNode.cpp SpriteNode.h World.cpp World.h)
+set(SOURCE_FILES main.cpp Game.h Game.cpp Entity.cpp Entity.h Tank.cpp Tank.h SceneNode.cpp SceneNode.h SpriteNode.cpp SpriteNode.h World.cpp World.h CommandQ.cpp CommandQ.h Player.cpp Player.h)
 add_executable(TankCraft ${SOURCE_FILES})
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")

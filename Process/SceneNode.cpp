@@ -53,3 +53,11 @@ sf::Transform SceneNode::getWorldTransform() const {
         transform = node->getTransform() * transform;
     return transform;
 }
+
+void SceneNode::onCommand(const CommandQ::Command &command, sf::Time dt) {
+    if (command.category == 1)
+        1;//TODO
+        //command.action(*this, dt);
+    //for (auto iter = mChildren.cbegin(); iter!=mChildren.cend(); iter ++)
+    //    (*iter)->onCommand(command,dt);
+}
