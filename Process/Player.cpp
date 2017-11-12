@@ -4,24 +4,14 @@
 
 #include "Player.h"
 #include "Tank.h"
-#include "Category.h"
-#include <map>
-
-#include <CommandQueue.h>
-
-
-#include <string>
-#include <algorithm>
-
 
 struct TankMover
 {
     TankMover(float vx, float vy)
             : velocity(vx, vy)
-    {
-    }
+    {}
 
-    void operator() (Tank& _tank, sf::Time) const
+    void assign(Tank& _tank, sf::Time) const
     {
         _tank.setVelocity(velocity);
     }
@@ -43,14 +33,15 @@ Player::Player()
 
     // Assign all categories to player's aircraft
 
-            for(auto pair=mActionBinding.cbegin();pair!=mActionBinding.cend();pair++)
-            {
-                pair->second.category = Category::PlayerAircraft;
-            }
+    for(auto it=mActionBinding.cbegin();it!=mActionBinding.cend();it++)
+    {
+        // TODO debug
+        // (*it).second.category = 1; // Tank
+    }
 
 }
 
-void Player::handleEvent(const sf::Event& event, CommandQueue& commands)
+void Player::handleEvent(const sf::Event& event, CommandQ& commands)
 {
     if (event.type == sf::Event::KeyPressed)
     {
@@ -61,15 +52,15 @@ void Player::handleEvent(const sf::Event& event, CommandQueue& commands)
     }
 }
 
-void Player::handleRealtimeInput(CommandQueue& commands)
+void Player::handleRealtimeInput(CommandQ& commands)
 {
     // Traverse all assigned keys and check if they are pressed
 
     for(auto it=mKeyBinding.cbegin();it!=mKeyBinding.cend();it++)
     {
         // If key is pressed, lookup action and trigger corresponding command
-        if (sf::Keyboard::isKeyPressed(pair.first) && isRealtimeAction(pair.second))
-            commands.push(mActionBinding[pair.second]);
+        if (sf::Keyboard::isKeyPressed(it->first) && isRealtimeAction(it->second))
+            commands.push(mActionBinding[it->second]);
     }
 }
 
@@ -90,10 +81,10 @@ void Player::assignKey(Action action, sf::Keyboard::Key key)
 
 sf::Keyboard::Key Player::getAssignedKey(Action action) const
 {
-    FOREACH(auto pair, mKeyBinding)
+    for(auto it=mKeyBinding.cbegin();it!=mKeyBinding.cend();it++)
     {
-        if (pair.second == action)
-            return pair.first;
+        if (it->second == action)
+            return it->first;
     }
 
     return sf::Keyboard::Unknown;
@@ -103,10 +94,24 @@ void Player::initializeActions()
 {
     const float playerSpeed = 200.f;
 
-    mActionBinding[MoveLeft].action	 = derivedAction<Tank>(TankMover(-playerSpeed, 0.f));
-    mActionBinding[MoveRight].action = derivedAction<Tank>(TankMover(+playerSpeed, 0.f));
-    mActionBinding[MoveUp].action    = derivedAction<Tank>(TankMover(0.f, -playerSpeed));
-    mActionBinding[MoveDown].action  = derivedAction<Tank>(TankMover(0.f, +playerSpeed));
+    // Safely converts pointers and references to classes up, down, and sideways along the inheritance hierarchy.
+    // in book P104
+    mActionBinding[MoveLeft].action	 = [=] (SceneNode& node, sf::Time dt)
+    {
+        TankMover(-playerSpeed, 0.f).assign(dynamic_cast<Tank&>(node),dt);
+    };
+    mActionBinding[MoveRight].action = [=] (SceneNode& node, sf::Time dt)
+    {
+        TankMover(+playerSpeed, 0.f).assign(dynamic_cast<Tank&>(node),dt);
+    };
+    mActionBinding[MoveUp].action    = [=] (SceneNode& node, sf::Time dt)
+    {
+        TankMover(0.f, -playerSpeed).assign(dynamic_cast<Tank&>(node),dt);
+    };
+    mActionBinding[MoveDown].action  = [=] (SceneNode& node, sf::Time dt)
+    {
+        TankMover(0.f, +playerSpeed).assign(dynamic_cast<Tank&>(node),dt);
+    };
 }
 
 bool Player::isRealtimeAction(Action action)
@@ -118,7 +123,6 @@ bool Player::isRealtimeAction(Action action)
         case MoveDown:
         case MoveUp:
             return true;
-
         default:
             return false;
     }
