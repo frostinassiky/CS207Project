@@ -9,13 +9,17 @@
 #include <queue>
 #include "SceneNode.h"
 
+class SceneNode; // TODO know why
+
+struct Command{
+    int category =1;
+    std::function<void(SceneNode&, sf::Time)> action;
+};
+
+
 
 class CommandQ {
-public:
-    struct Command{
-        int category =1;
-        std::function<void(SceneNode&, sf::Time)> action;
-    };
+
 public:
     CommandQ(): mQueue() {};
     void push(const Command& command) {mQueue.push(command);};

@@ -36,6 +36,7 @@ private:
     sf::View mWorldView;
     SceneNode mSceneGraph; // root of all scene
     SceneNode* mSceneLayers[LayerCount];  // book uses class array
+    CommandQ mCommandQ;
     sf::FloatRect mWorldBounds;
     sf::Vector2f mSpawnPosition;
     float mScrollSpeed;
