@@ -8,11 +8,12 @@
 #include <SFML/System.hpp>
 #include <queue>
 #include "SceneNode.h"
+#include "Category.h"
 
-class SceneNode; // TODO know why
+class SceneNode; // declare class
 
 struct Command{
-    int category =1;
+    Category mCategory = CTank ;
     std::function<void(SceneNode&, sf::Time)> action;
 };
 

@@ -36,7 +36,7 @@ Player::Player()
     for(auto it=mActionBinding.cbegin();it!=mActionBinding.cend();it++)
     {
         // TODO debug
-        // (*it).second.category = 1; // Tank
+        // it->second.mCategory = CTank; // Tank
     }
 
 }
@@ -94,23 +94,23 @@ void Player::initializeActions()
 {
     const float playerSpeed = 200.f;
 
-    // Safely converts pointers and references to classes up, down, and sideways along the inheritance hierarchy.
+    // Safely converts pointers and references to classes up, adown, and sideways along the inheritance hierarchy.
     // in book P104
     mActionBinding[MoveLeft].action	 = [=] (SceneNode& node, sf::Time dt)
     {
-        TankMover(-playerSpeed, 0.f).assign(dynamic_cast<Tank&>(node),dt);
+        TankMover(-playerSpeed, 0.f).assign(static_cast<Tank&>(node),dt);
     };
     mActionBinding[MoveRight].action = [=] (SceneNode& node, sf::Time dt)
     {
-        TankMover(+playerSpeed, 0.f).assign(dynamic_cast<Tank&>(node),dt);
+        TankMover(+playerSpeed, 0.f).assign(static_cast<Tank&>(node),dt);
     };
     mActionBinding[MoveUp].action    = [=] (SceneNode& node, sf::Time dt)
     {
-        TankMover(0.f, -playerSpeed).assign(dynamic_cast<Tank&>(node),dt);
+        TankMover(0.f, -playerSpeed).assign(static_cast<Tank&>(node),dt);
     };
     mActionBinding[MoveDown].action  = [=] (SceneNode& node, sf::Time dt)
     {
-        TankMover(0.f, +playerSpeed).assign(dynamic_cast<Tank&>(node),dt);
+        TankMover(0.f, +playerSpeed).assign(static_cast<Tank&>(node),dt);
     };
 }
 
