@@ -32,13 +32,19 @@ Player::Player()
     initializeActions();
 
     // Assign all categories to player's aircraft
-
+    /*
     for(auto it=mActionBinding.cbegin();it!=mActionBinding.cend();it++)
     {
         // TODO debug
-        // it->second.mCategory = CTank; // Tank
+        Command tmpCommand=it->second;
+        tmpCommand.mCategory = CTank;
+        it->second = tmpCommand; // Tank
     }
-
+     */
+    for(auto& content : mActionBinding)
+    {
+        content.second.mCategory = CTank; // Tank
+    }
 }
 
 void Player::handleEvent(const sf::Event& event, CommandQ& commands)
