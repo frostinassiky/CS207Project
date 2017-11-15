@@ -28,7 +28,7 @@ MenuState::MenuState(StateStack& stack, Context context)
     exitOption.setPosition(playOption.getPosition() + sf::Vector2f(0.f, 30.f));
     mOptions.push_back(exitOption);
 
-    updateOptionText();
+    // updateOptionText();
 }
 
 void MenuState::draw()
@@ -58,7 +58,7 @@ bool MenuState::handleEvent(const sf::Event& event)
         if (mOptionIndex == Play)
         {
             requestStackPop();
-            requestStackPush(States::Game);
+            requestStackPush(StatesID::Game);
         }
         else if (mOptionIndex == Exit)
         {
@@ -75,7 +75,7 @@ bool MenuState::handleEvent(const sf::Event& event)
         else
             mOptionIndex = mOptions.size() - 1;
 
-        updateOptionText();
+        // updateOptionText();
     }
 
     else if (event.key.code == sf::Keyboard::Down)
@@ -86,13 +86,14 @@ bool MenuState::handleEvent(const sf::Event& event)
         else
             mOptionIndex = 0;
 
-        updateOptionText();
+        // updateOptionText();
     }
 
     return true;
 }
 
-//void MenuState::updateOptionText()
+/*
+void MenuState::updateOptionText()
 {
     if (mOptions.empty())
         return;
@@ -104,4 +105,4 @@ bool MenuState::handleEvent(const sf::Event& event)
     // Red the selected text
     mOptions[mOptionIndex].setColor(sf::Color::Red);
     mOptions[mOptionIndex].setColor(sf::Color::Red);
-}
+}*/

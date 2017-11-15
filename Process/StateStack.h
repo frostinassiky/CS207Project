@@ -10,18 +10,11 @@
 //#include <SFML/Time.h>
 //#include <SFML/Event.hpp>
 #include <vector>
-#include "State.h"
 #include <map>
+#include "State.h"
 
 class State;
-namespace sf
-{
-    class Event;
-    class RenderWindow;
-}
-
-class StateStack : private sf::NonCopyable
-{
+class StateStack : private sf::NonCopyable {
 public:
     enum Action
     {
@@ -30,36 +23,35 @@ public:
         Clear,
     };
 
-
 public:
-    explicit			StateStack(State::Context context);
+    explicit StateStack( State::Context context );
 
-    //template <typename T>
-    void				registerState(States::ID stateID);
+    template <typename T>
+    void				registerState(StatesID::ID stateID) {mFactories[stateID] = new T(*this, mContext);};
 
     void				update(sf::Time dt);
     void				draw();
     void				handleEvent(const sf::Event& event);
 
-    void				pushState(States::ID stateID);
+    void				pushState(StatesID::ID stateID);
     void				popState();
     void				clearStates();
 
-    //bool				isEmpty() const;
+    bool				isEmpty() const;
 
 
 private:
-    State*			createState(States::ID stateID);
+    State*			createState(StatesID::ID stateID);
     void				applyPendingChanges();
 
 
 private:
     struct PendingChange
     {
-        explicit			PendingChange(Action action, States::ID stateID = States::None);
+        explicit			PendingChange(Action action, StatesID::ID stateID = StatesID::None);
 
         Action				action;
-        States::ID			stateID;
+        StatesID::ID			stateID;
     };
 
 
@@ -67,17 +59,13 @@ private:
     std::vector<State*>								mStack;
     std::vector<PendingChange>							mPendingList;
 
-    State::Context										mContext;
-    std::map<States::ID, State*>	mFactories;
+    State::Context mContext;
+    std::map<StatesID::ID, State*>	mFactories;
     //State state;
 };
 
 
-template <typename T>
-void StateStack::registerState(States::ID stateID)
-{
-    mFactories[stateID] = new T(*this, mContext);
-}
+
 
 
 

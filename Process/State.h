@@ -7,17 +7,8 @@
 
 #include <SFML/Graphics.hpp>
 //#include <SFML/Time.hpp>
-#include "StateStack.h"
-namespace States
-{
-    enum ID
-    {
-        None,
-        Menu,
-        Game,
-        Pause
-    };
-}
+#include "StateID.h"
+
 
 namespace sf
 {
@@ -44,7 +35,7 @@ public:
     virtual bool update(sf::Time dt) = 0;
     virtual bool handleEvent(const sf::Event& event) = 0;
 protected:
-    void requestStackPush(States::ID stateID);
+    void requestStackPush(StatesID::ID stateID);
     void requestStackPop();
     void requestStateClear();
     Context getContext() const;

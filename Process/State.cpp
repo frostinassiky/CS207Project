@@ -3,6 +3,7 @@
 //
 
 #include "State.h"
+#include "StateStack.h"
 
 State::Context::Context(sf::RenderWindow& window, sf::Texture& textures, sf::Font& fonts, Player& player)
         : window(&window)
@@ -24,7 +25,7 @@ State::~State()
 }
 
 
-void State::requestStackPush(States::ID stateID)
+void State::requestStackPush(StatesID::ID stateID)
 {
     mStack->pushState(stateID);
 }
