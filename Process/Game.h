@@ -12,6 +12,7 @@
 #include "Tank.h"
 #include "World.h"
 #include "Player.h"
+#include "StateStack.h"
 
 
 class Game{
@@ -40,6 +41,10 @@ private:
     sf::Texture mBackground;
     sf::Sprite  mLand;
     Player mPlayer;
+    StateStack				mStateStack;
+    sf::Texture			mTextures;
+    sf::Font				mFonts;
+
 
 };
 
