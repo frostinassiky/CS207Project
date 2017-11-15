@@ -3,12 +3,14 @@
 //
 
 #include "Game.h"
-
+#include "State.h"
 Game::Game():
         mWindow(sf::VideoMode(590*2, 983*2), "Tank Craft Application"),
         oneTank(Tank::Ally),
         mPlayer(),
-        mWorld(mWindow)
+        mWorld(mWindow),
+        mStateStack(State::Context(mWindow, mTextures, mFonts, mPlayer))
+
 {
     mWindow.setVerticalSyncEnabled(TRUE);
     mWindow.setFramerateLimit(20); // in case of use up resource
@@ -131,7 +133,7 @@ void Game::processEvents()
     sf::Event event;
     while (mWindow.pollEvent(event))
     {
-        mPlayer.handleEvent(event, commands);
+        mStateStack.handleEvent(event);
 
         if (event.type == sf::Event::Closed)
             mWindow.close();
@@ -171,4 +173,6 @@ void Game::handlePlayerInput(sf::Keyboard::Key key,
     else if (key == sf::Keyboard::X)
         mIsMovingBrake = isPressed;
         */
+
+
 }
