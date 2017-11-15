@@ -1,8 +1,8 @@
 #ifndef BOOK_STATE_HPP
 #define BOOK_STATE_HPP
 
-#include <Book/StateIdentifiers.hpp>
-#include <Book/ResourceIdentifiers.hpp>
+#include <StateIdentifiers.hpp>
+#include <ResourceIdentifiers.hpp>
 
 #include <SFML/System/Time.hpp>
 #include <SFML/Window/Event.hpp>

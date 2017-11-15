@@ -18,5 +18,5 @@ std::string toString(const T& value);
 void centerOrigin(sf::Sprite& sprite);
 void centerOrigin(sf::Text& text);
 
-#include <Book/Utility.inl>
+#include <Utility.inl>
 #endif // BOOK_UTILITY_HPP

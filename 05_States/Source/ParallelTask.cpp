@@ -1,4 +1,4 @@
-#include <Book/ParallelTask.hpp>
+#include <ParallelTask.hpp>
 
 
 ParallelTask::ParallelTask()

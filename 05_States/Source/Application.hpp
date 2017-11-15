@@ -1,10 +1,10 @@
 #ifndef BOOK_APPLICATION_HPP
 #define BOOK_APPLICATION_HPP
 
-#include <Book/ResourceHolder.hpp>
-#include <Book/ResourceIdentifiers.hpp>
-#include <Book/Player.hpp>
-#include <Book/StateStack.hpp>
+#include <ResourceHolder.hpp>
+#include <ResourceIdentifiers.hpp>
+#include <Player.hpp>
+#include <StateStack.hpp>
 
 #include <SFML/System/Time.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>

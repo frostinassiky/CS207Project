@@ -1,8 +1,8 @@
 #ifndef BOOK_AIRCRAFT_HPP
 #define BOOK_AIRCRAFT_HPP
 
-#include <Book/Entity.hpp>
-#include <Book/ResourceIdentifiers.hpp>
+#include <Entity.hpp>
+#include <ResourceIdentifiers.hpp>
 
 #include <SFML/Graphics/Sprite.hpp>
 

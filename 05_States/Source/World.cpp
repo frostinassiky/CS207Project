@@ -1,4 +1,4 @@
-#include <Book/World.hpp>
+#include <World.hpp>
 
 #include <SFML/Graphics/RenderWindow.hpp>
 

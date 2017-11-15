@@ -1,7 +1,7 @@
 #ifndef BOOK_PAUSESTATE_HPP
 #define BOOK_PAUSESTATE_HPP
 
-#include <Book/State.hpp>
+#include <State.hpp>
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>

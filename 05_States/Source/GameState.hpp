@@ -1,9 +1,9 @@
 #ifndef BOOK_GAMESTATE_HPP
 #define BOOK_GAMESTATE_HPP
 
-#include <Book/State.hpp>
-#include <Book/World.hpp>
-#include <Book/Player.hpp>
+#include <State.hpp>
+#include <World.hpp>
+#include <Player.hpp>
 
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>

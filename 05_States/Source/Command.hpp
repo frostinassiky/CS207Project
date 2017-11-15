@@ -1,7 +1,7 @@
 #ifndef BOOK_COMMAND_HPP
 #define BOOK_COMMAND_HPP
 
-#include <Book/Category.hpp>
+#include <Category.hpp>
 
 #include <SFML/System/Time.hpp>
 

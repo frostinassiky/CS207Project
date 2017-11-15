@@ -1,12 +1,12 @@
 #ifndef BOOK_LOADINGSTATE_HPP
 #define BOOK_LOADINGSTATE_HPP
 
-#include <Book/State.hpp>
+#include <State.hpp>
 
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/Text.hpp>
 
-#include <Book/ParallelTask.hpp>
+#include <ParallelTask.hpp>
 
 
 class LoadingState : public State

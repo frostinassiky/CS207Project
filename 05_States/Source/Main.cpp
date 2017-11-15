@@ -1,4 +1,4 @@
-#include <Book/Application.hpp>
+#include <Application.hpp>
 
 #include <stdexcept>
 #include <iostream>

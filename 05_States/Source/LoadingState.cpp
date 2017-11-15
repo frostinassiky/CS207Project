@@ -1,6 +1,6 @@
-#include <Book/LoadingState.hpp>
-#include <Book/Utility.hpp>
-#include <Book/ResourceHolder.hpp>
+#include <LoadingState.hpp>
+#include <Utility.hpp>
+#include <ResourceHolder.hpp>
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/View.hpp>

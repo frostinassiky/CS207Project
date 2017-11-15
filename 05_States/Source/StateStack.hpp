@@ -1,9 +1,9 @@
 #ifndef BOOK_STATESTACK_HPP
 #define BOOK_STATESTACK_HPP
 
-#include <Book/State.hpp>
-#include <Book/StateIdentifiers.hpp>
-#include <Book/ResourceIdentifiers.hpp>
+#include <State.hpp>
+#include <StateIdentifiers.hpp>
+#include <ResourceIdentifiers.hpp>
 
 #include <SFML/System/NonCopyable.hpp>
 #include <SFML/System/Time.hpp>
