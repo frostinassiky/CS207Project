@@ -7,6 +7,7 @@
 
 
 #include "State.h"
+#include "Container.h"
 
 class MenuState : public State{
 public:
@@ -28,10 +29,11 @@ private:
 
 
 private:
-    sf::Sprite				mBackgroundSprite;
-
-    std::vector<sf::Text>	mOptions;
-    std::size_t				mOptionIndex;
+    sf::Texture mTexture;
+    sf::Sprite mBackgroundSprite;
+    std::vector<sf::Text> mOptions;
+    std::size_t mOptionIndex;
+    GUI::Container mGUIContainer;
 };
 
 

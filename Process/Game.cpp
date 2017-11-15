@@ -4,23 +4,23 @@
 
 #include "Game.h"
 #include "State.h"
+#include "MenuState.h"
+#include "GameState.h"
+#include "PauseState.h"
+
 Game::Game():
-        mWindow(sf::VideoMode(590*2, 983*2), "Tank Craft Application"),
-        oneTank(Tank::Ally),
+        mWindow(sf::VideoMode(2560, 1600), "Tank Craft Application"),
         mPlayer(),
-        mWorld(mWindow),
-        mStateStack(State::Context(mWindow, mTextures, mFonts, mPlayer))
+        mStateStack(State::Context(mWindow, mTexture, mFont, mPlayer))
 
 {
     mWindow.setVerticalSyncEnabled(TRUE);
     mWindow.setFramerateLimit(20); // in case of use up resource
 
-    if (!mBackground.loadFromFile("../Media/Map.png"))
-        std::cout << "error" << std::endl;
-    mLand.setTexture(mBackground);
-    mLand.setScale(2,2);
-    // rescale
-    // mPlayer.setScale(0.5f,0.5f);
+    mWindow.setKeyRepeatEnabled(false);
+
+    registerStates();
+    mStateStack.pushState(StatesID::Menu);
 
 }
 
@@ -46,61 +46,15 @@ void Game::run()
 
 void Game::update(sf::Time deltaTime)
 {
-    sf::Vector2f movement(0.f, 0.f);
-    if (mIsMovingUp)
-        movement.y -= moveSpeed;
-    if (mIsMovingDown)
-        movement.y += moveSpeed;
-    if (mIsMovingLeft)
-        movement.x -= moveSpeed;
-
-    if (mIsMovingRight)
-        movement.x += moveSpeed;
-/*
-    if (mIsMovingClock){
-        momentum = -rotateSpeed;
-        oneTank.rotate(momentum * deltaTime.asSeconds());
-    }
-
-    if (mIsMovingAntiClock){
-        momentum = rotateSpeed;
-        mPlayer.rotate(momentum * deltaTime.asSeconds());
-    }
-
-    if (mIsMovingBrake)
-        momentum /= 1.01;
-    seq++;
-
-    if (seq>=seqN){
-        seq -= seqN;
-        mPlayer.move(dir*size_x/seqN/1.5 * cos(mPlayer.getRotation()/180.0*3.14),dir*size_x/seqN/1.5 * sin(mPlayer.getRotation()/180.0*3.14));
-        if (mPlayer.getPosition().x+size_x/seqN>res_x){
-            mPlayer.move(-1300,0);
-            //dir = -1;
-        }
-        if (mPlayer.getPosition().x<size_x/seqN ) {
-            dir = 1;
-        }
-
-    }
-
-
-
-    mPlayer.setScale(dir,1);
-    mPlayer.setTextureRect(sf::IntRect(seq*size_x/seqN,0,size_x/seqN, size_y));
-*/
-
-    // TODO bug here
-    // oneTank.move(movement * deltaTime.asSeconds());
-    mWorld.update(deltaTime);
+    mStateStack.update(deltaTime);
 }
 
 void Game::render()
 {
     // mWindow.clear();
     mWindow.clear(sf::Color(128, 128, 128));
-    mWindow.draw(mLand);
-    mWorld.draw();
+    // mWindow.draw(mLand);
+    mStateStack.draw();
     // TODO bug
     // mWindow.draw(oneTank);
     mWindow.setView(mWindow.getDefaultView());
@@ -109,26 +63,7 @@ void Game::render()
 
 void Game::processEvents()
 {
-    /*
-    sf::Event event;
-    while (mWindow.pollEvent(event))
-    {
-        switch (event.type)
-        {
-
-            case sf::Event::KeyPressed:
-                handlePlayerInput(event.key.code, true);
-                break;
-            case sf::Event::KeyReleased:
-                handlePlayerInput(event.key.code, false);
-                break;
-            case sf::Event::Closed:
-                mWindow.close();
-                break; }
-    }
-
-    */
-    CommandQ& commands = mWorld.getCommandQ();
+    // CommandQ& commands = mWorld.getCommandQ();
 
     sf::Event event;
     while (mWindow.pollEvent(event))
@@ -139,40 +74,11 @@ void Game::processEvents()
             mWindow.close();
     }
 
-    mPlayer.handleRealtimeInput(commands);
 }
-void Game::handlePlayerInput(sf::Keyboard::Key key,
-                             bool isPressed)
+
+void Game::registerStates()
 {
-    switch (key) {
-        case  sf::Keyboard::Up:
-            mIsMovingUp = isPressed; break;
-        case  sf::Keyboard::Down:
-            mIsMovingDown = isPressed; break;
-        case  sf::Keyboard::Left:
-            mIsMovingLeft = isPressed; break;
-        case  sf::Keyboard::Right:
-            mIsMovingRight = isPressed; break;
-        default:
-            break;
-
-    }
-    /*
-    if (key == sf::Keyboard::Up)
-        mIsMovingUp = isPressed;
-    else if (key == sf::Keyboard::S)
-        mIsMovingDown = isPressed;
-    else if (key == sf::Keyboard::A)
-        mIsMovingLeft = isPressed;
-    else if (key == sf::Keyboard::D)
-        mIsMovingRight = isPressed;
-    else if (key == sf::Keyboard::Q)
-        mIsMovingClock = isPressed;
-    else if (key == sf::Keyboard::E)
-        mIsMovingAntiClock = isPressed;
-    else if (key == sf::Keyboard::X)
-        mIsMovingBrake = isPressed;
-        */
-
-
+    mStateStack.registerState<MenuState>(StatesID::Menu);
+    mStateStack.registerState<GameState>(StatesID::Game);
+    mStateStack.registerState<PauseState>(StatesID::Pause);
 }
