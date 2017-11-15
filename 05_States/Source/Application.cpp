@@ -1,11 +1,11 @@
-#include <Application.hpp>
-#include <Utility.hpp>
-#include <State.hpp>
-#include <StateIdentifiers.hpp>
-#include <TitleState.hpp>
-#include <GameState.hpp>
-#include <MenuState.hpp>
-#include <PauseState.hpp>
+#include <Book/Application.hpp>
+#include <Book/Utility.hpp>
+#include <Book/State.hpp>
+#include <Book/StateIdentifiers.hpp>
+#include <Book/TitleState.hpp>
+#include <Book/GameState.hpp>
+#include <Book/MenuState.hpp>
+#include <Book/PauseState.hpp>
 
 
 const sf::Time Application::TimePerFrame = sf::seconds(1.f/60.f);

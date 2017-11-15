@@ -1,6 +1,6 @@
-#include <SceneNode.hpp>
-#include <Command.hpp>
-#include <Foreach.hpp>
+#include <Book/SceneNode.hpp>
+#include <Book/Command.hpp>
+#include <Book/Foreach.hpp>
 
 #include <algorithm>
 #include <cassert>

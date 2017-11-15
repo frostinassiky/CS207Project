@@ -2,8 +2,7 @@
 cmake_minimum_required(VERSION 3.8)
 project(TankCraft)
 
-include_directories(Book)
-include_directories(Source)
+include_directories(Include)
 
 set(CMAKE_CXX_STANDARD 11)
 

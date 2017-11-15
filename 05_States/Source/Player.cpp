@@ -1,7 +1,7 @@
-#include <Player.hpp>
-#include <CommandQueue.hpp>
-#include <Aircraft.hpp>
-#include <Foreach.hpp>
+#include <Book/Player.hpp>
+#include <Book/CommandQueue.hpp>
+#include <Book/Aircraft.hpp>
+#include <Book/Foreach.hpp>
 
 #include <map>
 #include <string>

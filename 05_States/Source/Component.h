@@ -14,15 +14,14 @@ namespace GUI{
         bool mIsSelected;
         bool mIsActive;
     public:
-        Component();
-        virtual ~Component();
-        virtual bool isSelectable();
+        Component() ;
+        virtual bool isSelectable() = 0;
         bool isSelected() {return mIsSelected;};
-        virtual void select();
-        virtual void deselect();
+        virtual void select() {mIsSelected = true;};
+        virtual void deselect() { mIsSelected = false;} ;
         bool isActive() {return mIsActive;};
-        virtual void activate();
-        virtual void deactivate();
+        virtual void activate() {mIsActive = true;};
+        virtual void deactivate() {mIsActive = false;};
         virtual void handleEvent(sf::Event& event) = 0;
     };
 

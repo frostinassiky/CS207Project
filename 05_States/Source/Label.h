@@ -7,7 +7,6 @@
 
 
 #include "Component.h"
-#include "ResourceIdentifiers.hpp"
 
 namespace GUI{
     class Label : public Component{

@@ -1,7 +1,7 @@
-#include <MenuState.hpp>
-#include <Utility.hpp>
-#include <Foreach.hpp>
-#include <ResourceHolder.hpp>
+#include <Book/MenuState.hpp>
+#include <Book/Utility.hpp>
+#include <Book/Foreach.hpp>
+#include <Book/ResourceHolder.hpp>
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/View.hpp>

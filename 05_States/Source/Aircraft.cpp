@@ -1,6 +1,6 @@
-#include <Aircraft.hpp>
-#include <ResourceHolder.hpp>
-#include <Utility.hpp>
+#include <Book/Aircraft.hpp>
+#include <Book/ResourceHolder.hpp>
+#include <Book/Utility.hpp>
 
 #include <SFML/Graphics/RenderTarget.hpp>
 #include <SFML/Graphics/RenderStates.hpp>

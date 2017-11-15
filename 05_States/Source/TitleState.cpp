@@ -1,6 +1,6 @@
-#include <TitleState.hpp>
-#include <Utility.hpp>
-#include <ResourceHolder.hpp>
+#include <Book/TitleState.hpp>
+#include <Book/Utility.hpp>
+#include <Book/ResourceHolder.hpp>
 
 #include <SFML/Graphics/RenderWindow.hpp>
 

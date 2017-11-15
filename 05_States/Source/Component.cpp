@@ -3,3 +3,17 @@
 //
 
 #include "Component.h"
+
+
+namespace GUI
+{
+
+    Component::Component()
+            : mIsSelected(false)
+            , mIsActive(false)
+    {
+    }
+
+
+
+}
