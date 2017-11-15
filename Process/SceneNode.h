@@ -11,6 +11,10 @@
 // * out of scope * .
 #include <vector>
 #include <SFML/Graphics.hpp>
+#include "CommandQ.h"
+#include "Category.h"
+
+struct Command; // Declare class
 
 class SceneNode : public sf::Transformable, public sf::Drawable, private sf::NonCopyable {
     /*
@@ -44,6 +48,9 @@ public:
     sf::Vector2f getWorldPosition() const {
         return getWorldTransform() * sf::Vector2f();
     }
+    void onCommand(const Command& command, sf::Time dt);
+
+    Category mCategory=Cdefault;
 
 };
 

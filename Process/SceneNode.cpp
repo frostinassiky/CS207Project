@@ -2,6 +2,7 @@
 // Created by Mengmeng Xu on 11/9/17.
 //
 
+#include <iostream>
 #include "SceneNode.h"
 SceneNode::SceneNode()
 {
@@ -52,4 +53,17 @@ sf::Transform SceneNode::getWorldTransform() const {
          node != nullptr; node = node->mParent)
         transform = node->getTransform() * transform;
     return transform;
+}
+
+void SceneNode::onCommand(const Command &command, sf::Time dt) {
+    // std::cout << "@@ > command.category, this->Category " << command.category << ", "<< this->mCategory << std::endl;
+    if (command.mCategory == this->mCategory){
+        // std::cout << "this->Category" << this->mCategory << std::endl;
+        command.action(*this, dt);
+    }
+    for (auto iter = mChildren.cbegin(); iter!=mChildren.cend(); iter ++){
+        // std::cout << mChildren.end()-mChildren.begin() << std::endl;
+        (*iter)->onCommand(command,dt);
+    }
+
 }

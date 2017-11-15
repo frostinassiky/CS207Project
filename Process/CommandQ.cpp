@@ -4,7 +4,7 @@
 
 #include "CommandQ.h"
 
-CommandQ::Command CommandQ::pop() {
+Command CommandQ::pop() {
     Command command = mQueue.front();
     mQueue.pop();
     return command;

@@ -5,15 +5,11 @@
 #ifndef TANKCRAFT_PLAYER_H
 #define TANKCRAFT_PLAYER_H
 
-
-#include <Command.h>
-
 #include <SFML/Window/Event.hpp>
-
 #include <map>
-#include "Command.h"
+#include "CommandQ.h"
 
-class CommandQueue;
+// class CommandQ;
 
 class Player {
 public:
@@ -29,8 +25,8 @@ public:
 public:
     Player();
 
-    void					handleEvent(const sf::Event& event, CommandQueue& commands);
-    void					handleRealtimeInput(CommandQueue& commands);
+    void handleEvent(const sf::Event& event, CommandQ& commands);
+    void handleRealtimeInput(CommandQ& commands);
 
     void					assignKey(Action action, sf::Keyboard::Key key);
     sf::Keyboard::Key		getAssignedKey(Action action) const;
@@ -43,7 +39,7 @@ private:
 
 private:
     std::map<sf::Keyboard::Key, Action>		mKeyBinding;
-    std::map<Action, Command>				mActionBinding;
+    std::map<Action, Command> mActionBinding;
 
 
 };

@@ -8,14 +8,19 @@
 #include <SFML/System.hpp>
 #include <queue>
 #include "SceneNode.h"
+#include "Category.h"
+
+class SceneNode; // declare class
+
+struct Command{
+    Category mCategory = CTank ;
+    std::function<void(SceneNode&, sf::Time)> action;
+};
+
 
 
 class CommandQ {
-public:
-    struct Command{
-        int category = 0;
-        std::function<void(SceneNode&, sf::Time)> action;
-    };
+
 public:
     CommandQ(): mQueue() {};
     void push(const Command& command) {mQueue.push(command);};

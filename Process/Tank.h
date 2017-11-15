@@ -8,9 +8,9 @@
 #include <SFML/Graphics.hpp>
 #include "Entity.h"
 
-class Tank : public Entity{
+class Tank : public Entity {
 public:
-    enum Type{
+    enum Type {
         Ally,
         Enemy,
     };
@@ -22,7 +22,9 @@ public:
 
 public:
     Tank(Type type);
-    void drawCurrent( sf::RenderTarget& target, sf::RenderStates states) const;
+
+    void drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const;
+
 };
 
 
