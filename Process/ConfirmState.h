@@ -33,6 +33,9 @@ class ConfirmState : public State{
         std::vector<sf::Text> mOptions;
         std::size_t mOptionIndex;
         GUI::Container mGUIContainer;
+        sf::Text			mPausedText;
+        sf::Font            mFont;
+
 };
 
 
