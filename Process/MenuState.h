@@ -7,6 +7,7 @@
 
 
 #include "State.h"
+#include "Container.h"
 
 class MenuState : public State{
 public:
@@ -16,7 +17,7 @@ public:
     virtual bool			update(sf::Time dt);
     virtual bool			handleEvent(const sf::Event& event);
 
-    void					updateOptionText();
+    // void					updateOptionText();
 
 
 private:
@@ -28,10 +29,11 @@ private:
 
 
 private:
-    sf::Sprite				mBackgroundSprite;
-
-    std::vector<sf::Text>	mOptions;
-    std::size_t				mOptionIndex;
+    sf::Texture mTexture;
+    sf::Sprite mBackgroundSprite;
+    std::vector<sf::Text> mOptions;
+    std::size_t mOptionIndex;
+    GUI::Container mGUIContainer;
 };
 
 

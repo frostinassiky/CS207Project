@@ -4,6 +4,7 @@
 
 #include "StateStack.h"
 #include "State.h"
+#include "StateID.h"
 #include <cassert>
 
 StateStack::StateStack(State::Context context)
@@ -48,7 +49,7 @@ void StateStack::handleEvent(const sf::Event& event)
     applyPendingChanges();
 }
 
-void StateStack::pushState(States::ID stateID)
+void StateStack::pushState(StatesID::ID stateID)
 {
     mPendingList.push_back(PendingChange(Push, stateID));
 }
@@ -68,7 +69,7 @@ bool StateStack::isEmpty() const
     return mStack.empty();
 }
 
-State* StateStack::createState(States::ID stateID)
+State* StateStack::createState(StatesID::ID stateID)
 {
     auto found = mFactories.find(stateID);
     assert(found != mFactories.end());
@@ -99,7 +100,7 @@ void StateStack::applyPendingChanges()
     mPendingList.clear();
 }
 
-StateStack::PendingChange::PendingChange(Action action, States::ID stateID)
+StateStack::PendingChange::PendingChange(Action action, StatesID::ID stateID)
         : action(action)
         , stateID(stateID)
 {
