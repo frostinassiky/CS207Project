@@ -7,6 +7,7 @@
 
 #include <SFML/Graphics.hpp>
 #include "Entity.h"
+#include "Projectile.h"
 
 class Tank : public Entity {
 public:
@@ -23,8 +24,8 @@ public:
 public:
     Tank(Type type);
     void Fire();
-
-    void drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const;
+    void createProjectile(SceneNode& node, Projectile::Type type, float xOffset, float yOffset) const;
+    virtual void drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const;
 
 };
 
