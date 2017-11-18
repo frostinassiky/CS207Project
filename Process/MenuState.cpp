@@ -21,14 +21,33 @@ MenuState::MenuState(StateStack& stack, Context context)
                             });
     mGUIContainer.pack(playButton);
 
+    GUI::Button* hostButton = new GUI::Button();
+    hostButton->setPosition(100, 900);
+    hostButton->setText("Host",sf::Color::Yellow);
+    hostButton->setCallback([this] ()
+                            {
+                                requestStackPop();
+                                // requestStackPush(StatesID::Game);
+                            });
+    mGUIContainer.pack(hostButton);
+
+    GUI::Button* joinButton = new GUI::Button();
+    joinButton->setPosition(100, 1100);
+    joinButton->setText("Join", sf::Color::Yellow);
+    joinButton->setCallback([this] ()
+                            {
+                                requestStackPop();
+                                // requestStackPush(StatesID::Game);
+                            });
+    mGUIContainer.pack(joinButton);
+
     GUI::Button*  exitButton = new GUI::Button;
-    exitButton->setPosition(100, 900);
+    exitButton->setPosition(100, 1300);
     exitButton->setText("Exit");
     exitButton->setCallback([this] ()
                             {
                                 requestStackPop();
                             });
-    mGUIContainer.pack(playButton);
     mGUIContainer.pack(exitButton);
     mTexture.loadFromFile("Media/cover.png");
 }

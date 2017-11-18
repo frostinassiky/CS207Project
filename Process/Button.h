@@ -25,6 +25,7 @@ namespace GUI {
         Button();
 
         void setText(const std::string& text){ mText.setString(text); };
+        void setText(const std::string& text, const sf::Color color);
         void setCallback(std::function<void()> callback) {mCallback = std::move(callback); } ;
         bool isSelectable() { return true; };
         void select();

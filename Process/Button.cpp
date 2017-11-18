@@ -54,3 +54,9 @@ void GUI::Button::draw(sf::RenderTarget &target, sf::RenderStates states) const 
     target.draw(mSprite, states);
     target.draw(mText, states);
 }
+
+void GUI::Button::setText(const std::string &text, const sf::Color color) {
+    mText.setString(text);
+    mText.setColor(color);
+
+}
