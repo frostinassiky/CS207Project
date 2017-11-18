@@ -8,6 +8,7 @@
 #include "GameState.h"
 #include "PauseState.h"
 #include "ConfirmState.h"
+#include "TODO_State.h"
 
 Game::Game():
         mWindow(sf::VideoMode(2560, 1600), "Tank Craft Application"),
@@ -83,4 +84,5 @@ void Game::registerStates()
     mStateStack.registerState<GameState>(StatesID::Game);
     mStateStack.registerState<PauseState>(StatesID::Pause);
     mStateStack.registerState<ConfirmState>(StatesID::Confirm);
+    mStateStack.registerState<TODO_State>(StatesID::TODO);
 }

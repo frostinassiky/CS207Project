@@ -5,14 +5,17 @@
 #include "Button.h"
 #include "Label.h"
 #include "ConfirmState.h"
+#include "Utility.h"
 ConfirmState::ConfirmState(StateStack& stack, Context context)
         : State(stack, context)
         , mOptions()
         , mOptionIndex(0)
         , mGUIContainer()
+        , mPausedText()
+
 {
     GUI::Button* playButton = new GUI::Button();
-    playButton->setPosition(1000, 500);
+    playButton->setPosition(1000, 700);
     playButton->setText("Back");
     playButton->setCallback([this] ()
                             {
@@ -22,7 +25,7 @@ ConfirmState::ConfirmState(StateStack& stack, Context context)
     mGUIContainer.pack(playButton);
 
     GUI::Button*  exitButton = new GUI::Button;
-    exitButton->setPosition(1000, 900);
+    exitButton->setPosition(1000, 950);
     exitButton->setText("Yes!");
     exitButton->setCallback([this] ()
                             {
@@ -33,6 +36,15 @@ ConfirmState::ConfirmState(StateStack& stack, Context context)
                             });
     mGUIContainer.pack(exitButton);
     mTexture.loadFromFile("../Media/cover.png");
+
+    mFont.loadFromFile("../Media/GODOFWAR.TTF");
+    mPausedText.setFont(mFont);
+    mPausedText.setString("Are you sure to exit?");
+    mPausedText.setCharacterSize(70);
+    centerOrigin(mPausedText);
+    sf::Vector2f viewSize = context.window->getView().getSize();
+
+    mPausedText.setPosition(0.5f * viewSize.x, 0.35f * viewSize.y);
 }
 
 void ConfirmState::draw()
@@ -51,6 +63,7 @@ void ConfirmState::draw()
 
     window.draw(backgroundShape);
     window.draw(mGUIContainer);
+    window.draw(mPausedText);
 
 }
 

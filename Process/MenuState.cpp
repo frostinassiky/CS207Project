@@ -26,8 +26,7 @@ MenuState::MenuState(StateStack& stack, Context context)
     hostButton->setText("Host",sf::Color::Yellow);
     hostButton->setCallback([this] ()
                             {
-                                requestStackPop();
-                                // requestStackPush(StatesID::Game);
+                                requestStackPush(StatesID::TODO);
                             });
     mGUIContainer.pack(hostButton);
 
@@ -36,8 +35,7 @@ MenuState::MenuState(StateStack& stack, Context context)
     joinButton->setText("Join", sf::Color::Yellow);
     joinButton->setCallback([this] ()
                             {
-                                requestStackPop();
-                                // requestStackPush(StatesID::Game);
+                                requestStackPush(StatesID::TODO);
                             });
     mGUIContainer.pack(joinButton);
 
