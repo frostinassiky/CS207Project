@@ -31,7 +31,6 @@ ConfirmState::ConfirmState(StateStack& stack, Context context)
                                 exit(0);
                                 //requestStackPop();
                             });
-    mGUIContainer.pack(playButton);
     mGUIContainer.pack(exitButton);
     mTexture.loadFromFile("Media/cover.png");
 }
