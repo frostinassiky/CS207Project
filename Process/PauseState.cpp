@@ -17,7 +17,7 @@ PauseState::PauseState(StateStack& stack, Context context)
     //sf::Font& font = context.fonts->get(Fonts::Main);
     sf::Vector2f viewSize = context.window->getView().getSize();
 
-    mFont.loadFromFile("Media/GODOFWAR.TTF");
+    mFont.loadFromFile("../Media/GODOFWAR.TTF");
 
     mPausedText.setFont(mFont);
     mPausedText.setString("Game Paused");

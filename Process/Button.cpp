@@ -7,8 +7,8 @@
 
 GUI::Button::Button() : mFont(), mSprite(),  mText(), mCallback(), mIsToggle(false)
 {
-    mFont.loadFromFile("Media/GODOFWAR.TTF");
-    mTexture.loadFromFile("Media/Button.png");
+    mFont.loadFromFile("../Media/GODOFWAR.TTF");
+    mTexture.loadFromFile("../Media/Button.png");
     mSprite.setTexture(mTexture);
     mSprite.setTextureRect( sf::IntRect( 0, 0, mTexture.getSize().x ,mTexture.getSize().y/3) );
     mText.setFont(mFont);

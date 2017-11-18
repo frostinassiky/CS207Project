@@ -134,6 +134,7 @@ bool Player::isRealtimeAction(Action action)
         case MoveRight:
         case MoveDown:
         case MoveUp:
+        case Fire:
             return true;
         default:
             return false;
