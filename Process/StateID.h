@@ -12,7 +12,8 @@ namespace StatesID
         None,
         Menu,
         Game,
-        Pause
+        Pause,
+        Confirm
     };
 }
 

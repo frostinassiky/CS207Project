@@ -47,6 +47,11 @@ MenuState::MenuState(StateStack& stack, Context context)
     exitButton->setCallback([this] ()
                             {
                                 requestStackPop();
+                                requestStackPush(StatesID::Confirm);
+
+                                //if(stack.isEmpty())
+                                //exit(0);
+                                //requestStackPop();
                             });
     mGUIContainer.pack(exitButton);
     mTexture.loadFromFile("Media/cover.png");

@@ -3,7 +3,7 @@
 //
 
 #include "PauseState.h"
-
+#include "Utility.h"
 #include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <SFML/Graphics/View.hpp>
@@ -17,15 +17,17 @@ PauseState::PauseState(StateStack& stack, Context context)
     //sf::Font& font = context.fonts->get(Fonts::Main);
     sf::Vector2f viewSize = context.window->getView().getSize();
 
-    //mPausedText.setFont(font);
+    mFont.loadFromFile("Media/GODOFWAR.TTF");
+
+    mPausedText.setFont(mFont);
     mPausedText.setString("Game Paused");
     mPausedText.setCharacterSize(70);
-    //centerOrigin(mPausedText);
+    centerOrigin(mPausedText);
     mPausedText.setPosition(0.5f * viewSize.x, 0.4f * viewSize.y);
 
-    //mInstructionText.setFont(font);
+    mInstructionText.setFont(mFont);
     mInstructionText.setString("(Press Backspace to return to the main menu)");
-    //centerOrigin(mInstructionText);
+    centerOrigin(mInstructionText);
     mInstructionText.setPosition(0.5f * viewSize.x, 0.6f * viewSize.y);
 }
 
@@ -61,7 +63,7 @@ bool PauseState::handleEvent(const sf::Event& event)
 
     if (event.key.code == sf::Keyboard::BackSpace)
     {
-        // Escape pressed, remove itself to return to the game
+        // Backspace pressed, clear all states and return to menu
         requestStateClear();
         requestStackPush(StatesID::Menu);
     }

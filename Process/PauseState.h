@@ -21,6 +21,8 @@ private:
     sf::Sprite			mBackgroundSprite;
     sf::Text			mPausedText;
     sf::Text			mInstructionText;
+    sf::Font            mFont;
+
 };
 
 
