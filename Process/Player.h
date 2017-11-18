@@ -19,6 +19,7 @@ public:
         MoveRight,
         MoveUp,
         MoveDown,
+        Fire,
         ActionCount
     };
 

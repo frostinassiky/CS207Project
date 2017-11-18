@@ -11,7 +11,7 @@
 namespace GUI{
     class Container : public Component{
     private:
-        std::vector<Button*> mChildren;
+        std::vector<Component*> mChildren;
         int mSelected;
 
     public:

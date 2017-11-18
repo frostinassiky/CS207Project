@@ -22,6 +22,7 @@ public:
 
 public:
     Tank(Type type);
+    void Fire();
 
     void drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const;
 

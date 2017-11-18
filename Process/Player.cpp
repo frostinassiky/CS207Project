@@ -27,6 +27,8 @@ Player::Player()
     mKeyBinding[sf::Keyboard::Right] = MoveRight;
     mKeyBinding[sf::Keyboard::Up] = MoveUp;
     mKeyBinding[sf::Keyboard::Down] = MoveDown;
+    mKeyBinding[sf::Keyboard::Space] = Fire;
+
 
     // Set initial action bindings
     initializeActions();
@@ -117,6 +119,10 @@ void Player::initializeActions()
     mActionBinding[MoveDown].action  = [=] (SceneNode& node, sf::Time dt)
     {
         TankMover(0.f, +playerSpeed).assign(static_cast<Tank&>(node),dt);
+    };
+    mActionBinding[Fire].action  = [=] (SceneNode& node, sf::Time dt)
+    {
+        static_cast<Tank&>(node).Fire();
     };
 }
 
