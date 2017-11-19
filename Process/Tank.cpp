@@ -14,7 +14,9 @@ void Tank::drawCurrent( sf::RenderTarget& target, sf::RenderStates states) const
 
 Tank::Tank(Type type) : mType(type) {
     // load Tank pictures
-    mTexture.loadFromFile("../Media/tanks.png");
+    mTexture.loadFromFile("../Media/tanks_c.png");
+    int wid = mTexture.getSize().x;
+    int hig = mTexture.getSize().y;
     // Tank init
     mSprite.setTexture(mTexture);
     mSprite.setPosition(0, 0);
@@ -24,13 +26,13 @@ Tank::Tank(Type type) : mType(type) {
     // set cloth by type
     switch (type) {
         case PlayerUp:
-            mSprite.setTextureRect(sf::IntRect(0,0,512/3, 605/3));
+            mSprite.setTextureRect(sf::IntRect(0,0,wid/3, hig/3));
             break;
         case PlayerWS:
-            mSprite.setTextureRect(sf::IntRect(512/3,605/3,512/3, 605/3));
+            mSprite.setTextureRect(sf::IntRect(wid/3,hig/3,wid/3, hig/3));
             break;
         case PlayerNet:
-            mSprite.setTextureRect(sf::IntRect(0,2*605/3,512/3, 605/3));
+            mSprite.setTextureRect(sf::IntRect(0,2*hig/3,wid/3, hig/3));
             break;
     }
     // reset origin
