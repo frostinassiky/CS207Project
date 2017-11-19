@@ -50,20 +50,21 @@ Tank::Tank(Type type) : mType(type) {
 void Tank::Fire(Tank::Type type) {
     if (mType!=type)
         return;
-    float xOffset_rec = -0.1;
-    createProjectile(*this, mType, xOffset_rec, 0);
+    createProjectile(*this, mType);
     // std::cout << "Fire!" << std::endl;
 }
 
-void Tank::createProjectile(SceneNode &node, Tank::Type type, float xOffset, float yOffset) const {
+void Tank::createProjectile(SceneNode &node, Tank::Type type) const {
     SceneNode* projectile =new Projectile(type);
-    sf::Vector2f offset(xOffset * mSprite.getGlobalBounds().width/2, yOffset * mSprite.getGlobalBounds().height/2);
     sf::Vector2f pos = this->getWorldPosition();
+    sf::Vector2f vol = this->getVelocity();
     float v = 400;
     float dir = this->getRotation();
     std::cout << dir << std::endl;
     projectile->setPosition(pos);//getWorldPosition() );//offset );
-    dynamic_cast<Projectile*>(projectile)->setVelocity(v*sin(PI-dir*PI/180.f),v*cos(PI-dir*PI/180.f));
+    vol.x += v*sin(PI-dir*PI/180.f);
+    vol.y += v*cos(PI-dir*PI/180.f);
+    dynamic_cast<Projectile*>(projectile)->setVelocity(vol);
     dynamic_cast<Projectile*>(projectile)->setRotation(dir);
     node.getParent()->attach(projectile);
 //    node.attach(projectile);

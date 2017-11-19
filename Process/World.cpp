@@ -45,7 +45,8 @@ World::World(sf::RenderWindow &window):
     // Tank - Player 1 - control by Up-Down
     Tank* Tank1 = new Tank(Tank::PlayerUp);
     mPlayerTank = Tank1;
-    mPlayerTank->setPosition(mSpawnPosition);
+    mPlayerTank->setPosition(mSpawnPosition-sf::Vector2f(200,-100));
+    mPlayerTank->setDirection(1.f);
     mPlayerTank->setVelocity(0.f, -40.f);
     mPlayerTank->mCategory = CTank;
     mSceneLayers[Air]->attach(Tank1);
@@ -53,7 +54,8 @@ World::World(sf::RenderWindow &window):
     // Tank - Player 2 - control by W-S
     Tank* Tank2 = new Tank(Tank::PlayerWS);
     mPlayerTank = Tank2;
-    mPlayerTank->setPosition(mSpawnPosition+sf::Vector2f(0,-100));
+    mPlayerTank->setPosition(mSpawnPosition+sf::Vector2f(200,-100));
+    mPlayerTank->setDirection(1.f);
     mPlayerTank->setRotation(180.0f);
     mPlayerTank->setVelocity(0.f, 40.f);
     mPlayerTank->mCategory = CTank;

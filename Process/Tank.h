@@ -27,7 +27,7 @@ public:
     virtual void updateCurrent(sf::Time dt);
     float getMaxV() { return 300.f; };
     void Fire(Type type);
-    void createProjectile(SceneNode& node, Tank::Type type, float xOffset, float yOffset) const;
+    void createProjectile(SceneNode& node, Tank::Type type) const;
     virtual void drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const;
 
 };

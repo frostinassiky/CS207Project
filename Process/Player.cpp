@@ -19,10 +19,13 @@ struct TankMover
         float vx = _tank.getVelocity().x;
         float vy = _tank.getVelocity().y;
         float c = _tank.getMaxV();
-        float V = sqrtf(vx*vx+vy*vy);
-        // Relative Theory
-        V = (V - mV) / (1-V*mV/c/c);
-
+        float V = sqrtf(vx*vx+vy*vy)*_tank.getDirection();
+        if ( V>0 )
+            // Relative Theory
+            V = (V - mV) / (1-V*mV/c/c);
+        else
+            V = (V - mV) / (1-V*mV/c/c*4);
+        _tank.setDirection(V>0? 1.f:-1.f);
         float theta = _tank.getRotation()+mRot;
         _tank.setRotation(theta);
         // two negative symbols because of the figure....
