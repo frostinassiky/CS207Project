@@ -4,30 +4,50 @@
 
 #include "Player.h"
 #include "Tank.h"
+#include <cmath>
+#define PI 3.14159265
 
 struct TankMover
 {
-    TankMover(float vx, float vy)
-            : velocity(vx, vy)
-    {}
+    // rot is the rotation angle in degree
+    TankMover(float rot, float v, Tank::Type type) : mRot(rot), mV(v),mTypeChecker(type) {};
 
     void assign(Tank& _tank, sf::Time) const
     {
-        _tank.setVelocity(velocity);
+        if (_tank.mType != mTypeChecker )
+            return;
+        float vx = _tank.getVelocity().x;
+        float vy = _tank.getVelocity().y;
+        float c = _tank.getMaxV();
+        float V = sqrtf(vx*vx+vy*vy);
+        // Relative Theory
+        V = (V - mV) / (1-V*mV/c/c);
+
+        float theta = _tank.getRotation()+mRot;
+        _tank.setRotation(theta);
+        // two negative symbols because of the figure....
+        _tank.setVelocity(-V*sin(-theta*PI/180.f),-V*cos(-theta*PI/180.f));
+
     }
 
-    sf::Vector2f velocity;
+    float mRot, mV;
+    Tank::Type mTypeChecker;
 };
 
 
 Player::Player()
 {
     // Set initial key bindings
-    mKeyBinding[sf::Keyboard::Left] = MoveLeft;
-    mKeyBinding[sf::Keyboard::Right] = MoveRight;
-    mKeyBinding[sf::Keyboard::Up] = MoveUp;
-    mKeyBinding[sf::Keyboard::Down] = MoveDown;
-    mKeyBinding[sf::Keyboard::Space] = Fire;
+    mKeyBinding[sf::Keyboard::Left] = MoveLeft1;
+    mKeyBinding[sf::Keyboard::Right] = MoveRight1;
+    mKeyBinding[sf::Keyboard::Up] = MoveUp1;
+    mKeyBinding[sf::Keyboard::Down] = MoveDown1;
+    mKeyBinding[sf::Keyboard::Return] = Fire1;
+    mKeyBinding[sf::Keyboard::A] = MoveLeft2;
+    mKeyBinding[sf::Keyboard::D] = MoveRight2;
+    mKeyBinding[sf::Keyboard::W] = MoveUp2;
+    mKeyBinding[sf::Keyboard::S] = MoveDown2;
+    mKeyBinding[sf::Keyboard::Space] = Fire2;
 
 
     // Set initial action bindings
@@ -100,41 +120,70 @@ sf::Keyboard::Key Player::getAssignedKey(Action action) const
 
 void Player::initializeActions()
 {
-    const float playerSpeed = 200.f;
+    const float playerSpeed = 50.f;
+    const float playerAngle = 5.f;
 
     // Safely converts pointers and references to classes up, adown, and sideways along the inheritance hierarchy.
     // in book P104
-    mActionBinding[MoveLeft].action	 = [=] (SceneNode& node, sf::Time dt)
+    mActionBinding[MoveLeft1].action	 = [=] (SceneNode& node, sf::Time dt)
     {
-        TankMover(-playerSpeed, 0.f).assign(static_cast<Tank&>(node),dt);
+        TankMover(-playerAngle, 0.f, Tank::Type::PlayerUp).assign(static_cast<Tank&>(node),dt);
     };
-    mActionBinding[MoveRight].action = [=] (SceneNode& node, sf::Time dt)
+    mActionBinding[MoveRight1].action = [=] (SceneNode& node, sf::Time dt)
     {
-        TankMover(+playerSpeed, 0.f).assign(static_cast<Tank&>(node),dt);
+        TankMover(+playerAngle, 0.f, Tank::Type::PlayerUp).assign(static_cast<Tank&>(node),dt);
     };
-    mActionBinding[MoveUp].action    = [=] (SceneNode& node, sf::Time dt)
+    mActionBinding[MoveUp1].action    = [=] (SceneNode& node, sf::Time dt)
     {
-        TankMover(0.f, -playerSpeed).assign(static_cast<Tank&>(node),dt);
+        TankMover(0.f, -playerSpeed, Tank::Type::PlayerUp).assign(static_cast<Tank&>(node),dt);
     };
-    mActionBinding[MoveDown].action  = [=] (SceneNode& node, sf::Time dt)
+    mActionBinding[MoveDown1].action  = [=] (SceneNode& node, sf::Time dt)
     {
-        TankMover(0.f, +playerSpeed).assign(static_cast<Tank&>(node),dt);
+        TankMover(0.f, +playerSpeed, Tank::Type::PlayerUp).assign(static_cast<Tank&>(node),dt);
     };
-    mActionBinding[Fire].action  = [=] (SceneNode& node, sf::Time dt)
+    mActionBinding[Fire1].action  = [=] (SceneNode& node, sf::Time dt)
     {
-        static_cast<Tank&>(node).Fire();
+        static_cast<Tank&>(node).Fire(Tank::Type::PlayerUp);
     };
+    // Safely converts pointers and references to classes up, adown, and sideways along the inheritance hierarchy.
+    // in book P104
+    mActionBinding[MoveLeft2].action	 = [=] (SceneNode& node, sf::Time dt)
+    {
+        TankMover(-playerAngle, 0.f, Tank::Type::PlayerWS).assign(static_cast<Tank&>(node),dt);
+    };
+    mActionBinding[MoveRight2].action = [=] (SceneNode& node, sf::Time dt)
+    {
+        TankMover(+playerAngle, 0.f, Tank::Type::PlayerWS).assign(static_cast<Tank&>(node),dt);
+    };
+    mActionBinding[MoveUp2].action    = [=] (SceneNode& node, sf::Time dt)
+    {
+        TankMover(0.f, -playerSpeed, Tank::Type::PlayerWS).assign(static_cast<Tank&>(node),dt);
+    };
+    mActionBinding[MoveDown2].action  = [=] (SceneNode& node, sf::Time dt)
+    {
+        TankMover(0.f, +playerSpeed, Tank::Type::PlayerWS).assign(static_cast<Tank&>(node),dt);
+    };
+    mActionBinding[Fire2].action  = [=] (SceneNode& node, sf::Time dt)
+    {
+        static_cast<Tank&>(node).Fire(Tank::Type::PlayerWS);
+    };
+
 }
 
 bool Player::isRealtimeAction(Action action)
 {
     switch (action)
     {
-        case MoveLeft:
-        case MoveRight:
-        case MoveDown:
-        case MoveUp:
-        case Fire:
+        case MoveLeft1:
+        case MoveRight1:
+        case MoveDown1:
+        case MoveUp1:
+        case Fire1:
+        case MoveLeft2:
+        case MoveRight2:
+        case MoveDown2:
+        case MoveUp2:
+        case Fire2:
             return true;
         default:
             return false;

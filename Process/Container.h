@@ -16,7 +16,7 @@ namespace GUI{
 
     public:
         Container() : mChildren(), mSelected(-1) {;};
-        void pack(Button* component); // may have bug
+        void pack(Component* component); // may have bug
         bool isSelectable() override {return false;};
 
         void handleEvent(const sf::Event& event) override;

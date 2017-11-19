@@ -64,7 +64,7 @@ void GUI::Container::draw(sf::RenderTarget &target, sf::RenderStates states) con
         target.draw(*child, states);
 }
 
-void GUI::Container::pack(GUI::Button *component) {
+void GUI::Container::pack(GUI::Component *component) {
     mChildren.push_back(component);
     if (!hasSelection() && component->isSelectable())
         select(mChildren.size() - 1);

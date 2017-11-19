@@ -7,13 +7,14 @@
 
 #include <SFML/Graphics.hpp>
 #include "Entity.h"
-#include "Projectile.h"
 
 class Tank : public Entity {
 public:
     enum Type {
-        Ally,
-        Enemy,
+        PlayerWS,
+        PlayerUp,
+        PlayerNet,
+        Count
     };
 
 public:
@@ -23,8 +24,10 @@ public:
 
 public:
     Tank(Type type);
-    void Fire();
-    void createProjectile(SceneNode& node, Projectile::Type type, float xOffset, float yOffset) const;
+    virtual void updateCurrent(sf::Time dt);
+    float getMaxV() { return 300.f; };
+    void Fire(Type type);
+    void createProjectile(SceneNode& node, Tank::Type type, float xOffset, float yOffset) const;
     virtual void drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const;
 
 };

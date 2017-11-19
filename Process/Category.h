@@ -7,7 +7,11 @@
 enum Category{
     Cdefault,
     CBackGround,
+    CBackgroundLayer,
+    CAirLayer,
     CTank,
-    Cother
+    CBullet,
+    Cother,
+    Croot
 };
 #endif //TANKCRAFT_CATEGORY_H

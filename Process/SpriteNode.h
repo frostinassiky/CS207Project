@@ -11,7 +11,7 @@
 class SpriteNode : public SceneNode{
 public:
     SpriteNode(const sf::Texture& texture):  mSprite(texture){mCategory=CBackGround; };
-    SpriteNode(const sf::Texture& texture, const sf::IntRect& rect) : mSprite(texture,rect) {};
+    SpriteNode(const sf::Texture& texture, const sf::IntRect& rect) : mSprite(texture,rect) {mCategory=CBackGround;};
 
 private:
     virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;

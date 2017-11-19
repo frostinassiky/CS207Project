@@ -7,6 +7,7 @@
 SceneNode::SceneNode()
 {
     mParent = nullptr;
+    mCategory = Croot;
     // mChildren = NULL;
 }
 
@@ -57,13 +58,25 @@ sf::Transform SceneNode::getWorldTransform() const {
 
 void SceneNode::onCommand(const Command &command, sf::Time dt) {
     // std::cout << "@@ > command.category, this->Category " << command.category << ", "<< this->mCategory << std::endl;
+    try {
+        command.mCategory;
+        this->mCategory;
+    } catch (const std::exception& e) {
+        std::cout<< "Error" << std::endl;
+        return;
+    }
+
     if (command.mCategory == this->mCategory){
         // std::cout << "this->Category" << this->mCategory << std::endl;
         command.action(*this, dt);
     }
-    for (auto iter = mChildren.cbegin(); iter!=mChildren.cend(); iter ++){
-        // std::cout << mChildren.end()-mChildren.begin() << std::endl;
-        (*iter)->onCommand(command,dt);
+    for ( int t = 0; t < mChildren.size(); t++){
+        auto child = mChildren[t];
+        child->onCommand(command, dt);
     }
+//    for (auto iter = mChildren.cbegin(); iter!=mChildren.cend(); iter ++){
+//        // std::cout << mChildren.end()-mChildren.begin() << std::endl;
+//        (*iter)->onCommand(command,dt);
+//    }
 
 }

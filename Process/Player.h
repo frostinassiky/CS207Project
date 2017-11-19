@@ -15,11 +15,18 @@ class Player {
 public:
     enum Action
     {
-        MoveLeft,
-        MoveRight,
-        MoveUp,
-        MoveDown,
-        Fire,
+        MoveLeft1,
+        MoveRight1,
+        MoveUp1,
+        MoveDown1,
+        Fire1,
+
+        MoveLeft2,
+        MoveRight2,
+        MoveUp2,
+        MoveDown2,
+        Fire2,
+
         ActionCount
     };
 

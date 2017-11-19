@@ -7,18 +7,12 @@
 
 #include <iostream>
 #include "Entity.h"
+#include "Tank.h"
 
 class Projectile : public Entity {
-public:
-    enum Type
-    {
-        P1Bullet,
-        P2Bullet,
-        P3Bullet,
-        TypeCount
-    };
+
 private:
-    Type mType;
+    Tank::Type mType;
     sf::Sprite mSprite;
     sf::Vector2f mTargetDir;
     sf::Texture mTexture;
@@ -32,15 +26,8 @@ private:
     virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
 
 public:
-    Projectile(Type type);
+    Projectile(Tank::Type type);
     float getMaxSpeed() const { return 200.f; };
-/*
-    void guideTowards(sf::Vector2f position);
-    virtual unsigned int getCategory() const;
-    virtual sf::FloatRect getBoundingRect() const;
-
-    int getDamage() const;
-    */
 };
 
 

@@ -27,6 +27,9 @@ World::World(sf::RenderWindow &window):
         // attach to root: mSceneGraph
         mSceneGraph.attach(layer); // In book: std::move(layer) might have bug
     }
+    // set mCategary
+    mSceneLayers[Background]->mCategory = CBackgroundLayer;
+    mSceneLayers[Air]->mCategory = CAirLayer;
 
     // Load and Build background node
     sf::Texture* ptexture = new sf::Texture;
@@ -39,21 +42,30 @@ World::World(sf::RenderWindow &window):
     // Add to layer
     mSceneLayers[Background]->attach(bgSprite);
 
-    // Tank - Ally
-    Tank* leader = new Tank(Tank::Ally);
-    mPlayerTank = leader;
+    // Tank - Player 1 - control by Up-Down
+    Tank* Tank1 = new Tank(Tank::PlayerUp);
+    mPlayerTank = Tank1;
     mPlayerTank->setPosition(mSpawnPosition);
     mPlayerTank->setVelocity(0.f, -40.f);
     mPlayerTank->mCategory = CTank;
-    mSceneLayers[Air]->attach(leader);
+    mSceneLayers[Air]->attach(Tank1);
 
-    // Tank Bullet
+    // Tank - Player 2 - control by W-S
+    Tank* Tank2 = new Tank(Tank::PlayerWS);
+    mPlayerTank = Tank2;
+    mPlayerTank->setPosition(mSpawnPosition+sf::Vector2f(0,-100));
+    mPlayerTank->setRotation(180.0f);
+    mPlayerTank->setVelocity(0.f, 40.f);
+    mPlayerTank->mCategory = CTank;
+    mSceneLayers[Air]->attach(Tank2);
+
+    /*/ Tank Bullet
     Tank* Bullet = new Tank(Tank::Enemy);
     Bullet->setPosition(0, 0);
     Bullet->setVelocity(0, -80.f);
     Bullet->setRotation(0);
     mPlayerTank->attach(Bullet);
-
+    */
 
     mWorldView.setCenter(mSpawnPosition);
 }
@@ -78,10 +90,8 @@ void World::update(sf::Time dt) {
     // Forward commands to the scene graph
     while (!mCommandQ.isEmpty()){
         mSceneGraph.onCommand(mCommandQ.pop(), dt);
-        std::cout << "mSceneGraph.onCommand(mCommandQ.pop(), dt);.." << std::endl;
+        // std::cout << "mSceneGraph.onCommand(mCommandQ.pop(), dt);.." << std::endl;
     }
-
-
     mSceneGraph.update(dt);
 }
 
