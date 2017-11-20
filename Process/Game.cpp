@@ -12,6 +12,7 @@
 
 Game::Game():
         mWindow(sf::VideoMode(2560, 1600), "Tank Craft Application"),
+        // mWindow(sf::VideoMode(1280, 800), "Tank Craft Application"),
         mPlayer(),
         mStateStack(State::Context(mWindow, mTexture, mFont, mPlayer))
 

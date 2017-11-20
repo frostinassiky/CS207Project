@@ -13,6 +13,7 @@ Projectile::Projectile(Tank::Type type) : mType(type)
     mSprite.setTexture(mTexture);
     mSprite.setOrigin(mSprite.getLocalBounds().width/2,mSprite.getLocalBounds().height/2);
     mSprite.setPosition(0,0);
+    mSprite.setScale(2,2);
 
 }
 

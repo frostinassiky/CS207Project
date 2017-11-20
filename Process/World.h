@@ -21,8 +21,8 @@ public:
     CommandQ& getCommandQ();
 
 private:
-    void loadTextures(){};
-    void buildScene(){};
+    void addEntities();
+    void updateView(sf::Time);
 
 private:
     enum Layer
@@ -39,9 +39,11 @@ private:
     SceneNode* mSceneLayers[LayerCount];  // book uses class array
     CommandQ mCommandQ;
     sf::FloatRect mWorldBounds;
-    sf::Vector2f mSpawnPosition;
+    sf::Vector2f mOrigin;
     float mScrollSpeed;
-    Tank* mPlayerTank;
+    Tank* mPlayerTank1;
+    Tank* mPlayerTank2;
+
 
 
 };

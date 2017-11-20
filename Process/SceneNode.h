@@ -49,7 +49,7 @@ public:
         return getWorldTransform() * sf::Vector2f();
     }
     void onCommand(const Command& command, sf::Time dt);
-    SceneNode*& getParent() {return mParent;};
+    SceneNode*& getParent() {return mParent;}
     Category mCategory;
 
 };
