@@ -1,8 +1,16 @@
 # Explain
 This is the first version of code
 
-## Path
-The media file is under cmake-build-debug folder
+# TODO
 
-## Map
-Resolution 590*983
+1 Frost: View point
+
+2 Frost: Context - tree, cloud 
+
+3 Yang: Collision detection
+
+4 Yang: Winner / Loser
+
+5 Both: Report - classes relation
+
+# FINAL CHECK 27
