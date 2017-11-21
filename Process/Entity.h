@@ -12,7 +12,6 @@ class Entity : public SceneNode{
 private:
     sf::Vector2f mVelocity;
     float mDirection;
-
 public:
     void setVelocity(sf::Vector2f velocity);
     void setVelocity(float vx, float vy);

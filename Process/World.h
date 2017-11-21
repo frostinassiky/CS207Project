@@ -14,21 +14,13 @@
 #include "Tank.h"
 
 class World: private sf::NonCopyable {
-public:
-    World(sf::RenderWindow& window);
-    void update(sf::Time dt);
-    void draw();
-    CommandQ& getCommandQ();
-
-private:
-    void addEntities();
-    void updateView(sf::Time);
 
 private:
     enum Layer
     {
         Background,
         Air,
+        Sky,
         LayerCount
     };
 
@@ -44,6 +36,15 @@ private:
     Tank* mPlayerTank1;
     Tank* mPlayerTank2;
 
+public:
+    World(sf::RenderWindow& window);
+    void update(sf::Time dt);
+    void draw();
+    CommandQ& getCommandQ();
+
+private:
+    void addEntities();
+    void updateView(sf::Time);
 
 
 };

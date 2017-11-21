@@ -5,6 +5,8 @@
 #include <iostream>
 #include "World.h"
 #include "SpriteNode.h"
+#include "Cloud.h"
+#include "Obstacle.h"
 
 World::World(sf::RenderWindow &window):
         mWindow(window),
@@ -29,7 +31,7 @@ World::World(sf::RenderWindow &window):
     // set mCategary
     mSceneLayers[Background]->mCategory = CBackgroundLayer;
     mSceneLayers[Air]->mCategory = CAirLayer;
-
+    mSceneLayers[Sky]->mCategory = CSky;
 
     addEntities();
 
@@ -116,6 +118,7 @@ void World::updateView(sf::Time dt) {
 
 void World::addEntities() {
 
+    srand (static_cast<unsigned int>(time(0)));
     // Load and Build background node
     sf::Texture* ptexture = new sf::Texture;
     ptexture->loadFromFile("../Media/Sand.jpg");
@@ -126,6 +129,19 @@ void World::addEntities() {
     bgSprite->setPosition(mWorldBounds.left,mWorldBounds.top);
     // Add to layer
     mSceneLayers[Background]->attach(bgSprite);
+
+    // Stone
+    sf::Vector2f bound(mWorldBounds.width,mWorldBounds.height);
+    for (int k=0; k<200; k++){
+        if ( rand() % 10 > 3 )
+            continue;
+        std::string path =  "../Media/Obstacles/Obstacle_";
+        path += std::to_string( k%10 );
+        path += ".png";
+        // "../Media/Obstacles/Obstacle1.png"
+        mSceneLayers[Air]->attach(new Obstacle( path, bound ));
+    }
+
 
 
     // Tank - Player 1 - control by Up-Down
@@ -147,4 +163,28 @@ void World::addEntities() {
     // Add to layer
     mSceneLayers[Air]->attach(mPlayerTank2);
 
+    // Sky
+    mSceneLayers[Sky]->attach(new Cloud( "../Media/Cloud1.png", bound, 96 ));
+
+    mSceneLayers[Sky]->attach(new Cloud( "../Media/Cloud2.png", bound, 64 ));
+
+    mSceneLayers[Sky]->attach(new Cloud( "../Media/Cloud3.png", bound, 64 ));
+
+    mSceneLayers[Sky]->attach(new Cloud( "../Media/Cloud2.png", bound, 96 ));
+
+    mSceneLayers[Sky]->attach(new Cloud( "../Media/Cloud3.png", bound, 128 ));
+
+    mSceneLayers[Sky]->attach(new Cloud( "../Media/Cloud3.png", bound, 128));
+
+
+    /*
+    ptexture = new sf::Texture;
+    ptexture->loadFromFile("../Media/Cloud3.png");
+    // Add to layer
+    mSceneLayers[Sky]->attach(new Cloud( bound,*ptexture ));
+    ptexture = new sf::Texture;
+    ptexture->loadFromFile("../Media/Cloud3.png");
+    // Add to layer
+    mSceneLayers[Sky]->attach(new Cloud( bound,*ptexture ));
+*/
 }

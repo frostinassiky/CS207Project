@@ -11,6 +11,9 @@ enum Category{
     CAirLayer,
     CTank,
     CBullet,
+    CSky,
+    CCloud,
+    CObstacle,
     Cother,
     Croot
 };
