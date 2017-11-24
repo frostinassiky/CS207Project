@@ -62,6 +62,7 @@ void World::update(sf::Time dt) {
         // std::cout << "mSceneGraph.onCommand(mCommandQ.pop(), dt);.." << std::endl;
     }
     updateView(dt);
+    handleCollisions();
     mSceneGraph.update(dt);
 }
 
@@ -188,4 +189,14 @@ void World::addEntities() {
     // Add to layer
     mSceneLayers[Sky]->attach(new Cloud( bound,*ptexture ));
 */
+}
+
+void World::handleCollisions()
+{
+    if ((mPlayerTank->getBoundingRect().intersects(mPlayerTank->getBoundingRect()))) {
+        std::cout << "intersect self" << std::endl;
+        mPlayerTank->setVelocity(10.0, 10.0);
+        mPlayerTank->setScale(2,2);
+    }
+
 }
