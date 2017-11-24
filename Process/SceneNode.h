@@ -51,6 +51,7 @@ public:
     void onCommand(const Command& command, sf::Time dt);
     SceneNode*& getParent() {return mParent;}
     Category mCategory;
+    virtual sf::FloatRect getBoundingRect() const;
 
 };
 
