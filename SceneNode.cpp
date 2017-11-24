@@ -25,6 +25,7 @@ SceneNode* SceneNode::detach(SceneNode* child)
     for (auto iter=this->mChildren.cbegin(); iter!=this->mChildren.cend(); iter++){
         if ( (*iter)==child ){
             this->mChildren.erase(iter);
+            break;
         }
     }
     return child;

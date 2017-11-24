@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <stack>
 #include "World.h"
 #include "SpriteNode.h"
 #include "Cloud.h"
@@ -46,19 +47,21 @@ World::World(sf::RenderWindow &window):
 void World::draw() {
     mWindow.setView(mWorldView);
     mWindow.draw(mSceneGraph);
-    for (auto ob2:mObstacles)
-    {
-        sf::FloatRect rect = ob2->getBoundingRect();
 
-        sf::RectangleShape shape;
-        shape.setPosition(sf::Vector2f(rect.left, rect.top));
-        shape.setSize(sf::Vector2f(rect.width, rect.height));
-        shape.setFillColor(sf::Color::Transparent);
-        shape.setOutlineColor(sf::Color::Green);
-        shape.setOutlineThickness(1.f);
-
-        mWindow.draw(shape);
-    }
+    //test
+    //for (auto ob2:mObstacles)
+    //{
+    //    sf::FloatRect rect = ob2->getBoundingRect();
+//
+    //    sf::RectangleShape shape;
+    //    shape.setPosition(sf::Vector2f(rect.left, rect.top));
+    //    shape.setSize(sf::Vector2f(rect.width, rect.height));
+    //    shape.setFillColor(sf::Color::Transparent);
+    //    shape.setOutlineColor(sf::Color::Green);
+    //    shape.setOutlineThickness(1.f);
+//
+    //    mWindow.draw(shape);
+    //}
 }
 
 void World::update(sf::Time dt) {
@@ -159,7 +162,7 @@ void World::addEntities() {
         path += ".png";
         // "../Media/Obstacles/Obstacle1.png"
         auto obstacle = new Obstacle( path, bound );
-        mObstacles.push_back(obstacle->getBoundingRect());
+        mObstacles.push_back(obstacle);
         mSceneLayers[Air]->attach(obstacle);
     }
 #else
@@ -177,7 +180,7 @@ void World::addEntities() {
         for (int l = 0; l < 20; l++) {
             ss >> bit;
             if (bit[0] == '1') {
-                auto obstacle = new Obstacle(path, bound, k - 2, l - 2);
+                auto obstacle = new Obstacle(path, bound, k - 5, l - 5);
                 mObstacles.push_back(obstacle);
                 mSceneLayers[Air]->attach(obstacle);
             }
@@ -239,30 +242,68 @@ void World::handleCollisions() {
         mPlayerTank1->setScale(2, 2);
         mPlayerTank2->setScale(2, 2);
     }
-    for (int i = 0; i < mPlayerTank1->tankBullets_.size(); i++) {
-        if ((dynamic_cast<Projectile *> (mPlayerTank1->tankBullets_[i])->getBoundingRect().intersects(
+    for (auto bullet : mPlayerTank1->tankBullets_) {
+        if ((dynamic_cast<Projectile *> (bullet)->getBoundingRect().intersects(
                 mPlayerTank2->getBoundingRect()))) {
             mPlayerTank2->setVelocity(100.0, 10.0);
         }
     }
-    for (int i = 0; i < mPlayerTank2->tankBullets_.size(); i++) {
-        if ((dynamic_cast<Projectile *> (mPlayerTank2->tankBullets_[i])->getBoundingRect().intersects(
+    for (auto bullet : mPlayerTank2->tankBullets_) {
+        if ((dynamic_cast<Projectile *> (bullet)->getBoundingRect().intersects(
                 mPlayerTank1->getBoundingRect()))) {
             mPlayerTank1->setVelocity(100.0, 10.0);
         }
 
     }
-    for (auto ob:mObstacles){
+    for (auto ob:mObstacles) {
         if ((dynamic_cast<Obstacle *> (ob)->getBoundingRect().intersects(
                 mPlayerTank2->getBoundingRect()))) {
             mPlayerTank2->setScale(2.0, 2.0);
         }
     }
 
-    for (auto ob:mObstacles){
+    for (auto ob:mObstacles) {
         if ((dynamic_cast<Obstacle *> (ob)->getBoundingRect().intersects(
                 mPlayerTank1->getBoundingRect()))) {
             mPlayerTank1->setScale(2.0, 2.0);
         }
+    }
+
+    std::stack<SceneNode*> bulletStack;
+    for (auto bullet : mPlayerTank1->tankBullets_) {
+        for (auto ob:mObstacles) {
+            if ((dynamic_cast<Projectile *> (bullet)->getBoundingRect().intersects(
+                    (dynamic_cast<Obstacle *> (ob)->getBoundingRect()))))
+                bulletStack.push(bullet);
+
+        }
+    }
+
+    while(!bulletStack.empty())
+    {
+        mSceneLayers[Air]->detach(bulletStack.top());
+        mPlayerTank1->tankBullets_.remove(bulletStack.top());
+        //delete bulletStack.top();
+        bulletStack.pop();
+    }
+
+
+
+    std::stack<SceneNode*> bulletStack2;
+    for (auto bullet : mPlayerTank2->tankBullets_) {
+        for (auto ob:mObstacles) {
+            if ((dynamic_cast<Projectile *> (bullet)->getBoundingRect().intersects(
+                    (dynamic_cast<Obstacle *> (ob)->getBoundingRect()))))
+                bulletStack2.push(bullet);
+
+        }
+    }
+
+    while(!bulletStack2.empty())
+    {
+        mSceneLayers[Air]->detach(bulletStack2.top());
+        mPlayerTank2->tankBullets_.remove(bulletStack2.top());
+        delete bulletStack2.top();
+        bulletStack2.pop();
     }
 }
