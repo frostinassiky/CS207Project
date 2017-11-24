@@ -39,6 +39,9 @@ void SceneNode::draw(sf::RenderTarget& target, sf::RenderStates states) const
     // draw children
     for (auto itr = mChildren.begin(); itr != mChildren.end(); ++itr)
         (*itr)->draw(target, states);
+	
+    drawBoundingRect(target, states);
+
 }
 
 void SceneNode::update(sf::Time dt) {
