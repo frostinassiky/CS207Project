@@ -193,10 +193,11 @@ void World::addEntities() {
 
 void World::handleCollisions()
 {
-    if ((mPlayerTank->getBoundingRect().intersects(mPlayerTank->getBoundingRect()))) {
+    if ((mPlayerTank1->getBoundingRect().intersects(mPlayerTank2->getBoundingRect()))) {
         std::cout << "intersect self" << std::endl;
-        mPlayerTank->setVelocity(10.0, 10.0);
-        mPlayerTank->setScale(2,2);
+        // mPlayerTank1->setVelocity(10.0, 10.0);
+        mPlayerTank1->setScale(2,2);
+        mPlayerTank2->setScale(2,2);
     }
 
 }
