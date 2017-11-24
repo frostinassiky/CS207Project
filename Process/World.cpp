@@ -192,16 +192,24 @@ void World::addEntities() {
 */
 }
 
-void World::handleCollisions()
-{
+void World::handleCollisions() {
     if ((mPlayerTank1->getBoundingRect().intersects(mPlayerTank2->getBoundingRect()))) {
         std::cout << "intersect self" << std::endl;
         // mPlayerTank1->setVelocity(10.0, 10.0);
-        mPlayerTank1->setScale(2,2);
-        mPlayerTank2->setScale(2,2);
+        mPlayerTank1->setScale(2, 2);
+        mPlayerTank2->setScale(2, 2);
     }
-    if ((dynamic_cast<Projectile*> (mPlayerTank1->tankBullets_[0])->getBoundingRect().intersects(mPlayerTank2->getBoundingRect())))
-    {
-        mPlayerTank1->setScale(2,2);
+    for (int i = 0; i < mPlayerTank1->tankBullets_.size(); i++) {
+        if ((dynamic_cast<Projectile *> (mPlayerTank1->tankBullets_[i])->getBoundingRect().intersects(
+                mPlayerTank2->getBoundingRect()))) {
+            mPlayerTank2->setVelocity(100.0, 10.0);
+        }
+    }
+    for (int i = 0; i < mPlayerTank2->tankBullets_.size(); i++) {
+        if ((dynamic_cast<Projectile *> (mPlayerTank2->tankBullets_[i])->getBoundingRect().intersects(
+                mPlayerTank1->getBoundingRect()))) {
+            mPlayerTank1->setVelocity(100.0, 10.0);
+        }
+
     }
 }
