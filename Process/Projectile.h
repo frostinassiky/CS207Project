@@ -8,7 +8,6 @@
 #include <iostream>
 #include "Entity.h"
 #include "Tank.h"
-
 class Projectile : public Entity {
 
 private:

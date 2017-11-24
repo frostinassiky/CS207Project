@@ -7,6 +7,7 @@
 #include "SpriteNode.h"
 #include "Cloud.h"
 #include "Obstacle.h"
+#include "Projectile.h"
 
 World::World(sf::RenderWindow &window):
         mWindow(window),
@@ -199,5 +200,8 @@ void World::handleCollisions()
         mPlayerTank1->setScale(2,2);
         mPlayerTank2->setScale(2,2);
     }
-
+    if ((dynamic_cast<Projectile*> (mPlayerTank1->tankBullets_[0])->getBoundingRect().intersects(mPlayerTank2->getBoundingRect())))
+    {
+        mPlayerTank1->setScale(2,2);
+    }
 }

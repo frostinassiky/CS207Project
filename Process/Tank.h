@@ -7,7 +7,9 @@
 
 #include <SFML/Graphics.hpp>
 #include "Entity.h"
-
+//#include "Projectile.h"
+#include <vector>
+//extern class Projectile;
 class Tank : public Entity {
 public:
     enum Type {
@@ -27,11 +29,10 @@ public:
     virtual void updateCurrent(sf::Time dt);
     float getMaxV() { return 300.f; };
     void Fire(Type type);
-    void createProjectile(SceneNode& node, Tank::Type type) const;
+    void createProjectile(SceneNode& node, Tank::Type type);
     virtual void drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const;
     virtual sf::FloatRect getBoundingRect() const;
-
+    std::vector<SceneNode*> tankBullets_;
 };
-
-
+//class Projectile;
 #endif //TANKCRAFT_TANK_H

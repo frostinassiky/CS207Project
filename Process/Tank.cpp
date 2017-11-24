@@ -54,8 +54,9 @@ void Tank::Fire(Tank::Type type) {
     // std::cout << "Fire!" << std::endl;
 }
 
-void Tank::createProjectile(SceneNode &node, Tank::Type type) const {
+void Tank::createProjectile(SceneNode &node, Tank::Type type)  {
     SceneNode* projectile =new Projectile(type);
+    tankBullets_.push_back(projectile);
     sf::Vector2f pos = this->getWorldPosition();
     sf::Vector2f vol = this->getVelocity();
     float v = 400;
