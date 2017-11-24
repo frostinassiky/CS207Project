@@ -36,7 +36,8 @@ private:
     float mScrollSpeed;
     Tank* mPlayerTank1;
     Tank* mPlayerTank2;
-    std::list<sf::FloatRect> mObstacles;
+    //std::list<sf::FloatRect> mObstacles;
+    std::list<SceneNode*> mObstacles;
 
 public:
     World(sf::RenderWindow& window);

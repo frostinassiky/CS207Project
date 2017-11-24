@@ -32,3 +32,10 @@ Obstacle::Obstacle(const std::string &path, sf::Vector2f bound, int x, int y) : 
     mCategory = CObstacle;
 
 }
+
+
+sf::FloatRect Obstacle::getBoundingRect() const
+{
+    return getWorldTransform()
+            .transformRect(mSprite.getGlobalBounds());
+}

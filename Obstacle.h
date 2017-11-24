@@ -22,6 +22,7 @@ public:
     virtual void updateCurrent(sf::Time dt) {};
 
     virtual void drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const {target.draw(mSprite, states);}
+    virtual sf::FloatRect getBoundingRect() const;
 
 
 };

@@ -46,6 +46,19 @@ World::World(sf::RenderWindow &window):
 void World::draw() {
     mWindow.setView(mWorldView);
     mWindow.draw(mSceneGraph);
+    for (auto ob2:mObstacles)
+    {
+        sf::FloatRect rect = ob2->getBoundingRect();
+
+        sf::RectangleShape shape;
+        shape.setPosition(sf::Vector2f(rect.left, rect.top));
+        shape.setSize(sf::Vector2f(rect.width, rect.height));
+        shape.setFillColor(sf::Color::Transparent);
+        shape.setOutlineColor(sf::Color::Green);
+        shape.setOutlineThickness(1.f);
+
+        mWindow.draw(shape);
+    }
 }
 
 void World::update(sf::Time dt) {
@@ -155,24 +168,20 @@ void World::addEntities() {
     std::ifstream file(fileName);
     std::string line;
     if (file.bad()) std::cout << "Warning! Bad file " << fileName << std::endl;
-    for (int k=0; k<20; k++){
+    for (int k=0; k<20; k++) {
         std::vector<bool> data;
-        if (!getline(file,line))
-            std::cout<<"Error! No enough lines in file " << fileName << std::endl;
+        if (!getline(file, line))
+            std::cout << "Error! No enough lines in file " << fileName << std::endl;
         std::istringstream ss(line);
         std::string bit;
-        for (int l=0; l<20; l++){
+        for (int l = 0; l < 20; l++) {
             ss >> bit;
-            if (bit[0]=='1'){
-                auto obstacle = new Obstacle( path, bound, k-10, l-10);
-                mObstacles.push_back(obstacle->getBoundingRect());
+            if (bit[0] == '1') {
+                auto obstacle = new Obstacle(path, bound, k - 2, l - 2);
+                mObstacles.push_back(obstacle);
                 mSceneLayers[Air]->attach(obstacle);
-
             }
-
         }
-
-
     }
 
 #endif
@@ -242,5 +251,18 @@ void World::handleCollisions() {
             mPlayerTank1->setVelocity(100.0, 10.0);
         }
 
+    }
+    for (auto ob:mObstacles){
+        if ((dynamic_cast<Obstacle *> (ob)->getBoundingRect().intersects(
+                mPlayerTank2->getBoundingRect()))) {
+            mPlayerTank2->setScale(2.0, 2.0);
+        }
+    }
+
+    for (auto ob:mObstacles){
+        if ((dynamic_cast<Obstacle *> (ob)->getBoundingRect().intersects(
+                mPlayerTank1->getBoundingRect()))) {
+            mPlayerTank1->setScale(2.0, 2.0);
+        }
     }
 }
