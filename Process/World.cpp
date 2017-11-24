@@ -168,7 +168,7 @@ void World::addEntities() {
 
     mSceneLayers[Sky]->attach(new Cloud( "../Media/Cloud2.png", bound, 64 ));
 
-    mSceneLayers[Sky]->attach(new Cloud( "../Media/Cloud3.png", bound, 64 ));
+    mSceneLayers[Sky]->attach(new Cloud( "../Media/Cloud3.png", bound, 255 ));
 
     mSceneLayers[Sky]->attach(new Cloud( "../Media/Cloud2.png", bound, 96 ));
 
