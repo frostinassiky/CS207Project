@@ -34,6 +34,8 @@ private:
 
     // update current
     virtual void updateCurrent(sf::Time dt) {};
+    void drawBoundingRect(sf::RenderTarget& target, sf::RenderStates) const;
+
 
 public:
     SceneNode();
