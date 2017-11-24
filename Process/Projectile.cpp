@@ -21,3 +21,10 @@ void Projectile::drawCurrent(sf::RenderTarget &target, sf::RenderStates states) 
     target.draw(mSprite, states);
     // std::cout<<"biu~";
 }
+
+
+sf::FloatRect Projectile::getBoundingRect() const
+{
+    return getWorldTransform()
+            .transformRect(mSprite.getGlobalBounds());
+}

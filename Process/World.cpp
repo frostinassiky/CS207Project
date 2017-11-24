@@ -17,8 +17,9 @@ World::World(sf::RenderWindow &window):
         mScrollSpeed(200)
 {
     // buildScene();
-    // mSceneGraph -> layer 1 -> object 1
-    //             -> layer 2 -> object 2
+    // mSceneGraph -> layer 1 (Back) -> object 1
+    //             -> layer 2 (Air)  -> tank1, tank2, bullets, stones
+    //             -> layer 3 (Sky)  -> clouds
     for (int k = 0; k < LayerCount; k++)
     {
         // build each layer
@@ -61,6 +62,7 @@ void World::update(sf::Time dt) {
         // std::cout << "mSceneGraph.onCommand(mCommandQ.pop(), dt);.." << std::endl;
     }
     updateView(dt);
+    handleCollisions();
     mSceneGraph.update(dt);
 }
 
@@ -187,4 +189,14 @@ void World::addEntities() {
     // Add to layer
     mSceneLayers[Sky]->attach(new Cloud( bound,*ptexture ));
 */
+}
+
+void World::handleCollisions()
+{
+    if ((mPlayerTank->getBoundingRect().intersects(mPlayerTank->getBoundingRect()))) {
+        std::cout << "intersect self" << std::endl;
+        mPlayerTank->setVelocity(10.0, 10.0);
+        mPlayerTank->setScale(2,2);
+    }
+
 }

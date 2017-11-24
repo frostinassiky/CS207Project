@@ -34,6 +34,8 @@ private:
 
     // update current
     virtual void updateCurrent(sf::Time dt) {};
+    void drawBoundingRect(sf::RenderTarget& target, sf::RenderStates) const;
+
 
 public:
     SceneNode();
@@ -51,6 +53,7 @@ public:
     void onCommand(const Command& command, sf::Time dt);
     SceneNode*& getParent() {return mParent;}
     Category mCategory;
+    virtual sf::FloatRect getBoundingRect() const;
 
 };
 

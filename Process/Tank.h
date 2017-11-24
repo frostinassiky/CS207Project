@@ -29,6 +29,7 @@ public:
     void Fire(Type type);
     void createProjectile(SceneNode& node, Tank::Type type) const;
     virtual void drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const;
+    virtual sf::FloatRect getBoundingRect() const;
 
 };
 

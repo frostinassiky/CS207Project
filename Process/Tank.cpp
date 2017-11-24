@@ -77,3 +77,10 @@ void Tank::updateCurrent(sf::Time dt) {
     float alpha = .05f;
     this->setVelocity(this->getVelocity()*(1.f-alpha));
 }
+
+
+sf::FloatRect Tank::getBoundingRect() const
+{
+    return getWorldTransform()
+            .transformRect(mSprite.getGlobalBounds());
+}
