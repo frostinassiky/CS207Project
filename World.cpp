@@ -258,14 +258,16 @@ void World::handleCollisions() {
     for (auto ob:mObstacles) {
         if ((dynamic_cast<Obstacle *> (ob)->getBoundingRect().intersects(
                 mPlayerTank2->getBoundingRect()))) {
-            mPlayerTank2->setScale(2.0, 2.0);
+            //mPlayerTank2->setScale(2.0, 2.0);
+            mPlayerTank2->setVelocity(-mPlayerTank2->getVelocity());
         }
     }
 
     for (auto ob:mObstacles) {
         if ((dynamic_cast<Obstacle *> (ob)->getBoundingRect().intersects(
                 mPlayerTank1->getBoundingRect()))) {
-            mPlayerTank1->setScale(2.0, 2.0);
+            //mPlayerTank1->setScale(2.0, 2.0);
+            mPlayerTank1->setVelocity(-mPlayerTank1->getVelocity());
         }
     }
 
