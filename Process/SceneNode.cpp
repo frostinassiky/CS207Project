@@ -80,3 +80,21 @@ void SceneNode::onCommand(const Command &command, sf::Time dt) {
 //    }
 
 }
+void SceneNode::drawBoundingRect(sf::RenderTarget& target, sf::RenderStates) const
+{
+    sf::FloatRect rect = getBoundingRect();
+
+    sf::RectangleShape shape;
+    shape.setPosition(sf::Vector2f(rect.left, rect.top));
+    shape.setSize(sf::Vector2f(rect.width, rect.height));
+    shape.setFillColor(sf::Color::Transparent);
+    shape.setOutlineColor(sf::Color::Green);
+    shape.setOutlineThickness(1.f);
+
+    target.draw(shape);
+}
+
+sf::FloatRect SceneNode::getBoundingRect() const
+{
+		return sf::FloatRect();
+}
