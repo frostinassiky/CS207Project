@@ -45,6 +45,7 @@ public:
 private:
     void addEntities();
     void updateView(sf::Time);
+    void handleCollisions();
 
 
 };
