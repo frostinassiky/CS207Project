@@ -18,6 +18,7 @@ private:
 public:
 
     Obstacle(const std::string& path,sf::Vector2f mBound );
+    Obstacle(const std::string& path,sf::Vector2f mBound, int x, int y );
     virtual void updateCurrent(sf::Time dt) {};
 
     virtual void drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const {target.draw(mSprite, states);}

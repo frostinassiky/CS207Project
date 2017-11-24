@@ -21,3 +21,14 @@ Obstacle::Obstacle(const std::string &path, sf::Vector2f bound) : mBound(bound),
 
 
 }
+
+Obstacle::Obstacle(const std::string &path, sf::Vector2f bound, int x, int y) : mBound(bound), mRect(){
+    mTexture.loadFromFile(path);
+    mSprite.setTexture(mTexture);
+    centerOrigin(mSprite);
+    // texture: load Tank pictures
+    setPosition(mBound.x/2+x*mSprite.getLocalBounds().width,
+                mBound.y/2+y*mSprite.getLocalBounds().height);
+    mCategory = CObstacle;
+
+}

@@ -3,6 +3,8 @@
 //
 
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include "World.h"
 #include "SpriteNode.h"
 #include "Cloud.h"
@@ -12,7 +14,7 @@
 World::World(sf::RenderWindow &window):
         mWindow(window),
         mWorldView(window.getDefaultView()),
-        mWorldBounds(0.f, 0.f, mWorldView.getSize().x*10,mWorldView.getSize().y*10), // view boundary == 10*real boundary
+        mWorldBounds(0.f, 0.f, mWorldView.getSize().x*2,mWorldView.getSize().y*2), // view boundary == 10*real boundary
         mOrigin(mWorldBounds.width/2,mWorldBounds.height/2),
         mPlayerTank1(nullptr),mPlayerTank2(nullptr),
         mScrollSpeed(200)
@@ -135,6 +137,7 @@ void World::addEntities() {
 
     // Stone
     sf::Vector2f bound(mWorldBounds.width,mWorldBounds.height);
+#if 0
     for (int k=0; k<200; k++){
         if ( rand() % 10 > 3 )
             continue;
@@ -142,9 +145,37 @@ void World::addEntities() {
         path += std::to_string( k%10 );
         path += ".png";
         // "../Media/Obstacles/Obstacle1.png"
-        mSceneLayers[Air]->attach(new Obstacle( path, bound ));
+        auto obstacle = new Obstacle( path, bound );
+        mObstacles.push_back(obstacle->getBoundingRect());
+        mSceneLayers[Air]->attach(obstacle);
+    }
+#else
+    std::string fileName("../Map/map1.txt");
+    std::string path =  "../Media/Obstacles/ObstacleWall.png";
+    std::ifstream file(fileName);
+    std::string line;
+    if (file.bad()) std::cout << "Warning! Bad file " << fileName << std::endl;
+    for (int k=0; k<20; k++){
+        std::vector<bool> data;
+        if (!getline(file,line))
+            std::cout<<"Error! No enough lines in file " << fileName << std::endl;
+        std::istringstream ss(line);
+        std::string bit;
+        for (int l=0; l<20; l++){
+            ss >> bit;
+            if (bit[0]=='1'){
+                auto obstacle = new Obstacle( path, bound, k-10, l-10);
+                mObstacles.push_back(obstacle->getBoundingRect());
+                mSceneLayers[Air]->attach(obstacle);
+
+            }
+
+        }
+
+
     }
 
+#endif
 
 
     // Tank - Player 1 - control by Up-Down

@@ -12,6 +12,7 @@
 #include <array>
 #include "SceneNode.h"
 #include "Tank.h"
+#include <list>
 
 class World: private sf::NonCopyable {
 
@@ -35,6 +36,7 @@ private:
     float mScrollSpeed;
     Tank* mPlayerTank1;
     Tank* mPlayerTank2;
+    std::list<sf::FloatRect> mObstacles;
 
 public:
     World(sf::RenderWindow& window);
