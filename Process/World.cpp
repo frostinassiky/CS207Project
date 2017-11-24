@@ -17,8 +17,9 @@ World::World(sf::RenderWindow &window):
         mScrollSpeed(200)
 {
     // buildScene();
-    // mSceneGraph -> layer 1 -> object 1
-    //             -> layer 2 -> object 2
+    // mSceneGraph -> layer 1 (Back) -> object 1
+    //             -> layer 2 (Air)  -> tank1, tank2, bullets, stones
+    //             -> layer 3 (Sky)  -> clouds
     for (int k = 0; k < LayerCount; k++)
     {
         // build each layer
