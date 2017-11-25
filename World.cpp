@@ -83,6 +83,7 @@ void World::update(sf::Time dt) {
     updateView(dt);
     handleCollisions();
     mSceneGraph.update(dt);
+
 }
 
 CommandQ &World::getCommandQ() {
@@ -166,7 +167,7 @@ void World::addEntities() {
         mSceneLayers[Air]->attach(obstacle);
     }
 #else
-    std::string fileName("../Map/map1.txt");
+    std::string fileName("../Map/MAP4.txt");
     std::string path =  "../Media/Obstacles/ObstacleWall.png";
     std::ifstream file(fileName);
     std::string line;
@@ -236,76 +237,32 @@ void World::addEntities() {
 }
 
 void World::handleCollisions() {
+    // two tanks collision
     if ((mPlayerTank1->getBoundingRect().intersects(mPlayerTank2->getBoundingRect()))) {
         std::cout << "intersect self" << std::endl;
         // mPlayerTank1->setVelocity(10.0, 10.0);
         mPlayerTank1->setScale(2, 2);
         mPlayerTank2->setScale(2, 2);
     }
-    for (auto bullet : mPlayerTank1->tankBullets_) {
-        if ((dynamic_cast<Projectile *> (bullet)->getBoundingRect().intersects(
-                mPlayerTank2->getBoundingRect()))) {
-            mPlayerTank2->setVelocity(100.0, 10.0);
-        }
-    }
-    for (auto bullet : mPlayerTank2->tankBullets_) {
-        if ((dynamic_cast<Projectile *> (bullet)->getBoundingRect().intersects(
-                mPlayerTank1->getBoundingRect()))) {
-            mPlayerTank1->setVelocity(100.0, 10.0);
-        }
+    // tank1 shot tank2
+    mPlayerTank2->gotoBullets( mPlayerTank1->tankBullets_);
+    mPlayerTank1->gotoBullets( mPlayerTank2->tankBullets_);
 
-    }
-    for (auto ob:mObstacles) {
-        if ((dynamic_cast<Obstacle *> (ob)->getBoundingRect().intersects(
-                mPlayerTank2->getBoundingRect()))) {
-            //mPlayerTank2->setScale(2.0, 2.0);
-            mPlayerTank2->setVelocity(-mPlayerTank2->getVelocity());
-        }
-    }
+    // tank1 wall
+    mPlayerTank1->gotoOb(mObstacles);
 
-    for (auto ob:mObstacles) {
-        if ((dynamic_cast<Obstacle *> (ob)->getBoundingRect().intersects(
-                mPlayerTank1->getBoundingRect()))) {
-            //mPlayerTank1->setScale(2.0, 2.0);
-            mPlayerTank1->setVelocity(-mPlayerTank1->getVelocity());
-        }
-    }
+    // tank 2 wall
+    mPlayerTank2->gotoOb(mObstacles);
 
-    std::stack<SceneNode*> bulletStack;
-    for (auto bullet : mPlayerTank1->tankBullets_) {
-        for (auto ob:mObstacles) {
-            if ((dynamic_cast<Projectile *> (bullet)->getBoundingRect().intersects(
-                    (dynamic_cast<Obstacle *> (ob)->getBoundingRect()))))
-                bulletStack.push(bullet);
+    // bullet 1 wall
+    mPlayerTank1->bulletShotOb(mObstacles);
 
-        }
-    }
+    // bullet 2 wall
+    mPlayerTank1->bulletShotOb(mObstacles);
+}
 
-    while(!bulletStack.empty())
-    {
-        mSceneLayers[Air]->detach(bulletStack.top());
-        mPlayerTank1->tankBullets_.remove(bulletStack.top());
-        //delete bulletStack.top();
-        bulletStack.pop();
-    }
-
-
-
-    std::stack<SceneNode*> bulletStack2;
-    for (auto bullet : mPlayerTank2->tankBullets_) {
-        for (auto ob:mObstacles) {
-            if ((dynamic_cast<Projectile *> (bullet)->getBoundingRect().intersects(
-                    (dynamic_cast<Obstacle *> (ob)->getBoundingRect()))))
-                bulletStack2.push(bullet);
-
-        }
-    }
-
-    while(!bulletStack2.empty())
-    {
-        mSceneLayers[Air]->detach(bulletStack2.top());
-        mPlayerTank2->tankBullets_.remove(bulletStack2.top());
-        delete bulletStack2.top();
-        bulletStack2.pop();
-    }
+int World::winner() {
+    if (mPlayerTank1->lost())   return 2; // Player 2 win
+    if (mPlayerTank2->lost())   return 1; // Player 1 win
+    return 0;
 }

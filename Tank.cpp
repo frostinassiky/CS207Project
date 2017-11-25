@@ -5,6 +5,7 @@
 #include <iostream>
 #include "Tank.h"
 #include "Projectile.h"
+#include "Obstacle.h"
 #include <cmath>
 #define PI 3.1415926
 void Tank::drawCurrent( sf::RenderTarget& target, sf::RenderStates states) const
@@ -12,7 +13,7 @@ void Tank::drawCurrent( sf::RenderTarget& target, sf::RenderStates states) const
     target.draw(mSprite, states);
 }
 
-Tank::Tank(Type type) : mType(type) {
+Tank::Tank(Type type) : mType(type), HP(4) {
     // load Tank pictures
     mTexture.loadFromFile("../Media/tanks_c.png");
     int wid = mTexture.getSize().x;
@@ -69,6 +70,8 @@ void Tank::createProjectile(SceneNode &node, Tank::Type type)  {
     dynamic_cast<Projectile*>(projectile)->setRotation(dir);
     node.getParent()->attach(projectile);
 //    node.attach(projectile);
+    // decrease current valocity
+    setVelocity(getVelocity().x-vol.x/mWeight,getVelocity().y-vol.y/mWeight);
 
 }
 
@@ -84,4 +87,49 @@ sf::FloatRect Tank::getBoundingRect() const
 {
     return getWorldTransform()
             .transformRect(mSprite.getGlobalBounds());
+}
+
+void Tank::shotTest(SceneNode *bullet) {
+    if ((dynamic_cast<Projectile *> (bullet)->getBoundingRect().intersects(
+            getBoundingRect()))) {
+        sf::Vector2f v(dynamic_cast<Projectile *>(bullet)->getVelocity());
+        v.x = v.x*(1/mWeight)+getVelocity().x;
+        v.y = v.y*(1/mWeight)+getVelocity().y;
+        setVelocity(v); // add bullet moment
+        HP--; // decrease HP
+    }
+}
+
+void Tank::obstacleTest(SceneNode *ob) {
+    if ((dynamic_cast<Obstacle *> (ob)->getBoundingRect().intersects(
+            getBoundingRect()))) {
+        setVelocity(-getVelocity());
+    }
+
+}
+
+void Tank::bulletShotOb(const std::list<SceneNode*>&  obstacles) {
+    std::stack<SceneNode *> bulletStack;
+    for (auto bullet : tankBullets_)
+        if (dynamic_cast<Projectile *>(bullet)->obstacleTest(obstacles))
+            bulletStack.push(bullet);
+
+    while (!bulletStack.empty()) {
+        getParent()->detach(bulletStack.top());
+        tankBullets_.remove(bulletStack.top());
+        delete bulletStack.top();
+        bulletStack.pop();
+    }
+
+}
+
+void Tank::gotoOb(const std::list<SceneNode *> &obstacles) {
+    for (auto ob:obstacles)
+        obstacleTest(ob);
+}
+
+void Tank::gotoBullets(const std::list<SceneNode *> &bullets) {
+    for (auto bullet : bullets)
+        shotTest(bullet);
+
 }

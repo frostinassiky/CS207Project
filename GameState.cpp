@@ -20,6 +20,9 @@ void GameState::draw()
 bool GameState::update(sf::Time dt)
 {
     mWorld.update(dt);
+    if (mWorld.winner()!=0){
+        requestStackPush(StatesID::TODO);
+    }
     CommandQ& commands = mWorld.getCommandQ();
     mPlayer.handleRealtimeInput(commands);
     return true;
