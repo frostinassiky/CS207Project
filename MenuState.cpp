@@ -53,6 +53,7 @@ MenuState::MenuState(StateStack& stack, Context context)
                             });
     mGUIContainer.pack(exitButton);
     mTexture.loadFromFile("../Media/cover.png");
+
 }
 
 void MenuState::draw()

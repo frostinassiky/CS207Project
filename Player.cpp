@@ -29,7 +29,7 @@ struct TankMover
         float theta = _tank.getRotation()+mRot;
         _tank.setRotation(theta);
         // two negative symbols because of the figure....
-        _tank.setVelocity(-V*sin(-theta*PI/180.f),-V*cos(-theta*PI/180.f));
+        _tank.setVelocity( V*sin(-theta*PI/180.f),V*cos(-theta*PI/180.f));
 
     }
 
@@ -123,8 +123,8 @@ sf::Keyboard::Key Player::getAssignedKey(Action action) const
 
 void Player::initializeActions()
 {
-    const float playerSpeed = 50.f;
-    const float playerAngle = 5.f;
+    const float playerSpeed = 10.f;
+    const float playerAngle = 1.f;
 
     // Safely converts pointers and references to classes up, adown, and sideways along the inheritance hierarchy.
     // in book P104

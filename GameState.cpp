@@ -2,6 +2,7 @@
 // Created by Yang on 15/11/2017.
 //
 
+#include <iostream>
 #include "GameState.h"
 #include "Player.h"
 
@@ -21,6 +22,7 @@ bool GameState::update(sf::Time dt)
 {
     mWorld.update(dt);
     if (mWorld.winner()!=0){
+        std::cout << mWorld.winner() << std::endl;
         requestStackPush(StatesID::TODO);
     }
     CommandQ& commands = mWorld.getCommandQ();

@@ -11,6 +11,8 @@
 #include <vector>
 #include <list>
 #include <stack>
+#include <SFML/Audio/Music.hpp>
+
 //extern class Projectile;
 class Tank : public Entity {
 public:
@@ -28,14 +30,23 @@ private:
     void obstacleTest(SceneNode* ob);
     int HP;
     const float mWeight = 300; // Tank and bullet
-
+    const float mCDBullet = 0.5; // bullet cd second
+    const float mCDHP = 1; // HP cd second
+    float mCDBulletCount;
+    float mCDHPCount;
+    sf::Music mSoundFire;
+    sf::Music mSoundWall;
+    sf::Music mSoundHit1;
+    sf::Music mSoundHit2;
+    sf::Music mSoundExp;
+    sf::Music mSoundDriving;
 public:
     Type mType;
     std::list<SceneNode*> tankBullets_;
 public:
     Tank(Type type);
     virtual void updateCurrent(sf::Time dt);
-    float getMaxV() { return 300.f; };
+    float getMaxV() { return 900.f; };
     void Fire(Type type);
     void createProjectile(SceneNode& node, Tank::Type type);
     virtual void drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const;

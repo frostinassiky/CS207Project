@@ -15,10 +15,10 @@
 World::World(sf::RenderWindow &window):
         mWindow(window),
         mWorldView(window.getDefaultView()),
-        mWorldBounds(0.f, 0.f, mWorldView.getSize().x*2,mWorldView.getSize().y*2), // view boundary == 10*real boundary
+        mWorldBounds(0.f, 0.f, mWorldView.getSize().x*5,mWorldView.getSize().y*5), // view boundary == 10*real boundary
         mOrigin(mWorldBounds.width/2,mWorldBounds.height/2),
         mPlayerTank1(nullptr),mPlayerTank2(nullptr),
-        mScrollSpeed(200)
+        mScrollSpeed(300)
 {
     // buildScene();
     // mSceneGraph -> layer 1 (Back) -> object 1
@@ -107,22 +107,22 @@ void World::updateView(sf::Time dt) {
 
     // Use scroll in case of camera shake
     // std::cout<< "Tank pos: " << mPlayerTank->getWorldPosition().y << " " << mWorldView.getCenter().y << std::endl;
-    if (tankCenter.y < mWorldView.getCenter().y-mWindow.getSize().y*0.15)
+    if (tankCenter.y < mWorldView.getCenter().y-mWindow.getSize().y*0.05)
         scroll.y -= mScrollSpeed * dt.asSeconds();
         // mWorldView.move(0,-mScrollSpeed * dt.asSeconds());
-    if (tankCenter.y > mWorldView.getCenter().y+mWindow.getSize().y*0.15)
+    if (tankCenter.y > mWorldView.getCenter().y+mWindow.getSize().y*0.05)
         scroll.y += mScrollSpeed * dt.asSeconds();
         // mWorldView.move(0,mScrollSpeed * dt.asSeconds());
-    if (tankCenter.x < mWorldView.getCenter().x-mWindow.getSize().x*0.25)
+    if (tankCenter.x < mWorldView.getCenter().x-mWindow.getSize().x*0.10)
         scroll.x -= mScrollSpeed * dt.asSeconds();
         // mWorldView.move(-mScrollSpeed * dt.asSeconds(),0);
-    if (tankCenter.x > mWorldView.getCenter().x+mWindow.getSize().x*0.25)
+    if (tankCenter.x > mWorldView.getCenter().x+mWindow.getSize().x*0.10)
         scroll.x += mScrollSpeed * dt.asSeconds();
         // mWorldView.move(mScrollSpeed * dt.asSeconds(),0);
     mWorldView.move( scroll );
 
-    if (abs((int)tankBox.x) > mWorldView.getSize().x - mWindow.getSize().x*0.1 ||
-            abs((int)tankBox.y) > mWorldView.getSize().y - mWindow.getSize().y*0.2){
+    if (abs((int)tankBox.x) > mWorldView.getSize().x - mWindow.getSize().x*0.4 ||
+            abs((int)tankBox.y) > mWorldView.getSize().y - mWindow.getSize().y*0.5){
         size.x += mScrollSpeed * dt.asSeconds();
         size.y += mScrollSpeed * dt.asSeconds() * sizeRatio;
     }
@@ -154,9 +154,9 @@ void World::addEntities() {
 
     // Stone
     sf::Vector2f bound(mWorldBounds.width,mWorldBounds.height);
-#if 0
+#if 1
     for (int k=0; k<200; k++){
-        if ( rand() % 10 > 3 )
+        if ( rand() % 10 > 1 )
             continue;
         std::string path =  "../Media/Obstacles/Obstacle_";
         path += std::to_string( k%10 );
@@ -181,7 +181,7 @@ void World::addEntities() {
         for (int l = 0; l < 20; l++) {
             ss >> bit;
             if (bit[0] == '1') {
-                auto obstacle = new Obstacle(path, bound, k - 5, l - 5);
+                auto obstacle = new Obstacle(path, bound, k - 10, l - 10);
                 mObstacles.push_back(obstacle);
                 mSceneLayers[Air]->attach(obstacle);
             }
@@ -193,19 +193,19 @@ void World::addEntities() {
 
     // Tank - Player 1 - control by Up-Down
     mPlayerTank1 = new Tank(Tank::PlayerUp);
-    mPlayerTank1->setPosition(mOrigin-sf::Vector2f(200,-100));
+    mPlayerTank1->setPosition(mOrigin-sf::Vector2f(400,400));
     mPlayerTank1->setDirection(1.f);
-    mPlayerTank1->setVelocity(0.f, -40.f);
+    mPlayerTank1->setVelocity(0.f, 40.f);
     mPlayerTank1->mCategory = CTank;
     // Add to layer
     mSceneLayers[Air]->attach(mPlayerTank1);
 
     // Tank - Player 2 - control by W-S
     mPlayerTank2 = new Tank(Tank::PlayerWS);
-    mPlayerTank2->setPosition(mOrigin+sf::Vector2f(200,-100));
+    mPlayerTank2->setPosition(mOrigin+sf::Vector2f(400,400));
     mPlayerTank2->setDirection(1.f);
     mPlayerTank2->setRotation(180.0f);
-    mPlayerTank2->setVelocity(0.f, 40.f);
+    mPlayerTank2->setVelocity(0.f, -40.f);
     mPlayerTank2->mCategory = CTank;
     // Add to layer
     mSceneLayers[Air]->attach(mPlayerTank2);
@@ -241,8 +241,16 @@ void World::handleCollisions() {
     if ((mPlayerTank1->getBoundingRect().intersects(mPlayerTank2->getBoundingRect()))) {
         std::cout << "intersect self" << std::endl;
         // mPlayerTank1->setVelocity(10.0, 10.0);
-        mPlayerTank1->setScale(2, 2);
-        mPlayerTank2->setScale(2, 2);
+        float alpha = 0.5; // collision
+        sf::Vector2f v1(mPlayerTank1->getVelocity());
+        sf::Vector2f v2(mPlayerTank2->getVelocity());
+        mPlayerTank1->lastCondition();
+        mPlayerTank2->lastCondition();
+        // exchange speed
+        mPlayerTank1->setVelocity(v2.x*alpha, v2.y*alpha);
+        mPlayerTank2->setVelocity(v1.x*alpha, v1.y*alpha);
+
+
     }
     // tank1 shot tank2
     mPlayerTank2->gotoBullets( mPlayerTank1->tankBullets_);
@@ -258,7 +266,7 @@ void World::handleCollisions() {
     mPlayerTank1->bulletShotOb(mObstacles);
 
     // bullet 2 wall
-    mPlayerTank1->bulletShotOb(mObstacles);
+    mPlayerTank2->bulletShotOb(mObstacles);
 }
 
 int World::winner() {

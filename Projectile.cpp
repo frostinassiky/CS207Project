@@ -33,7 +33,10 @@ sf::FloatRect Projectile::getBoundingRect() const
 bool Projectile::obstacleTest(std::list<SceneNode *> obstacles) {
     for (auto ob:obstacles)
         if (getBoundingRect().intersects(
-                (dynamic_cast<Obstacle *> (ob)->getBoundingRect())))
+                (dynamic_cast<Obstacle *> (ob)->getBoundingRect()))){
+            lastCondition();
             return true;
+        }
+
     return false;
 }

@@ -9,7 +9,7 @@
 #include "PauseState.h"
 #include "ConfirmState.h"
 #include "TODO_State.h"
-
+#include <SFML/Audio.hpp>
 Game::Game():
         mWindow(sf::VideoMode(2560, 1600), "Tank Craft Application"),
         // mWindow(sf::VideoMode(1280, 800), "Tank Craft Application"),
@@ -17,20 +17,28 @@ Game::Game():
         mStateStack(State::Context(mWindow, mTexture, mFont, mPlayer))
 
 {
+
+
     mWindow.setVerticalSyncEnabled(TRUE);
-    mWindow.setFramerateLimit(20); // in case of use up resource
+    mWindow.setFramerateLimit(60); // in case of use up resource
 
     mWindow.setKeyRepeatEnabled(false);
 
     registerStates();
     mStateStack.pushState(StatesID::Menu);
 
+    // music buffer
+    if (!mMusic.openFromFile("../Media/Sounds/LOL_Freljord.ogg"))
+        return; // error≈
+
 }
 
 void Game::run()
 {
+
     sf::Clock clock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
+    mMusic.play();
     while (mWindow.isOpen())
     {
 

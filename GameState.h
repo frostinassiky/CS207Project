@@ -6,6 +6,7 @@
 #define TANKCRAFT_GAMESTATE_H
 
 
+#include <SFML/Audio/Music.hpp>
 #include "State.h"
 #include "World.h"
 class GameState : public State{
