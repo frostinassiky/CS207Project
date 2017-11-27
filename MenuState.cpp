@@ -11,8 +11,10 @@ MenuState::MenuState(StateStack& stack, Context context)
         , mOptionIndex(0)
         , mGUIContainer()
 {
+
+
     GUI::Button* playButton = new GUI::Button();
-    playButton->setPosition(100, 700);
+    playButton->setPosition(100, 600);
     playButton->setText("Play");
     playButton->setCallback([this] ()
                             {
@@ -21,38 +23,39 @@ MenuState::MenuState(StateStack& stack, Context context)
                             });
     mGUIContainer.pack(playButton);
 
-    GUI::Button* hostButton = new GUI::Button();
-    hostButton->setPosition(100, 900);
-    hostButton->setText("Host",sf::Color::Yellow);
-    hostButton->setCallback([this] ()
-                            {
-                                requestStackPush(StatesID::TODO);
-                            });
-    mGUIContainer.pack(hostButton);
-
     GUI::Button* joinButton = new GUI::Button();
-    joinButton->setPosition(100, 1100);
-    joinButton->setText("Join", sf::Color::Yellow);
+    joinButton->setPosition(100, 800);
+    joinButton->setText("Join",sf::Color::Yellow);
     joinButton->setCallback([this] ()
                             {
                                 requestStackPush(StatesID::TODO);
                             });
     mGUIContainer.pack(joinButton);
 
+    GUI::Button* moreButton = new GUI::Button();
+    moreButton->setPosition(100, 1000);
+    moreButton->setText("More");
+    moreButton->setCallback([this] ()   { system("open http://google.com"); });
+    mGUIContainer.pack(moreButton);
+
+
+    GUI::Button* helpButton = new GUI::Button();
+    helpButton->setPosition(100, 1200);
+    helpButton->setText("Help");
+    helpButton->setCallback([this] () { system("open https://goo.gl/faup19"); });
+    mGUIContainer.pack(helpButton);
+
     GUI::Button*  exitButton = new GUI::Button;
-    exitButton->setPosition(100, 1300);
+    exitButton->setPosition(100, 1400);
     exitButton->setText("Exit");
     exitButton->setCallback([this] ()
                             {
                                 requestStackPop();
                                 requestStackPush(StatesID::Confirm);
-
-                                //if(stack.isEmpty())
-                                //exit(0);
-                                //requestStackPop();
                             });
     mGUIContainer.pack(exitButton);
     mTexture.loadFromFile("../Media/cover.png");
+
 }
 
 void MenuState::draw()
@@ -68,7 +71,6 @@ void MenuState::draw()
 
 bool MenuState::update(sf::Time)
 {
-
     return true;
 }
 

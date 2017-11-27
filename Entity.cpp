@@ -33,6 +33,14 @@ float Entity::getDirection() const
 }
 
 void Entity::updateCurrent(sf::Time dt) {
+    // record move
+    mLastPosotion = getPosition();
+    mLastRotation = getRotation();
     // move entity
     move(mVelocity * dt.asSeconds());
+}
+
+void Entity::lastCondition() {
+    setPosition(mLastPosotion);
+    setRotation(mLastRotation);
 }

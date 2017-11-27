@@ -28,7 +28,7 @@ public:
     Projectile(Tank::Type type);
     float getMaxSpeed() const { return 200.f; };
     virtual sf::FloatRect getBoundingRect() const;
-
+    bool obstacleTest(std::list<SceneNode*> obstacles);
 };
 
 

@@ -39,18 +39,20 @@ private:
     //std::list<sf::FloatRect> mObstacles;
     std::list<SceneNode*> mObstacles;
 
-public:
-    World(sf::RenderWindow& window);
-    void update(sf::Time dt);
-    void draw();
-    CommandQ& getCommandQ();
+
 
 private:
     void addEntities();
     void updateView(sf::Time);
     void handleCollisions();
 
-
+public:
+    World(sf::RenderWindow& window);
+    void update(sf::Time dt);
+    void draw();
+    void reset();
+    CommandQ& getCommandQ();
+    int winner();
 };
 
 

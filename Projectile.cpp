@@ -5,6 +5,7 @@
 #include <iostream>
 #include "Projectile.h"
 #include "Tank.h"
+#include "Obstacle.h"
 
 Projectile::Projectile(Tank::Type type) : mType(type)
 {
@@ -27,4 +28,15 @@ sf::FloatRect Projectile::getBoundingRect() const
 {
     return getWorldTransform()
             .transformRect(mSprite.getGlobalBounds());
+}
+
+bool Projectile::obstacleTest(std::list<SceneNode *> obstacles) {
+    for (auto ob:obstacles)
+        if (getBoundingRect().intersects(
+                (dynamic_cast<Obstacle *> (ob)->getBoundingRect()))){
+            lastCondition();
+            return true;
+        }
+
+    return false;
 }

@@ -12,6 +12,8 @@ class Entity : public SceneNode{
 private:
     sf::Vector2f mVelocity;
     float mDirection;
+    sf::Vector2f mLastPosotion;
+    float mLastRotation;
 public:
     void setVelocity(sf::Vector2f velocity);
     void setVelocity(float vx, float vy);
@@ -24,6 +26,7 @@ public:
     // update Entity
     virtual void updateCurrent(sf::Time dt);
     virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const {};
+    void lastCondition();
 
 };
 

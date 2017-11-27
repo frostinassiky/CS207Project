@@ -9,6 +9,7 @@
 #include <curses.h>
 #include <iostream>
 #include <cmath>
+#include <SFML/Audio/Music.hpp>
 #include "Tank.h"
 #include "World.h"
 #include "Player.h"
@@ -29,7 +30,9 @@ private:
     StateStack mStateStack;
     sf::Font mFont;
     sf::Texture mTexture;
-    sf::Time TimePerFrame = sf::seconds(1.f / 12.f);
+    sf::Time TimePerFrame = sf::seconds(1.f / 60.f);
+
+    sf::Music mMusic;
 private:
     void processEvents();
 

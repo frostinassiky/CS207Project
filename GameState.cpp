@@ -2,6 +2,7 @@
 // Created by Yang on 15/11/2017.
 //
 
+#include <iostream>
 #include "GameState.h"
 #include "Player.h"
 
@@ -20,6 +21,25 @@ void GameState::draw()
 bool GameState::update(sf::Time dt)
 {
     mWorld.update(dt);
+    switch (mWorld.winner())
+    {
+        case 0 :
+            break;
+        case 1 :
+        std::cout<<mWorld.winner()<<std::endl;
+            requestStackPush(StatesID::Player1Win);
+            mWorld.reset();
+            break;
+        case 2:
+        std::cout<<mWorld.winner()<<std::endl;
+            requestStackPush(StatesID::Player2Win);
+            mWorld.reset();
+            break;
+    }
+    //if (mWorld.winner()!=0){
+    //    std::cout << mWorld.winner() << std::endl;
+    //    requestStackPush(StatesID::TODO);
+    //}
     CommandQ& commands = mWorld.getCommandQ();
     mPlayer.handleRealtimeInput(commands);
     return true;
