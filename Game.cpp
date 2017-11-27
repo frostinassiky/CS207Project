@@ -99,5 +99,6 @@ void Game::registerStates()
     mStateStack.registerState<TODO_State>(StatesID::TODO);
     mStateStack.registerState<Player1WinState>(StatesID::Player1Win);
     mStateStack.registerState<Player2WinState>(StatesID::Player2Win);
+    //mStateStack.registerState<LoadingState>(StatesID::LoadingState);
 
 }

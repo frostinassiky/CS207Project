@@ -289,6 +289,7 @@ void World::reset() {
     mPlayerTank1->setPosition(mOrigin-sf::Vector2f(400,400));
     mPlayerTank1->setDirection(1.f);
     mPlayerTank1->setVelocity(0.f, 40.f);
+    mPlayerTank1->setRotation(0.0f);
 
     mPlayerTank2->setPosition(mOrigin+sf::Vector2f(400,400));
     mPlayerTank2->setDirection(1.f);
@@ -297,4 +298,30 @@ void World::reset() {
 
     mPlayerTank1->reset();
     mPlayerTank2->reset();
+
+    //delete remaining bullets at the end of game
+    while (!mPlayerTank1->tankBullets_.empty())
+    {
+        auto bullet=mPlayerTank1->tankBullets_.front();
+        mPlayerTank1->tankBullets_.pop_front();
+        mSceneLayers[Air]->detach(bullet);
+        delete bullet;
+    }
+    while (!mPlayerTank2->tankBullets_.empty())
+    {
+        auto bullet=mPlayerTank2->tankBullets_.front();
+        mPlayerTank2->tankBullets_.pop_front();
+        mSceneLayers[Air]->detach(bullet);
+        delete bullet;
+    }
+
+
+    for (auto bullet: mPlayerTank2->tankBullets_)
+    {
+        mSceneLayers[Air]->detach(bullet);
+    }
+
+
+
+
 }

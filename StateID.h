@@ -16,7 +16,8 @@ namespace StatesID
         Confirm,
         TODO,
         Player1Win,
-        Player2Win
+        Player2Win,
+        //LoadingState
     };
 }
 
