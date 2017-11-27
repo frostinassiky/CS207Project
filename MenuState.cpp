@@ -24,7 +24,7 @@ MenuState::MenuState(StateStack& stack, Context context)
     mGUIContainer.pack(playButton);
 
     GUI::Button* joinButton = new GUI::Button();
-    joinButton->setPosition(100, 800);
+    joinButton->setPosition(100, 780);
     joinButton->setText("Join",sf::Color::Yellow);
     joinButton->setCallback([this] ()
                             {
@@ -33,20 +33,20 @@ MenuState::MenuState(StateStack& stack, Context context)
     mGUIContainer.pack(joinButton);
 
     GUI::Button* moreButton = new GUI::Button();
-    moreButton->setPosition(100, 1000);
+    moreButton->setPosition(100, 960);
     moreButton->setText("More");
     moreButton->setCallback([this] ()   { system("open http://google.com"); });
     mGUIContainer.pack(moreButton);
 
 
     GUI::Button* helpButton = new GUI::Button();
-    helpButton->setPosition(100, 1200);
+    helpButton->setPosition(100, 1140);
     helpButton->setText("Help");
     helpButton->setCallback([this] () { system("open https://goo.gl/faup19"); });
     mGUIContainer.pack(helpButton);
 
     GUI::Button*  exitButton = new GUI::Button;
-    exitButton->setPosition(100, 1400);
+    exitButton->setPosition(100, 1320);
     exitButton->setText("Exit");
     exitButton->setCallback([this] ()
                             {

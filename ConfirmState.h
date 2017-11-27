@@ -16,16 +16,6 @@ class ConfirmState : public State{
         virtual bool			update(sf::Time dt);
         virtual bool			handleEvent(const sf::Event& event);
 
-        // void					updateOptionText();
-
-
-    private:
-        enum OptionNames
-        {
-            Yes,
-            No,
-        };
-
 
     private:
         sf::Texture mTexture;
