@@ -50,6 +50,7 @@ public:
     World(sf::RenderWindow& window);
     void update(sf::Time dt);
     void draw();
+    void reset();
     CommandQ& getCommandQ();
     int winner();
 };

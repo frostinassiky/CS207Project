@@ -9,6 +9,8 @@
 #include "PauseState.h"
 #include "ConfirmState.h"
 #include "TODO_State.h"
+#include "Player1WinState.h"
+#include "Player2WinState.h"
 #include <SFML/Audio.hpp>
 Game::Game():
         mWindow(sf::VideoMode(2560, 1600), "Tank Craft Application"),
@@ -20,7 +22,7 @@ Game::Game():
 
 
     mWindow.setVerticalSyncEnabled(TRUE);
-    mWindow.setFramerateLimit(60); // in case of use up resource
+    mWindow.setFramerateLimit(120); // in case of use up resource
 
     mWindow.setKeyRepeatEnabled(false);
 
@@ -38,6 +40,7 @@ void Game::run()
 
     sf::Clock clock;
     sf::Time timeSinceLastUpdate = sf::Time::Zero;
+    mMusic.setVolume(50);
     mMusic.play();
     while (mWindow.isOpen())
     {
@@ -94,4 +97,7 @@ void Game::registerStates()
     mStateStack.registerState<PauseState>(StatesID::Pause);
     mStateStack.registerState<ConfirmState>(StatesID::Confirm);
     mStateStack.registerState<TODO_State>(StatesID::TODO);
+    mStateStack.registerState<Player1WinState>(StatesID::Player1Win);
+    mStateStack.registerState<Player2WinState>(StatesID::Player2Win);
+
 }

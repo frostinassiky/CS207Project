@@ -15,6 +15,8 @@ namespace StatesID
         Pause,
         Confirm,
         TODO,
+        Player1Win,
+        Player2Win
     };
 }
 

@@ -29,9 +29,9 @@ private:
 private:
     void obstacleTest(SceneNode* ob);
     int HP;
-    const float mWeight = 300; // Tank and bullet
-    const float mCDBullet = 0.5; // bullet cd second
-    const float mCDHP = 1; // HP cd second
+    const float mWeight = 30; // Tank and bullet
+    const float mCDBullet = 1; // bullet cd second
+    const float mCDHP = 2; // HP cd second
     float mCDBulletCount;
     float mCDHPCount;
     sf::Music mSoundFire;
@@ -53,9 +53,10 @@ public:
     virtual sf::FloatRect getBoundingRect() const;
     void shotTest(SceneNode* bullet);
     void gotoBullets(const std::list<SceneNode*>& bullets);
-    void gotoOb(const std::list<SceneNode*>&  obstacles);
+    void gotoOb(const std::list<SceneNode*>&  obstacles, sf::FloatRect mWorldBounds);
     void bulletShotOb(const std::list<SceneNode*>&  obstacles);
     bool lost() { return HP<=0; }
+    void reset() {HP = 4;}
 };
 //class Projectile;
 #endif //TANKCRAFT_TANK_H

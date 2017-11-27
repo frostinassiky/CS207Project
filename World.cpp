@@ -152,45 +152,6 @@ void World::addEntities() {
     // Add to layer
     mSceneLayers[Background]->attach(bgSprite);
 
-    // Stone
-    sf::Vector2f bound(mWorldBounds.width,mWorldBounds.height);
-#if 1
-    for (int k=0; k<200; k++){
-        if ( rand() % 10 > 1 )
-            continue;
-        std::string path =  "../Media/Obstacles/Obstacle_";
-        path += std::to_string( k%10 );
-        path += ".png";
-        // "../Media/Obstacles/Obstacle1.png"
-        auto obstacle = new Obstacle( path, bound );
-        mObstacles.push_back(obstacle);
-        mSceneLayers[Air]->attach(obstacle);
-    }
-#else
-    std::string fileName("../Map/MAP4.txt");
-    std::string path =  "../Media/Obstacles/ObstacleWall.png";
-    std::ifstream file(fileName);
-    std::string line;
-    if (file.bad()) std::cout << "Warning! Bad file " << fileName << std::endl;
-    for (int k=0; k<20; k++) {
-        std::vector<bool> data;
-        if (!getline(file, line))
-            std::cout << "Error! No enough lines in file " << fileName << std::endl;
-        std::istringstream ss(line);
-        std::string bit;
-        for (int l = 0; l < 20; l++) {
-            ss >> bit;
-            if (bit[0] == '1') {
-                auto obstacle = new Obstacle(path, bound, k - 10, l - 10);
-                mObstacles.push_back(obstacle);
-                mSceneLayers[Air]->attach(obstacle);
-            }
-        }
-    }
-
-#endif
-
-
     // Tank - Player 1 - control by Up-Down
     mPlayerTank1 = new Tank(Tank::PlayerUp);
     mPlayerTank1->setPosition(mOrigin-sf::Vector2f(400,400));
@@ -209,6 +170,55 @@ void World::addEntities() {
     mPlayerTank2->mCategory = CTank;
     // Add to layer
     mSceneLayers[Air]->attach(mPlayerTank2);
+
+    // Map
+    sf::Vector2f bound(mWorldBounds.width,mWorldBounds.height);
+    int random = rand() % 10 + 1; // a = 1,...,10
+    if (random > 5) {
+        // random map
+        for (int k = 0; k < 200; k++) {
+            if (rand() % 10 > 1)
+                continue;
+            std::string path = "../Media/Obstacles/Obstacle_";
+            path += std::to_string(k % 10);
+            path += ".png";
+            // "../Media/Obstacles/Obstacle1.png"
+            auto obstacle = new Obstacle(path, bound);
+            // check place
+            if (obstacle->getBoundingRect().intersects(mPlayerTank1->getBoundingRect()) ||
+                    obstacle->getBoundingRect().intersects(mPlayerTank1->getBoundingRect()))
+                delete obstacle;
+            else{
+                mObstacles.push_back(obstacle);
+                mSceneLayers[Air]->attach(obstacle);
+            }
+
+        }
+    }else {
+        // load map
+        std::string fileName("../Map/MAP");
+        fileName += std::to_string(random)+".txt";
+        std::string path = "../Media/Obstacles/ObstacleWall.png";
+        std::ifstream file(fileName);
+        std::string line;
+        if (file.bad()) std::cout << "Warning! Bad file " << fileName << std::endl;
+        for (int k = 0; k < 20; k++) {
+            std::vector<bool> data;
+            if (!getline(file, line))
+                std::cout << "Error! No enough lines in file " << fileName << std::endl;
+            std::istringstream ss(line);
+            std::string bit;
+            for (int l = 0; l < 20; l++) {
+                ss >> bit;
+                if (bit[0] == '1') {
+                    auto obstacle = new Obstacle(path, bound, k - 10, l - 10);
+                    mObstacles.push_back(obstacle);
+                    mSceneLayers[Air]->attach(obstacle);
+                }
+            }
+        }
+
+    }
 
     // Sky
     mSceneLayers[Sky]->attach(new Cloud( "../Media/Cloud1.png", bound, 96 ));
@@ -239,7 +249,7 @@ void World::addEntities() {
 void World::handleCollisions() {
     // two tanks collision
     if ((mPlayerTank1->getBoundingRect().intersects(mPlayerTank2->getBoundingRect()))) {
-        std::cout << "intersect self" << std::endl;
+        // std::cout << "intersect self" << std::endl;
         // mPlayerTank1->setVelocity(10.0, 10.0);
         float alpha = 0.5; // collision
         sf::Vector2f v1(mPlayerTank1->getVelocity());
@@ -257,10 +267,10 @@ void World::handleCollisions() {
     mPlayerTank1->gotoBullets( mPlayerTank2->tankBullets_);
 
     // tank1 wall
-    mPlayerTank1->gotoOb(mObstacles);
+    mPlayerTank1->gotoOb(mObstacles,mWorldBounds);
 
     // tank 2 wall
-    mPlayerTank2->gotoOb(mObstacles);
+    mPlayerTank2->gotoOb(mObstacles,mWorldBounds);
 
     // bullet 1 wall
     mPlayerTank1->bulletShotOb(mObstacles);
@@ -273,4 +283,18 @@ int World::winner() {
     if (mPlayerTank1->lost())   return 2; // Player 2 win
     if (mPlayerTank2->lost())   return 1; // Player 1 win
     return 0;
+}
+
+void World::reset() {
+    mPlayerTank1->setPosition(mOrigin-sf::Vector2f(400,400));
+    mPlayerTank1->setDirection(1.f);
+    mPlayerTank1->setVelocity(0.f, 40.f);
+
+    mPlayerTank2->setPosition(mOrigin+sf::Vector2f(400,400));
+    mPlayerTank2->setDirection(1.f);
+    mPlayerTank2->setRotation(180.0f);
+    mPlayerTank2->setVelocity(0.f, -40.f);
+
+    mPlayerTank1->reset();
+    mPlayerTank2->reset();
 }

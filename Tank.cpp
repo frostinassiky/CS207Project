@@ -62,6 +62,7 @@ void Tank::createProjectile(SceneNode &node, Tank::Type type)  {
     sf::Vector2f pos = this->getWorldPosition();
     sf::Vector2f vol = this->getVelocity();
     // play sound
+    mSoundFire.setVolume(50);
     mSoundFire.play();
     // create bullet
     SceneNode* projectile =new Projectile(type);
@@ -115,8 +116,10 @@ void Tank::shotTest(SceneNode *bullet) {
         // play sound
         switch (HP){
             case 4:
+                // mSoundHit1.setVolume(2.0);
                 mSoundHit1.play(); break;
             default:
+                // mSoundHit2.setVolume(2.0);
                 mSoundHit2.play(); break;
         }
 
@@ -128,7 +131,10 @@ void Tank::shotTest(SceneNode *bullet) {
         HP--; // decrease HP
         std::cout << "HP" << HP << std::endl;
         mCDHPCount = mCDHP; // CD start
-        if (HP==0) mSoundExp.play();
+        if (HP==0){
+            // mSoundExp.setVolume(1);
+            mSoundExp.play();
+        }
     }
 }
 
@@ -136,7 +142,7 @@ void Tank::obstacleTest(SceneNode *ob) {
     if ((dynamic_cast<Obstacle *> (ob)->getBoundingRect().intersects(
             getBoundingRect()))) {
         sf::Vector2f v(getVelocity());
-        setVelocity(v.x/8, v.y/8);
+        setVelocity(-v.x/8, -v.y/8);
         lastCondition();
     }
 
@@ -159,7 +165,14 @@ void Tank::bulletShotOb(const std::list<SceneNode*>&  obstacles) {
 
 }
 
-void Tank::gotoOb(const std::list<SceneNode *> &obstacles) {
+void Tank::gotoOb(const std::list<SceneNode *> &obstacles, sf::FloatRect mWorldBounds) {
+    // test bound
+    if (!mWorldBounds.contains(getPosition())) {
+        sf::Vector2f v(getVelocity());
+        setVelocity(-v.x/8, -v.y/8);
+        lastCondition();
+    }
+    // test ob
     for (auto ob:obstacles)
         obstacleTest(ob);
 }

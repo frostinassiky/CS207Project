@@ -30,7 +30,7 @@ private:
     StateStack mStateStack;
     sf::Font mFont;
     sf::Texture mTexture;
-    sf::Time TimePerFrame = sf::seconds(1.f / 40.f);
+    sf::Time TimePerFrame = sf::seconds(1.f / 60.f);
 
     sf::Music mMusic;
 private:
