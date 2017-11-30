@@ -11,6 +11,7 @@
 #include "Cloud.h"
 #include "Obstacle.h"
 #include "Projectile.h"
+#include "Utility.h"
 
 World::World(sf::RenderWindow &window):
         mWindow(window),
@@ -18,7 +19,7 @@ World::World(sf::RenderWindow &window):
         mWorldBounds(0.f, 0.f, mWorldView.getSize().x*5,mWorldView.getSize().y*5), // view boundary == 10*real boundary
         mOrigin(mWorldBounds.width/2,mWorldBounds.height/2),
         mPlayerTank1(nullptr),mPlayerTank2(nullptr),
-        mScrollSpeed(300)
+        mScrollSpeed(300), mFont(), mStat()
 {
     // buildScene();
     // mSceneGraph -> layer 1 (Back) -> object 1
@@ -37,11 +38,14 @@ World::World(sf::RenderWindow &window):
     mSceneLayers[Background]->mCategory = CBackgroundLayer;
     mSceneLayers[Air]->mCategory = CAirLayer;
     mSceneLayers[Sky]->mCategory = CSky;
-
     addEntities();
 
     mWorldView.setCenter(mOrigin);
     mWorldView.setSize(mWindow.getSize().x*.8,mWindow.getSize().y*.8);
+    // font
+    mFont.loadFromFile("../Media/GODOFWAR.ttf");
+    mStat.setFont(mFont);
+    mStat.setCharacterSize(60);
 }
 
 void World::draw() {
@@ -49,33 +53,11 @@ void World::draw() {
     mWindow.draw(mSceneGraph);
 
     //test
-    //for (auto ob2:mObstacles)
-    //{
-    //    sf::FloatRect rect = ob2->getBoundingRect();
-//
-    //    sf::RectangleShape shape;
-    //    shape.setPosition(sf::Vector2f(rect.left, rect.top));
-    //    shape.setSize(sf::Vector2f(rect.width, rect.height));
-    //    shape.setFillColor(sf::Color::Transparent);
-    //    shape.setOutlineColor(sf::Color::Green);
-    //    shape.setOutlineThickness(1.f);
-//
-    //    mWindow.draw(shape);
-    //}
+    if (mPlayerTank1->mShowInfo)
+        mWindow.draw(mStat);
 }
 
 void World::update(sf::Time dt) {
-//    sf::Vector2f position = mPlayerTank->getPosition();
-//    sf::Vector2f velocity = mPlayerTank->getVelocity();
-//    if (position.y <= mWorldBounds.top + 150
-//        || position.y >= mWorldBounds.top + mWorldBounds.height - 150)
-//    {
-//        velocity.y = -velocity.y;
-//        mPlayerTank->setVelocity(velocity);
-//        mPlayerTank->setRotation(mPlayerTank->getRotation()+180);
-//    }
-    // std::cout << "World::update(sf::Time dt).." << std::endl; -- debug
-    // Forward commands to the scene graph
     while (!mCommandQ.isEmpty()){
         mSceneGraph.onCommand(mCommandQ.pop(), dt);
         // std::cout << "mSceneGraph.onCommand(mCommandQ.pop(), dt);.." << std::endl;
@@ -83,6 +65,17 @@ void World::update(sf::Time dt) {
     updateView(dt);
     handleCollisions();
     mSceneGraph.update(dt);
+
+    // stat
+    std::string stat = " - Player 1 (Green) \n";
+    stat += map_to_string(mPlayerTank1->info());
+    stat += " - Player 2 (Blue) \n";
+    stat += map_to_string(mPlayerTank2->info());
+    mStat.setString(stat);
+    mStat.setScale(mWorldView.getSize().x/2000,mWorldView.getSize().x/2000);
+    // centerOrigin(mStat);
+    mStat.setPosition(mWorldView.getCenter().x-mWorldView.getSize().x/2,
+                      mWorldView.getCenter().y-mWorldView.getSize().y/2);
 
 }
 
@@ -135,7 +128,6 @@ void World::updateView(sf::Time dt) {
     }
 
     mWorldView.setSize(size);
-
 }
 
 void World::addEntities() {
@@ -288,6 +280,7 @@ int World::winner() {
 void World::reset() {
     mPlayerTank1->setPosition(mOrigin-sf::Vector2f(400,400));
     mPlayerTank1->setDirection(1.f);
+    mPlayerTank1->setRotation(.0f);
     mPlayerTank1->setVelocity(0.f, 40.f);
     mPlayerTank1->setRotation(0.0f);
 
@@ -324,4 +317,11 @@ void World::reset() {
 
 
 
+}
+
+std::string World::map_to_string(std::map<std::string, std::string> m) {
+    std::string output = "";
+    for (auto it = m.cbegin(); it != m.cend(); it++)
+        output += (it->first) + ":" + (it->second) + "\n";
+    return output;
 }

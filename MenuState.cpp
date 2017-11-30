@@ -35,14 +35,14 @@ MenuState::MenuState(StateStack& stack, Context context)
     GUI::Button* moreButton = new GUI::Button();
     moreButton->setPosition(100, 960);
     moreButton->setText("More");
-    moreButton->setCallback([this] ()   { system("open http://google.com"); });
+    moreButton->setCallback([this] ()   { system("open https://goo.gl/9zRVXf"); });
     mGUIContainer.pack(moreButton);
 
 
     GUI::Button* helpButton = new GUI::Button();
     helpButton->setPosition(100, 1140);
     helpButton->setText("Help");
-    helpButton->setCallback([this] () { system("open https://goo.gl/faup19"); });
+    helpButton->setCallback([this] () { system("open https://goo.gl/9ufTLA"); });
     mGUIContainer.pack(helpButton);
 
     GUI::Button*  exitButton = new GUI::Button;

@@ -38,6 +38,9 @@ private:
     Tank* mPlayerTank2;
     //std::list<sf::FloatRect> mObstacles;
     std::list<SceneNode*> mObstacles;
+    sf::Font mFont;
+    sf::Text mStat;
+
 
 
 
@@ -45,6 +48,7 @@ private:
     void addEntities();
     void updateView(sf::Time);
     void handleCollisions();
+    std::string map_to_string(std::map<std::string,std::string>  m);
 
 public:
     World(sf::RenderWindow& window);

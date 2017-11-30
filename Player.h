@@ -27,6 +27,7 @@ public:
         MoveDown2,
         Fire2,
 
+        Info,
         ActionCount
     };
 

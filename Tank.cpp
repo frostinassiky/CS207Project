@@ -87,8 +87,10 @@ void Tank::updateCurrent(sf::Time dt) {
     mSoundDriving.pause();
     // count down CDs
     if (mCDBulletCount > 0) mCDBulletCount -= dt.asSeconds();
+    if (mCDBulletCount < 0) mCDBulletCount = 0;
 
     if (mCDHPCount > 0) mCDHPCount -= dt.asSeconds();
+    if (mCDHPCount < 0) mCDHPCount = 0;
     Entity::updateCurrent(dt);
     // friction
     float alpha = .05f;
@@ -181,4 +183,26 @@ void Tank::gotoBullets(const std::list<SceneNode *> &bullets) {
     for (auto bullet : bullets)
         shotTest(bullet);
 
+}
+
+std::map<std::string, std::string> Tank::info() {
+    std::map<std::string, std::string> information;
+    information["VEL "]="\t("+
+            std::to_string((int)getVelocity().x) + "," +
+            std::to_string((int)getVelocity().y) + ")";
+    information["POS "]="\t("+
+            std::to_string((int)getWorldPosition().x) + "," +
+            std::to_string((int)getWorldPosition().y) + ")";
+    information["DIR "]="\t"+
+            std::to_string((int)getRotation());
+    information["HP   "]="\t"+
+            std::to_string(HP);
+    information["HCD "]="\t"+
+            std::to_string((int)(mCDHPCount/mCDHP*100)) + "%";
+    information["BCD "]="\t"+
+            std::to_string((int)(mCDBulletCount/mCDBullet*100)) + "%";
+    information["WEI "]="\t"+
+            std::to_string((int)mWeight);
+
+    return information;
 }
