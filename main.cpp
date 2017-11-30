@@ -1,5 +1,4 @@
 #include "Game.h"
-
 int main() {
     std::cout << "Welcome to TankCraft" << std::endl;
     try {

@@ -4,6 +4,7 @@
 
 #include "Player.h"
 #include "Tank.h"
+#include "SpriteNode.h"
 #include <cmath>
 #define PI 3.14159265
 
@@ -51,6 +52,7 @@ Player::Player()
     mKeyBinding[sf::Keyboard::W] = MoveUp2;
     mKeyBinding[sf::Keyboard::S] = MoveDown2;
     mKeyBinding[sf::Keyboard::Space] = Fire2;
+    mKeyBinding[sf::Keyboard::Tab] = Info;
 
 
     // Set initial action bindings
@@ -170,6 +172,10 @@ void Player::initializeActions()
     {
         static_cast<Tank&>(node).Fire(Tank::Type::PlayerWS);
     };
+    mActionBinding[Info].action  = [=] (SceneNode& node, sf::Time dt)
+    {
+        static_cast<Tank&>(node).mShowInfo = !static_cast<Tank&>(node).mShowInfo;
+    };
 
 }
 
@@ -187,6 +193,7 @@ bool Player::isRealtimeAction(Action action)
         case MoveDown2:
         case MoveUp2:
         case Fire2:
+        //case Info:
             return true;
         default:
             return false;

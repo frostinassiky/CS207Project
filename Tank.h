@@ -7,7 +7,6 @@
 
 #include <SFML/Graphics.hpp>
 #include "Entity.h"
-//#include "Projectile.h"
 #include <vector>
 #include <list>
 #include <stack>
@@ -57,6 +56,8 @@ public:
     void bulletShotOb(const std::list<SceneNode*>&  obstacles);
     bool lost() { return HP<=0; }
     void reset() {HP = 4;}
+    std::map<std::string,std::string> info();
+    bool mShowInfo = false;
 };
 //class Projectile;
 #endif //TANKCRAFT_TANK_H
