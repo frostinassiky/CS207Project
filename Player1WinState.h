@@ -7,7 +7,7 @@
 
 
 #include "State.h"
-
+//player 1 wins
 class Player1WinState : public  State{
     public:
         Player1WinState(StateStack& stack, Context context);

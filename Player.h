@@ -9,12 +9,11 @@
 #include <map>
 #include "CommandQ.h"
 
-// class CommandQ;
+// Class play handles player input through keyboard
 
 class Player {
 public:
-    enum Action
-    {
+    enum Action {
         MoveLeft1,
         MoveRight1,
         MoveUp1,
@@ -28,27 +27,29 @@ public:
         Fire2,
 
         Info,
-        ActionCount
     };
 
 public:
     Player();
 
-    void handleEvent(const sf::Event& event, CommandQ& commands);
-    void handleRealtimeInput(CommandQ& commands);
+    void handleEvent(const sf::Event &event, CommandQ &commands);
 
-    void					assignKey(Action action, sf::Keyboard::Key key);
-    sf::Keyboard::Key		getAssignedKey(Action action) const;
+    void handleRealtimeInput(CommandQ &commands);
 
+    void assignKey(Action action, sf::Keyboard::Key key);
 
-private:
-    void					initializeActions();
-    static bool				isRealtimeAction(Action action);
+    sf::Keyboard::Key getAssignedKey(Action action) const;
 
 
 private:
-    std::map<sf::Keyboard::Key, Action>		mKeyBinding;
-    std::map<Action, Command> mActionBinding;
+    void initializeActions();
+
+    static bool isRealtimeAction(Action action);
+
+
+private:
+    std::map<sf::Keyboard::Key, Action> mKeyBinding;  //bind key with action type
+    std::map<Action, Command> mActionBinding;             //bind action type with movement of tank
 
 
 };

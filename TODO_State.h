@@ -1,27 +1,29 @@
 //
 // Created by Yang on 18/11/2017.
 //
-
+//TODO Under Construction, may be used for further functionality
 #ifndef TANKCRAFT_TODO_STATE_H
 #define TANKCRAFT_TODO_STATE_H
 
 
 #include "State.h"
 
-class TODO_State : public State{
+class TODO_State : public State {
 public:
-    TODO_State(StateStack& stack, Context context);
+    TODO_State(StateStack &stack, Context context);
 
-    virtual void		draw();
-    virtual bool		update(sf::Time dt);
-    virtual bool		handleEvent(const sf::Event& event);
+    virtual void draw();
+
+    virtual bool update(sf::Time dt);
+
+    virtual bool handleEvent(const sf::Event &event);
 
 
 private:
-    sf::Sprite			mBackgroundSprite;
-    sf::Text			mPausedText;
-    sf::Text			mInstructionText;
-    sf::Font            mFont;
+    sf::Sprite mBackgroundSprite;
+    sf::Text mPausedText;
+    sf::Text mInstructionText;
+    sf::Font mFont;
 
 };
 

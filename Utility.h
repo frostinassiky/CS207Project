@@ -4,21 +4,23 @@
 
 #ifndef TANKCRAFT_UTILITY_H
 #define TANKCRAFT_UTILITY_H
+
 #include <sstream>
-namespace sf
-{
+//Utility functions used to display text and set their origin to center
+namespace sf {
     class Sprite;
+
     class Text;
 }
 
 // Since std::to_string doesn't work on MinGW we have to implement
 // our own to support all platforms.
-template <typename T>
-std::string toString(const T& value);
+template<typename T>
+std::string toString(const T &value);
 
-void centerOrigin(sf::Sprite& sprite);
-void centerOrigin(sf::Text& text);
+void centerOrigin(sf::Sprite &sprite);
 
+void centerOrigin(sf::Text &text);
 
 
 #endif //TANKCRAFT_UTILITY_H

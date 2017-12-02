@@ -6,7 +6,6 @@
 #define TANKCRAFT_WORLD_H
 
 
-
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <array>
@@ -14,11 +13,11 @@
 #include "Tank.h"
 #include <list>
 
-class World: private sf::NonCopyable {
+//class World holds all objects in game
+class World : private sf::NonCopyable {
 
 private:
-    enum Layer
-    {
+    enum Layer {
         Background,
         Air,
         Sky,
@@ -26,36 +25,42 @@ private:
     };
 
 private:
-    sf::RenderWindow& mWindow;
+    sf::RenderWindow &mWindow;
     sf::View mWorldView;
     SceneNode mSceneGraph; // root of all scene
-    SceneNode* mSceneLayers[LayerCount];  // book uses class array
+    SceneNode *mSceneLayers[LayerCount];  // book uses class array
     CommandQ mCommandQ;
     sf::FloatRect mWorldBounds;
     sf::Vector2f mOrigin;
     float mScrollSpeed;
-    Tank* mPlayerTank1;
-    Tank* mPlayerTank2;
+    Tank *mPlayerTank1;
+    Tank *mPlayerTank2;
     //std::list<sf::FloatRect> mObstacles;
-    std::list<SceneNode*> mObstacles;
+    std::list<SceneNode *> mObstacles;
     sf::Font mFont;
     sf::Text mStat;
 
 
-
-
 private:
     void addEntities();
+
     void updateView(sf::Time);
+
     void handleCollisions();
-    std::string map_to_string(std::map<std::string,std::string>  m);
+
+    std::string map_to_string(std::map<std::string, std::string> m);
 
 public:
-    World(sf::RenderWindow& window);
+    World(sf::RenderWindow &window);
+
     void update(sf::Time dt);
+
     void draw();
+
     void reset();
-    CommandQ& getCommandQ();
+
+    CommandQ &getCommandQ();
+
     int winner();
 };
 

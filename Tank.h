@@ -12,7 +12,6 @@
 #include <stack>
 #include <SFML/Audio/Music.hpp>
 
-//extern class Projectile;
 class Tank : public Entity {
 public:
     enum Type {
@@ -26,7 +25,8 @@ private:
     sf::Texture mTexture;
     sf::Sprite mSprite;
 private:
-    void obstacleTest(SceneNode* ob);
+    void obstacleTest(SceneNode *ob);
+
     int HP;
     const float mWeight = 30; // Tank and bullet
     const float mCDBullet = 1; // bullet cd second
@@ -41,22 +41,36 @@ private:
     sf::Music mSoundDriving;
 public:
     Type mType;
-    std::list<SceneNode*> tankBullets_;
+    std::list<SceneNode *> tankBullets_;
 public:
     Tank(Type type);
+
     virtual void updateCurrent(sf::Time dt);
+
     float getMaxV() { return 900.f; };
+
     void Fire(Type type);
-    void createProjectile(SceneNode& node, Tank::Type type);
+
+    void createProjectile(SceneNode &node, Tank::Type type);
+
     virtual void drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const;
+
     virtual sf::FloatRect getBoundingRect() const;
-    void shotTest(SceneNode* bullet);
-    void gotoBullets(const std::list<SceneNode*>& bullets);
-    void gotoOb(const std::list<SceneNode*>&  obstacles, sf::FloatRect mWorldBounds);
-    void bulletShotOb(const std::list<SceneNode*>&  obstacles);
-    bool lost() { return HP<=0; }
-    void reset() {HP = 4;}
-    std::map<std::string,std::string> info();
+
+    void shotTest(SceneNode *bullet);
+
+    void gotoBullets(const std::list<SceneNode *> &bullets);
+
+    void gotoOb(const std::list<SceneNode *> &obstacles, sf::FloatRect mWorldBounds);
+
+    void bulletShotOb(const std::list<SceneNode *> &obstacles);
+
+    bool lost() { return HP <= 0; }
+
+    void reset() { HP = 4; }
+
+    std::map<std::string, std::string> info();
+
     bool mShowInfo = false;
 };
 //class Projectile;

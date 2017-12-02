@@ -8,6 +8,7 @@
 #include <iostream>
 #include "Entity.h"
 #include "Tank.h"
+
 class Projectile : public Entity {
 
 private:
@@ -19,16 +20,20 @@ private:
 private:
     virtual void updateCurrent(sf::Time dt) {
         Entity::updateCurrent(dt);
-        // std::cout << "move~ " << this->getVelocity().y ;
     }
 
-    virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
+    virtual void drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const;
 
 public:
     Projectile(Tank::Type type);
+
     float getMaxSpeed() const { return 200.f; };
+
+    //get bounding rectangle of bullet object
     virtual sf::FloatRect getBoundingRect() const;
-    bool obstacleTest(std::list<SceneNode*> obstacles);
+
+    //test intersection with obstacles
+    bool obstacleTest(std::list<SceneNode *> obstacles);
 };
 
 

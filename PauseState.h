@@ -8,20 +8,22 @@
 
 #include "State.h"
 
-class PauseState : public State{
+class PauseState : public State {
 public:
-    PauseState(StateStack& stack, Context context);
+    PauseState(StateStack &stack, Context context);
 
-    virtual void		draw();
-    virtual bool		update(sf::Time dt);
-    virtual bool		handleEvent(const sf::Event& event);
+    virtual void draw();
+
+    virtual bool update(sf::Time dt);
+
+    virtual bool handleEvent(const sf::Event &event);
 
 
 private:
-    sf::Sprite			mBackgroundSprite;
-    sf::Text			mPausedText;
-    sf::Text			mInstructionText;
-    sf::Font            mFont;
+    sf::Sprite mBackgroundSprite;
+    sf::Text mPausedText;
+    sf::Text mInstructionText;
+    sf::Font mFont;
 
 };
 

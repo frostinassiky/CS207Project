@@ -4,11 +4,9 @@
 
 #ifndef TANKCRAFT_STATEID_H
 #define TANKCRAFT_STATEID_H
-
-namespace StatesID
-{
-    enum ID
-    {
+//assign each state a integer
+namespace StatesID {
+    enum ID {
         None,
         Menu,
         Game,
@@ -17,7 +15,6 @@ namespace StatesID
         TODO,
         Player1Win,
         Player2Win,
-        //LoadingState
     };
 }
 

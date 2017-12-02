@@ -7,14 +7,15 @@
 #include "Projectile.h"
 #include "Obstacle.h"
 #include <cmath>
+
 #define PI 3.1415926
-void Tank::drawCurrent( sf::RenderTarget& target, sf::RenderStates states) const
-{
+
+void Tank::drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const {
     target.draw(mSprite, states);
 }
 
 Tank::Tank(Type type) : mType(type), HP(4),
-                        mCDBulletCount(0),mCDHPCount(0){
+                        mCDBulletCount(0), mCDHPCount(0) {
     // load Tank pictures
     mTexture.loadFromFile("../Media/tanks_c.png");
     int wid = mTexture.getSize().x;
@@ -23,18 +24,18 @@ Tank::Tank(Type type) : mType(type), HP(4),
     mSprite.setTexture(mTexture);
     mSprite.setPosition(0, 0);
     // rescale
-    mSprite.setScale(0.4,0.4);
+    mSprite.setScale(0.4, 0.4);
     mCategory = CTank;
     // set cloth by type
     switch (type) {
         case PlayerUp:
-            mSprite.setTextureRect(sf::IntRect(0,0,wid/3, hig/3));
+            mSprite.setTextureRect(sf::IntRect(0, 0, wid / 3, hig / 3));
             break;
         case PlayerWS:
-            mSprite.setTextureRect(sf::IntRect(wid/3,hig/3,wid/3, hig/3));
+            mSprite.setTextureRect(sf::IntRect(wid / 3, hig / 3, wid / 3, hig / 3));
             break;
         case PlayerNet:
-            mSprite.setTextureRect(sf::IntRect(0,2*hig/3,wid/3, hig/3));
+            mSprite.setTextureRect(sf::IntRect(0, 2 * hig / 3, wid / 3, hig / 3));
             break;
     }
     // reset origin
@@ -50,14 +51,14 @@ Tank::Tank(Type type) : mType(type), HP(4),
 }
 
 void Tank::Fire(Tank::Type type) {
-    if (mType!=type || mCDBulletCount > 0)
+    if (mType != type || mCDBulletCount > 0)
         return;
     createProjectile(*this, mType);
     mCDBulletCount = mCDBullet;
     // std::cout << "Fire!" << std::endl;
 }
 
-void Tank::createProjectile(SceneNode &node, Tank::Type type)  {
+void Tank::createProjectile(SceneNode &node, Tank::Type type) {
     // info
     sf::Vector2f pos = this->getWorldPosition();
     sf::Vector2f vol = this->getVelocity();
@@ -65,20 +66,20 @@ void Tank::createProjectile(SceneNode &node, Tank::Type type)  {
     mSoundFire.setVolume(50);
     mSoundFire.play();
     // create bullet
-    SceneNode* projectile =new Projectile(type);
+    SceneNode *projectile = new Projectile(type);
     tankBullets_.push_back(projectile);
     float v = 400;
     float dir = this->getRotation();
     // std::cout << dir << std::endl;
     projectile->setPosition(pos);//getWorldPosition() );//offset );
-    vol.x += v*sin(-dir*PI/180.f);
-    vol.y += v*cos(-dir*PI/180.f);
-    dynamic_cast<Projectile*>(projectile)->setVelocity(vol);
-    dynamic_cast<Projectile*>(projectile)->setRotation(180+dir);
+    vol.x += v * sin(-dir * PI / 180.f);
+    vol.y += v * cos(-dir * PI / 180.f);
+    dynamic_cast<Projectile *>(projectile)->setVelocity(vol);
+    dynamic_cast<Projectile *>(projectile)->setRotation(180 + dir);
     node.getParent()->attach(projectile);
 //    node.attach(projectile);
     // decrease current valocity
-    setVelocity(getVelocity().x-vol.x/mWeight,getVelocity().y-vol.y/mWeight);
+    setVelocity(getVelocity().x - vol.x / mWeight, getVelocity().y - vol.y / mWeight);
 
 }
 
@@ -96,17 +97,16 @@ void Tank::updateCurrent(sf::Time dt) {
     float alpha = .05f;
     sf::Vector2f v(getVelocity());
     float dir = getRotation();
-    float vx = v.x*sin(-dir*PI/180)+v.y*cos(-dir*PI/180);
-    vx *= 1.f-alpha;
-    this->setVelocity(vx*sin(-dir*PI/180),vx*cos(-dir*PI/180));
+    float vx = v.x * sin(-dir * PI / 180) + v.y * cos(-dir * PI / 180);
+    vx *= 1.f - alpha;
+    this->setVelocity(vx * sin(-dir * PI / 180), vx * cos(-dir * PI / 180));
     // sound
-    mSoundDriving.setVolume(abs(vx)*20);
+    mSoundDriving.setVolume(abs(vx) * 20);
     mSoundDriving.play();
 }
 
 
-sf::FloatRect Tank::getBoundingRect() const
-{
+sf::FloatRect Tank::getBoundingRect() const {
     return getWorldTransform()
             .transformRect(mSprite.getGlobalBounds());
 }
@@ -116,24 +116,26 @@ void Tank::shotTest(SceneNode *bullet) {
     if ((dynamic_cast<Projectile *> (bullet)->getBoundingRect().intersects(
             getBoundingRect()))) {
         // play sound
-        switch (HP){
+        switch (HP) {
             case 4:
                 // mSoundHit1.setVolume(2.0);
-                mSoundHit1.play(); break;
+                mSoundHit1.play();
+                break;
             default:
                 // mSoundHit2.setVolume(2.0);
-                mSoundHit2.play(); break;
+                mSoundHit2.play();
+                break;
         }
 
         // change v
         sf::Vector2f v(dynamic_cast<Projectile *>(bullet)->getVelocity());
-        v.x = v.x*(1/mWeight)+getVelocity().x;
-        v.y = v.y*(1/mWeight)+getVelocity().y;
+        v.x = v.x * (1 / mWeight) + getVelocity().x;
+        v.y = v.y * (1 / mWeight) + getVelocity().y;
         setVelocity(v); // add bullet moment
         HP--; // decrease HP
         std::cout << "HP" << HP << std::endl;
         mCDHPCount = mCDHP; // CD start
-        if (HP==0){
+        if (HP == 0) {
             // mSoundExp.setVolume(1);
             mSoundExp.play();
         }
@@ -144,16 +146,16 @@ void Tank::obstacleTest(SceneNode *ob) {
     if ((dynamic_cast<Obstacle *> (ob)->getBoundingRect().intersects(
             getBoundingRect()))) {
         sf::Vector2f v(getVelocity());
-        setVelocity(-v.x/8, -v.y/8);
+        setVelocity(-v.x / 8, -v.y / 8);
         lastCondition();
     }
 
 }
 
-void Tank::bulletShotOb(const std::list<SceneNode*>&  obstacles) {
+void Tank::bulletShotOb(const std::list<SceneNode *> &obstacles) {
     std::stack<SceneNode *> bulletStack;
     for (auto bullet : tankBullets_)
-        if (dynamic_cast<Projectile *>(bullet)->obstacleTest(obstacles)){
+        if (dynamic_cast<Projectile *>(bullet)->obstacleTest(obstacles)) {
             mSoundWall.play();
             bulletStack.push(bullet);
         }
@@ -171,7 +173,7 @@ void Tank::gotoOb(const std::list<SceneNode *> &obstacles, sf::FloatRect mWorldB
     // test bound
     if (!mWorldBounds.contains(getPosition())) {
         sf::Vector2f v(getVelocity());
-        setVelocity(-v.x/8, -v.y/8);
+        setVelocity(-v.x / 8, -v.y / 8);
         lastCondition();
     }
     // test ob
@@ -187,22 +189,22 @@ void Tank::gotoBullets(const std::list<SceneNode *> &bullets) {
 
 std::map<std::string, std::string> Tank::info() {
     std::map<std::string, std::string> information;
-    information["VEL "]="\t("+
-            std::to_string((int)getVelocity().x) + "," +
-            std::to_string((int)getVelocity().y) + ")";
-    information["POS "]="\t("+
-            std::to_string((int)getWorldPosition().x) + "," +
-            std::to_string((int)getWorldPosition().y) + ")";
-    information["DIR "]="\t"+
-            std::to_string((int)getRotation());
-    information["HP   "]="\t"+
-            std::to_string(HP);
-    information["HCD "]="\t"+
-            std::to_string((int)(mCDHPCount/mCDHP*100)) + "%";
-    information["BCD "]="\t"+
-            std::to_string((int)(mCDBulletCount/mCDBullet*100)) + "%";
-    information["WEI "]="\t"+
-            std::to_string((int)mWeight);
+    information["VEL "] = "\t(" +
+                          std::to_string((int) getVelocity().x) + "," +
+                          std::to_string((int) getVelocity().y) + ")";
+    information["POS "] = "\t(" +
+                          std::to_string((int) getWorldPosition().x) + "," +
+                          std::to_string((int) getWorldPosition().y) + ")";
+    information["DIR "] = "\t" +
+                          std::to_string((int) getRotation());
+    information["HP   "] = "\t" +
+                           std::to_string(HP);
+    information["HCD "] = "\t" +
+                          std::to_string((int) (mCDHPCount / mCDHP * 100)) + "%";
+    information["BCD "] = "\t" +
+                          std::to_string((int) (mCDBulletCount / mCDBullet * 100)) + "%";
+    information["WEI "] = "\t" +
+                          std::to_string((int) mWeight);
 
     return information;
 }

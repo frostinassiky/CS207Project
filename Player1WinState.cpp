@@ -5,13 +5,9 @@
 #include "Player1WinState.h"
 #include "Utility.h"
 
-Player1WinState::Player1WinState(StateStack& stack, Context context)
-        : State(stack, context)
-        , mBackgroundSprite()
-        , mPausedText()
-        , mInstructionText()
-{
-    //sf::Font& font = context.fonts->get(Fonts::Main);
+//display player 1 wins information
+Player1WinState::Player1WinState(StateStack &stack, Context context)
+        : State(stack, context), mBackgroundSprite(), mPausedText(), mInstructionText() {
     sf::Vector2f viewSize = context.window->getView().getSize();
 
     mFont.loadFromFile("../Media/GODOFWAR.TTF");
@@ -29,9 +25,8 @@ Player1WinState::Player1WinState(StateStack& stack, Context context)
     mInstructionText.setPosition(0.5f * viewSize.x, 0.6f * viewSize.y);
 }
 
-void Player1WinState::draw()
-{
-    sf::RenderWindow& window = *getContext().window;
+void Player1WinState::draw() {
+    sf::RenderWindow &window = *getContext().window;
     window.setView(window.getDefaultView());
 
     sf::RectangleShape backgroundShape;
@@ -43,24 +38,19 @@ void Player1WinState::draw()
     window.draw(mInstructionText);
 }
 
-bool Player1WinState::update(sf::Time)
-{
+bool Player1WinState::update(sf::Time) {
     return false;
 }
 
-bool Player1WinState::handleEvent(const sf::Event& event)
-{
+bool Player1WinState::handleEvent(const sf::Event &event) {
     if (event.type != sf::Event::KeyPressed)
         return false;
 
-    if (event.key.code == sf::Keyboard::Escape||event.key.code == sf::Keyboard::BackSpace)
-    {
+    if (event.key.code == sf::Keyboard::Escape || event.key.code == sf::Keyboard::BackSpace) {
         // Escape pressed, remove itself to return to the game
         requestStateClear();
-        //requestStackPop();
         requestStackPush(StatesID::Menu);
     }
-
 
 
     return false;

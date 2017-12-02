@@ -4,26 +4,24 @@
 
 #include <iostream>
 #include "SceneNode.h"
-SceneNode::SceneNode()
-{
+
+SceneNode::SceneNode() {
     mParent = nullptr;
     mCategory = Croot;
     // mChildren = NULL;
 }
 
-void SceneNode::attach(SceneNode* child)
-{
+void SceneNode::attach(SceneNode *child) {
     // connect two node
     child->mParent = this;
     this->mChildren.push_back(child);
 }
 
-SceneNode* SceneNode::detach(SceneNode* child)
-{
+SceneNode *SceneNode::detach(SceneNode *child) {
     // we need find the child
     child->mParent = nullptr;
-    for (auto iter=this->mChildren.cbegin(); iter!=this->mChildren.cend(); iter++){
-        if ( (*iter)==child ){
+    for (auto iter = this->mChildren.cbegin(); iter != this->mChildren.cend(); iter++) {
+        if ((*iter) == child) {
             this->mChildren.erase(iter);
             break;
         }
@@ -31,8 +29,7 @@ SceneNode* SceneNode::detach(SceneNode* child)
     return child;
 }
 
-void SceneNode::draw(sf::RenderTarget& target, sf::RenderStates states) const
-{
+void SceneNode::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     // find transform
     states.transform *= getTransform();
     // draw current scene
@@ -54,38 +51,36 @@ void SceneNode::update(sf::Time dt) {
 sf::Transform SceneNode::getWorldTransform() const {
     // Identity matrix
     sf::Transform transform = sf::Transform::Identity;
-    for (const SceneNode* node = this;
+    // Transform matrix multiplied by its parent node transformation
+    for (const SceneNode *node = this;
          node != nullptr; node = node->mParent)
         transform = node->getTransform() * transform;
     return transform;
 }
 
+//handle keyboard input
 void SceneNode::onCommand(const Command &command, sf::Time dt) {
-    // std::cout << "@@ > command.category, this->Category " << command.category << ", "<< this->mCategory << std::endl;
     try {
         command.mCategory;
         this->mCategory;
-    } catch (const std::exception& e) {
-        std::cout<< "Error" << std::endl;
+    } catch (const std::exception &e) {
+        std::cout << "Error" << std::endl;
         return;
     }
 
-    if (command.mCategory == this->mCategory){
+    if (command.mCategory == this->mCategory) {
         // std::cout << "this->Category" << this->mCategory << std::endl;
         command.action(*this, dt);
     }
-    for ( int t = 0; t < mChildren.size(); t++){
+    for (int t = 0; t < mChildren.size(); t++) {
         auto child = mChildren[t];
         child->onCommand(command, dt);
     }
-//    for (auto iter = mChildren.cbegin(); iter!=mChildren.cend(); iter ++){
-//        // std::cout << mChildren.end()-mChildren.begin() << std::endl;
-//        (*iter)->onCommand(command,dt);
-//    }
 
 }
-void SceneNode::drawBoundingRect(sf::RenderTarget& target, sf::RenderStates) const
-{
+
+//display bounding rectangle
+void SceneNode::drawBoundingRect(sf::RenderTarget &target, sf::RenderStates) const {
     sf::FloatRect rect = getBoundingRect();
 
     sf::RectangleShape shape;
@@ -98,7 +93,6 @@ void SceneNode::drawBoundingRect(sf::RenderTarget& target, sf::RenderStates) con
     target.draw(shape);
 }
 
-sf::FloatRect SceneNode::getBoundingRect() const
-{
-		return sf::FloatRect();
+sf::FloatRect SceneNode::getBoundingRect() const {
+    return sf::FloatRect();
 }

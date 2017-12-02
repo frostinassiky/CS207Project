@@ -8,13 +8,16 @@
 // only used for background
 #include "SceneNode.h"
 
-class SpriteNode : public SceneNode{
+class SpriteNode : public SceneNode {
 public:
-    SpriteNode(const sf::Texture& texture):  mSprite(texture){mCategory=CBackGround; };
-    SpriteNode(const sf::Texture& texture, const sf::IntRect& rect) : mSprite(texture,rect) {mCategory=CBackGround;};
+    SpriteNode(const sf::Texture &texture) : mSprite(texture) { mCategory = CBackGround; };
+
+    SpriteNode(const sf::Texture &texture, const sf::IntRect &rect) : mSprite(texture,
+                                                                              rect) { mCategory = CBackGround; };
 
 private:
-    virtual void drawCurrent(sf::RenderTarget& target, sf::RenderStates states) const;
+    virtual void drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const;
+
 private:
     sf::Sprite mSprite;
 };
