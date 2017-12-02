@@ -4,7 +4,7 @@
 
 #ifndef TANKCRAFT_SCENENODE_H
 #define TANKCRAFT_SCENENODE_H
-//#define __DRAWBOUND__
+#define __DRAWBOUND__
 
 #include <memory> // use unique_ptr
 // a smart pointer that owns and manages another object

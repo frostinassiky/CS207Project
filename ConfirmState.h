@@ -8,26 +8,28 @@
 #include "State.h"
 #include "Container.h"
 
-class ConfirmState : public State{
-    public:
-        ConfirmState(StateStack& stack, Context context);
+// pop when user click "exit" on menu
+class ConfirmState : public State {
+public:
+    ConfirmState(StateStack &stack, Context context);
 
-        virtual void			draw();
-        virtual bool			update(sf::Time dt);
-        virtual bool			handleEvent(const sf::Event& event);
+    virtual void draw();
+
+    virtual bool update(sf::Time dt);
+
+    virtual bool handleEvent(const sf::Event &event);
 
 
-    private:
-        sf::Texture mTexture;
-        sf::Sprite mBackgroundSprite;
-        std::vector<sf::Text> mOptions;
-        std::size_t mOptionIndex;
-        GUI::Container mGUIContainer;
-        sf::Text			mPausedText;
-        sf::Font            mFont;
+private:
+    sf::Texture mTexture;
+    sf::Sprite mBackgroundSprite;
+    std::vector<sf::Text> mOptions;
+    std::size_t mOptionIndex;
+    GUI::Container mGUIContainer;
+    sf::Text mPausedText;
+    sf::Font mFont;
 
 };
-
 
 
 #endif //TANKCRAFT_CONFIRMSTATE_H

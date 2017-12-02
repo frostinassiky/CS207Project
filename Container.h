@@ -7,24 +7,30 @@
 
 #include "Component.h"
 #include "Button.h"
-
-namespace GUI{
-    class Container : public Component{
+// buttons
+namespace GUI {
+    class Container : public Component {
     private:
-        std::vector<Component*> mChildren;
+        std::vector<Component *> mChildren;
         int mSelected;
 
     public:
-        Container() : mChildren(), mSelected(-1) {;};
-        void pack(Component* component); // may have bug
-        bool isSelectable() override {return false;};
+        Container() : mChildren(), mSelected(-1) { ; };
 
-        void handleEvent(const sf::Event& event) override;
+        void pack(Component *component); // may have bug
+        bool isSelectable() override { return false; };
+
+        void handleEvent(const sf::Event &event) override;
+
         void select(int t);
-        bool hasSelection() {return mSelected != -1;};
+
+        bool hasSelection() { return mSelected != -1; };
+
         void selectPrevious();
+
         void selectNext();
-        virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const;
+
+        virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
     };
 

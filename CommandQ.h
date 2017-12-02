@@ -10,11 +10,12 @@
 #include "SceneNode.h"
 #include "Category.h"
 
+// push/pop user command
 class SceneNode; // declare class
 
-struct Command{
-    Category mCategory = CTank ;
-    std::function<void(SceneNode&, sf::Time)> action;
+struct Command {
+    Category mCategory = CTank;
+    std::function<void(SceneNode &, sf::Time)> action;
 };
 
 
@@ -22,10 +23,13 @@ struct Command{
 class CommandQ {
 
 public:
-    CommandQ(): mQueue() {};
-    void push(const Command& command) {mQueue.push(command);};
+    CommandQ() : mQueue() {};
+
+    void push(const Command &command) { mQueue.push(command); };
+
     Command pop();
-    bool isEmpty() const {return mQueue.empty(); };
+
+    bool isEmpty() const { return mQueue.empty(); };
 
 private:
     std::queue<Command> mQueue;

@@ -4,7 +4,8 @@
 
 #ifndef TANKCRAFT_CATEGORY_H
 #define TANKCRAFT_CATEGORY_H
-enum Category{
+// used for matching a command and a scene node
+enum Category {
     Cdefault,
     CBackGround,
     CBackgroundLayer,

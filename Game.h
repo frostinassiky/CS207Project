@@ -15,7 +15,7 @@
 #include "Player.h"
 #include "StateStack.h"
 
-
+// Entrance, Our application
 class Game {
 public:
     Game();
@@ -26,12 +26,10 @@ private:
 
     sf::RenderWindow mWindow;
     Player mPlayer;
-
     StateStack mStateStack;
     sf::Font mFont;
     sf::Texture mTexture;
     sf::Time TimePerFrame = sf::seconds(1.f / 60.f);
-
     sf::Music mMusic;
 private:
     void processEvents();
@@ -40,7 +38,7 @@ private:
 
     void render();
 
-    // void updateStatistics(sf::Time dt);
+    // add all states
     void registerStates();
 
 };

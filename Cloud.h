@@ -7,7 +7,8 @@
 #ifndef TANKCRAFT_CLOUD_H
 #define TANKCRAFT_CLOUD_H
 
-
+// No collision detection
+// float on sky layer
 class Cloud : public Entity {
 private:
     sf::Vector2f mBound;
@@ -15,8 +16,10 @@ private:
     sf::Texture mTexture;
 public:
 
-    Cloud(const std::string& path, sf::Vector2f bound, sf::Uint8 );
+    Cloud(const std::string &path, sf::Vector2f bound, sf::Uint8);
+
     virtual void updateCurrent(sf::Time dt);
+
     virtual void drawCurrent(sf::RenderTarget &target, sf::RenderStates states) const;
 
 };
